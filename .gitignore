@@ -1,0 +1,11 @@
+# Ignore temporary files
+*~
+
+# Ignore user preferences
+*.suo
+
+# Ignore builds
+Communication/bin/**
+Communication/obj/**
+ShareTabWin/bin/**
+ShareTabWin/obj/**
