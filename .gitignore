@@ -3,6 +3,7 @@
 
 # Ignore user preferences
 *.suo
+**.user
 
 # Ignore builds
 Communication/bin/**

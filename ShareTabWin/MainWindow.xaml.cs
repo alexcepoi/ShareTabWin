@@ -20,7 +20,7 @@ namespace ShareTabWin
 		public MainWindow()
 		{
 			string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			Stream xulzip = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShareTabWin.xulrunner-1.9.1.7.en-US.win32.zip");
+			Stream xulzip = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShareTabWin.Dependencies.xulrunner-1.9.1.7.en-US.win32.zip");
 			using (ZipFile zip = ZipFile.Read(xulzip))
 			{
 				foreach (ZipEntry e in zip)
