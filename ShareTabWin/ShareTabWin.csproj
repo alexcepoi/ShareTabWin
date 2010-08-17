@@ -40,13 +40,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\progs\AvalonDock 1.3 (Build 3571)\AvalonDock.dll</HintPath>
     </Reference>
-    <Reference Include="AvalonDock.Themes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\AvalonDock.Themes.dll</HintPath>
+    <Reference Include="AvalonDock.Themes">
+      <HintPath>..\Dependencies\AvalonDock.Themes.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Ionic.Zip.Reduced.dll</HintPath>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>..\Dependencies\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="Skybound.Gecko">
       <HintPath>..\GeckoFX\bin\Skybound.Gecko.dll</HintPath>
