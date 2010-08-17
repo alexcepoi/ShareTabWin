@@ -19,7 +19,7 @@
                 <Label Grid.Column="0" Grid.Row="0" Content="Hostname" Target="{Binding ElementName=hostname}"/>
                 <Label Grid.Column="0" Grid.Row="1" Content="Port" Target="{Binding ElementName=port}"/>
                 <Label Grid.Column="0" Grid.Row="2" Content="Passkey" Target="{Binding ElementName=passkey}"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Name="hostname" Text="{Binding Hostname}"/> 
+                <TextBox Grid.Column="1" Grid.Row="0" Name="hostname" Text="{Binding Hostname}"/>
                 <TextBox Grid.Column="1" Grid.Row="1" Name="port" Text="{Binding Port}"/>
                 <TextBox Grid.Column="1" Grid.Row="2" Name="passkey" Text="{Binding Passkey}" />
             </Grid>

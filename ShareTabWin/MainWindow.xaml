@@ -7,7 +7,7 @@
         <CommandBinding Command="my:Commands.ConnectCommand" 
                         Executed="ConnectCommand_Executed" 
                         CanExecute="ConnectCommand_CanExecute"/>
-        
+
         <CommandBinding Command="my:Commands.DisconnectCommand" 
                         Executed="DisconnectCommand_Executed"
                         CanExecute="DisconnectCommand_CanExecute"/>

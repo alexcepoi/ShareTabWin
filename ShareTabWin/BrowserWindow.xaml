@@ -11,31 +11,31 @@
         <CommandBinding Command="BrowseStop" />
     </dock:DocumentContent.CommandBindings>
     <DockPanel>
+
         <DockPanel Height="26" Name="navBar" DockPanel.Dock="Top" >
             <Button Command="BrowseBack" DockPanel.Dock="Left">
-            Back
+                Back
             </Button>
             <Button Command="BrowseForward" DockPanel.Dock="Left">
-            Forward
+                Forward
             </Button>
             <Button Command="Refresh" DockPanel.Dock="Left">
-            Refresh
+                Refresh
             </Button>
             <Button Command="BrowseStop" DockPanel.Dock="Left">
-            Stop
+                Stop
             </Button>
             <Separator />
             <Button DockPanel.Dock="Right">
-            Go
+                Go
             </Button>
-
             <ComboBox HorizontalAlignment="Stretch" Name="uri" IsEditable="True" />
-
-
         </DockPanel>
+
         <StatusBar Height="23" Name="statusBar1" DockPanel.Dock="Bottom" />
         <WindowsFormsHost>
-            <skyb:GeckoWebBrowser x:Name="browser" />    
+            <skyb:GeckoWebBrowser x:Name="browser" />
         </WindowsFormsHost>
+
     </DockPanel>
 </dock:DocumentContent>
