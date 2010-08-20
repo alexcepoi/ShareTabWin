@@ -43,6 +43,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConnectParams.cs" />
     <Compile Include="UserList.cs" />
     <Compile Include="ShareTabChannelFactory.cs" />
     <Compile Include="ShareTabHost.cs" />

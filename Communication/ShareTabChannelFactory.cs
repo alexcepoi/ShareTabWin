@@ -5,10 +5,10 @@ namespace Communication
 {
 	public class ShareTabChannelFactory : DuplexChannelFactory<IShareTabSvc>
 	{
-		public static IShareTabSvc GetConnection(string host, string port, IShareTabCallback callback)
+		public static IShareTabSvc GetConnection(IConnectParams p, IShareTabCallback callback)
 		{
 			var endpoint = new EndpointAddress(String.Format
-				("net.tcp://{0}:{1}/ShareTab", host, port));
+				("net.tcp://{0}:{1}/ShareTab", p.Hostname, p.Port));
 			var factory = new ShareTabChannelFactory(endpoint, callback);
 			return factory.CreateChannel();
 		}

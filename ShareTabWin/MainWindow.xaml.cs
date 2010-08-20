@@ -42,9 +42,8 @@ namespace ShareTabWin
 			connectDlg.Owner = this;
 
 			var response = connectDlg.ShowDialog();
-			MessageBox.Show(connectDlg.ConnectParameters.Hostname);
-			//Connection = Communication.ShareTabChannelFactory.GetConnection("localhost", "6667", new ConnectionCallback ());
-			//Connection.SignIn ("vene", "enev");
+            if (response == true)
+                Connection = connectDlg.Connection;
 		}
 
 		private void ConnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -112,6 +111,11 @@ namespace ShareTabWin
 				return Connection != null;
 			}
 		}
+
+        private void About_Click (object sender, RoutedEventArgs e)
+        {
+            Common.Logging.LogManager.GetCurrentClassLogger ().Info ("About clicked");
+        }
 
 	}
 }

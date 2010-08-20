@@ -44,6 +44,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dependencies\AvalonDock.Themes.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>Dependencies\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Log4Net">
+      <HintPath>Dependencies\Common.Logging.Log4Net.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dependencies\Ionic.Zip.Reduced.dll</HintPath>
@@ -132,6 +138,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Dependencies\GeckoFX\chrome\geckofx.manifest" />
     <EmbeddedResource Include="Dependencies\xulrunner-1.9.1.7.en-US.win32.zip" />
     <None Include="Properties\Settings.settings">

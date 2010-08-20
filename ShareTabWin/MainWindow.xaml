@@ -33,7 +33,7 @@
             </MenuItem>
             <MenuItem Header="_View" />
             <MenuItem Header="_Help">
-                <MenuItem Header="_About..." />
+                <MenuItem Header="_About..." Click="About_Click"/>
             </MenuItem>
         </Menu>
         <dock:DockingManager x:Name="dockingManager">

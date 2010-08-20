@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Configuration;
 using System.Collections.Generic;
+using Communication;
+using System;
 
 namespace ShareTabWin
 {
@@ -10,6 +12,7 @@ namespace ShareTabWin
 	public partial class ConnectDlg : Window
 	{
 		public ConnectParams ConnectParameters { get; set; }
+        public IShareTabSvc Connection { get; private set; }
 		private Configuration config;
 		AppSettingsSection appSettings;
 		public ConnectDlg()
@@ -34,7 +37,23 @@ namespace ShareTabWin
 
 		private void Connect_Click(object sender, RoutedEventArgs e)
 		{
-			DialogResult = true;
+            try
+            {
+                Connection = ShareTabChannelFactory.GetConnection (
+                    (IConnectParams) ConnectParameters, new ConnectionCallback ());
+
+                DialogResult = Connection.SignIn (ConnectParameters.Nickname, ConnectParameters.Passkey);
+                if (DialogResult == false) throw new 
+
+            }
+
+            catch (System.ServiceModel.CommunicationException ex)
+            {
+                MessageBox.Show (ex.Message, "Connection error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                DialogResult = false;
+            }
+
+
 			appSettings.Settings.Clear();
 			appSettings.Settings.Add("lastHostname", ConnectParameters.Hostname);
 			appSettings.Settings.Add("lastPort", ConnectParameters.Port.ToString());

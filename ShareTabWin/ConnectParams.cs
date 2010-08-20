@@ -2,7 +2,7 @@
 
 namespace ShareTabWin
 {
-	public class ConnectParams : INotifyPropertyChanged
+	public class ConnectParams : INotifyPropertyChanged, Communication.IConnectParams
 	{
 		private string hostname;
 		private int port;

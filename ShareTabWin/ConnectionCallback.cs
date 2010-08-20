@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using Common.Logging;
 
 namespace ShareTabWin
 {
@@ -8,23 +9,27 @@ namespace ShareTabWin
 	{
 		public void UserHasSignedIn(string username)
 		{
-			DisplayMessage(String.Format("{0} just signed in", username));
+            ILog log = LogManager.GetCurrentClassLogger ();
+            log.InfoFormat("{0} just signed in", username);
 		}
 
 		public void UserHasSignedOut(string username)
 		{
-			DisplayMessage(String.Format("{0} just signed out", username));
+            ILog log = LogManager.GetCurrentClassLogger ();
+            log.InfoFormat ("{0} just signed out", username);
 		}
 
 		public void ReceiveBroadcast(string message)
 		{
-			System.Windows.MessageBox.Show(String.Format("{0}"), message);
+            ILog log = LogManager.GetCurrentClassLogger ();
+            log.InfoFormat ("{0}", message);
 		}
 
 
 		public void UserCountNotify(int users)
 		{
-			DisplayMessage(String.Format("{0} users currently online", users));
+			ILog log = LogManager.GetCurrentClassLogger ();
+            log.InfoFormat("{0} users currently online", users);
 		}
 
 		public static void DisplayMessage(string message)
