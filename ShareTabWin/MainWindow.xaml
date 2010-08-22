@@ -38,11 +38,12 @@
         </Menu>
         <dock:DockingManager x:Name="dockingManager">
             <dock:ResizingPanel Orientation="Horizontal">
-                <dock:DockablePane>
+                <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
                     <my:TabsPanel />
+                    <my:LogPanel />
                 </dock:DockablePane>
                 <dock:DocumentPane>
-                    <my:BrowserWindow />
+                    <my:BrowserWindow x:Name="browserWindow"/>
                 </dock:DocumentPane>
             </dock:ResizingPanel>
         </dock:DockingManager>

@@ -7,14 +7,14 @@ namespace Communication
 
 	public class ShareTabHost : ServiceHost
 	{
-		static int port = 6667;
-
-		public ShareTabHost()
-			: base(typeof(ShareTabProvider))
+		public ShareTabHost(int port)
+			: base (typeof (ShareTabProvider), 
+			new Uri (String.Format ("net.tcp://localhost:{0}/", port)))
 		{
 			var binding = new NetTcpBinding(SecurityMode.None, false);
-			var uri = new Uri(String.Format("net.tcp://localhost:{0}/ShareTab", port));
-			this.AddServiceEndpoint(typeof(IShareTabSvc), binding, uri);
+			//var uri = new Uri(String.Format("net.tcp://localhost:{0}/ShareTab", port));
+			//this.AddBaseAddress (uri);
+			this.AddServiceEndpoint(typeof(IShareTabSvc), binding, "/ShareTab");
 			ServiceThrottlingBehavior behavior = new ServiceThrottlingBehavior()
 			{
 				MaxConcurrentCalls = 100,

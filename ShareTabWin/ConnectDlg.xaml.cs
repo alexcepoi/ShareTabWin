@@ -43,8 +43,6 @@ namespace ShareTabWin
                     (IConnectParams) ConnectParameters, new ConnectionCallback ());
 
                 DialogResult = Connection.SignIn (ConnectParameters.Nickname, ConnectParameters.Passkey);
-                if (DialogResult == false) throw new 
-
             }
 
             catch (System.ServiceModel.CommunicationException ex)

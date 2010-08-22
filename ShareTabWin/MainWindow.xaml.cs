@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Reflection;
 using System.IO;
 using Ionic.Zip;
+using System.Diagnostics;
 namespace ShareTabWin
 {
 	/// <summary>
@@ -11,8 +12,6 @@ namespace ShareTabWin
 	public partial class MainWindow : Window
 	{
 		public static RoutedCommand ConnectCommand;
-		private TabsPanel tabsWindow;
-		private BrowserWindow browserWindow;
 
 		private Communication.ShareTabHost Host;
 		private Communication.IShareTabSvc Connection;
@@ -26,10 +25,7 @@ namespace ShareTabWin
 				foreach (ZipEntry e in zip)
 					e.Extract(appPath, ExtractExistingFileAction.DoNotOverwrite);
 			}
-
-			tabsWindow = new TabsPanel();
-			browserWindow = new BrowserWindow();
-			InitializeComponent();
+			InitializeComponent ();
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -64,10 +60,11 @@ namespace ShareTabWin
 
 		private void StartHostingCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			Host = new Communication.ShareTabHost();
+			Host = new Communication.ShareTabHost (6667);
 			Host.Open();
-
-			System.Windows.MessageBox.Show("Now listening");
+			if (Host.State == System.ServiceModel.CommunicationState.Opened)
+				foreach (var addr in Host.BaseAddresses)
+				Trace.TraceInformation("Now listening on {0}", addr.AbsoluteUri);
 		}
 
 		private void StartHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -80,13 +77,12 @@ namespace ShareTabWin
 		{
 			Host.Close();
 
-			System.Windows.MessageBox.Show("Stopped listening");
+			Trace.TraceInformation ("Stopped listening: host is now {0}", Host.State);
 		}
 
 		private void StopHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsHosting;
-
 		}
 
 		private bool IsHosting
@@ -114,7 +110,7 @@ namespace ShareTabWin
 
         private void About_Click (object sender, RoutedEventArgs e)
         {
-            Common.Logging.LogManager.GetCurrentClassLogger ().Info ("About clicked");
+			Trace.TraceInformation("About clicked!");
         }
 
 	}

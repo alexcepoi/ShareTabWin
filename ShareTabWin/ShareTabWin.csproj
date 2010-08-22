@@ -44,12 +44,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dependencies\AvalonDock.Themes.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging">
-      <HintPath>Dependencies\Common.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.Log4Net">
-      <HintPath>Dependencies\Common.Logging.Log4Net.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dependencies\Ionic.Zip.Reduced.dll</HintPath>
@@ -92,6 +86,10 @@
     </Compile>
     <Compile Include="ConnectionCallback.cs" />
     <Compile Include="ConnectParams.cs" />
+    <Compile Include="LogPanel.xaml.cs">
+      <DependentUpon>LogPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MyTraceListener.cs" />
     <Compile Include="TabsPanel.xaml.cs">
       <DependentUpon>TabsPanel.xaml</DependentUpon>
     </Compile>
@@ -102,6 +100,10 @@
     <Page Include="ConnectDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LogPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
