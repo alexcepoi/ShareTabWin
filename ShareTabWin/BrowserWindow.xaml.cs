@@ -18,6 +18,10 @@ namespace ShareTabWin
 	/// </summary>
 	public partial class BrowserWindow : AvalonDock.DocumentContent
 	{
+		#region Properties
+		public string Homepage = "http://google.ro/";
+		#endregion
+
 		public BrowserWindow()
 		{
 			Skybound.Gecko.Xpcom.Initialize("xulrunner");
@@ -26,15 +30,17 @@ namespace ShareTabWin
 
 		private void DocumentContent_Loaded(object sender, RoutedEventArgs e)
 		{
-			browser.Navigate("http://www.csszengarden.com");
+			browser.Navigate(Homepage);
 		}
 
 		#region Navigation Events
+		// Refresh
 		private void Refresh_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			browser.Refresh();
 		}
 
+		// Go Back
 		private void GoBack_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			browser.GoBack();
@@ -52,6 +58,7 @@ namespace ShareTabWin
 			}
 		}
 
+		// Go Forward
 		private void GoForward_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			browser.GoForward();
@@ -69,6 +76,5 @@ namespace ShareTabWin
 			}
 		}
 		#endregion
-
 	}
 }

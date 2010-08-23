@@ -86,11 +86,11 @@
     </Compile>
     <Compile Include="ConnectionCallback.cs" />
     <Compile Include="ConnectParams.cs" />
-    <Compile Include="LogPanel.xaml.cs">
+    <Compile Include="Panels\LogPanel.xaml.cs">
       <DependentUpon>LogPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="MyTraceListener.cs" />
-    <Compile Include="TabsPanel.xaml.cs">
+    <Compile Include="Panels\TabsPanel.xaml.cs">
       <DependentUpon>TabsPanel.xaml</DependentUpon>
     </Compile>
     <Page Include="BrowserWindow.xaml">
@@ -101,7 +101,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LogPanel.xaml">
+    <Page Include="Panels\LogPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -117,7 +117,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TabsPanel.xaml">
+    <Page Include="Panels\TabsPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

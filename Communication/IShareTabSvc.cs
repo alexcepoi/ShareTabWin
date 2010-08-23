@@ -7,7 +7,7 @@ using System.ServiceModel;
 namespace Communication
 {
 	[ServiceContract(SessionMode = SessionMode.Required,
-					  CallbackContract = typeof(IShareTabCallback))]
+		CallbackContract = typeof(IShareTabCallback))]
 	public interface IShareTabSvc
 	{
 		[OperationContract(IsOneWay = false, IsInitiating = true)]

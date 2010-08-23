@@ -48,7 +48,5 @@ namespace Communication
 			Name = name;
 			Callback = callback;
 		}
-
-
 	}
 }
