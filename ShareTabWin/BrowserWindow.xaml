@@ -16,28 +16,29 @@
     <DockPanel>
         <DockPanel Height="26" x:Name="navBar" DockPanel.Dock="Top" >
             <Button Command="BrowseBack" DockPanel.Dock="Left">
-                <Image Source="Icons\back.png" />
+                <Image Source="/Icons/back.png" />
             </Button>
             <Button Command="BrowseForward" DockPanel.Dock="Left">
-                <Image Source="Icons\forward.png" />
+                <Image Source="/Icons/forward.png" />
             </Button>
             <Button Command="Refresh" DockPanel.Dock="Left">
-                <Image Source="Icons\refresh.png" />
+                <Image Source="/Icons/refresh.png" />
             </Button>
             <Button Command="BrowseStop" DockPanel.Dock="Left">
-                <Image Source="Icons\cancel.png" />
+                <Image Source="/Icons/cancel.png" />
             </Button>
             <Separator />
             <Button DockPanel.Dock="Right">
-                <Image Source="Icons\go.png" /> 
+                <Image Source="/Icons/go.png" /> 
             </Button>
-            <ComboBox HorizontalAlignment="Stretch" x:Name="uri" IsEditable="True" />
+
+            <ComboBox HorizontalAlignment="Stretch" x:Name="addressBar" IsEditable="True" KeyDown="addressBar_KeyDown" />
         </DockPanel>
 
         <StatusBar Height="23" x:Name="statusBar" DockPanel.Dock="Bottom" />
 
         <WindowsFormsHost>
-            <skyb:GeckoWebBrowser x:Name="browser" />
+            <skyb:GeckoWebBrowser x:Name="browser" Navigated="browser_Navigated" />
         </WindowsFormsHost>
 
     </DockPanel>

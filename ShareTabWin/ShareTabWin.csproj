@@ -77,19 +77,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Commands.cs" />
     <Compile Include="BrowserWindow.xaml.cs">
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Commands.cs" />
-    <Compile Include="ConnectDlg.xaml.cs">
+    <Compile Include="Dialogs\ConnectDlg.xaml.cs">
       <DependentUpon>ConnectDlg.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConnectionCallback.cs" />
-    <Compile Include="ConnectParams.cs" />
+    <Compile Include="WCF\ConnectionCallback.cs" />
+    <Compile Include="WCF\ConnectParams.cs" />
     <Compile Include="Panels\LogPanel.xaml.cs">
       <DependentUpon>LogPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MyTraceListener.cs" />
+    <Compile Include="Helpers\MyTraceListener.cs" />
     <Compile Include="Panels\TabsPanel.xaml.cs">
       <DependentUpon>TabsPanel.xaml</DependentUpon>
     </Compile>
@@ -97,7 +97,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConnectDlg.xaml">
+    <Page Include="Dialogs\ConnectDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

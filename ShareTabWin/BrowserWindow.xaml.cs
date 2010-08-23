@@ -11,6 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.Diagnostics;
+using Skybound.Gecko;
+
 namespace ShareTabWin
 {
 	/// <summary>
@@ -30,6 +33,7 @@ namespace ShareTabWin
 
 		private void DocumentContent_Loaded(object sender, RoutedEventArgs e)
 		{
+			// Open Homepage
 			browser.Navigate(Homepage);
 		}
 
@@ -76,5 +80,24 @@ namespace ShareTabWin
 			}
 		}
 		#endregion
+
+		private void browser_Navigated(object sender, GeckoNavigatedEventArgs e)
+		{
+			addressBar.Text = e.Uri.AbsoluteUri;
+		}
+
+		private void addressBar_KeyDown(object sender, KeyEventArgs e)
+		{
+			switch (e.Key)
+			{
+				case Key.Enter:
+					browser.Navigate((e.Source as ComboBox).Text);
+					break;
+				case Key.Escape:
+					addressBar.Text = browser.Url.AbsoluteUri;
+					browser.Focus();
+					break;
+			}
+		}
 	}
 }

@@ -118,7 +118,7 @@ namespace ShareTabWin
 				foreach (ZipEntry e in zip)
 					e.Extract(appPath, ExtractExistingFileAction.DoNotOverwrite);
 			}
-
+			Skybound.Gecko.Xpcom.Initialize("xulrunner");
 			InitializeComponent();
 		}
 	}
