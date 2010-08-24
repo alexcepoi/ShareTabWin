@@ -21,9 +21,7 @@ namespace ShareTabWin
 	/// </summary>
 	public partial class BrowserWindow : AvalonDock.DocumentContent
 	{
-		#region Properties
 		public string Homepage = "http://google.ro/";
-		#endregion
 
 		public BrowserWindow()
 		{
@@ -81,11 +79,6 @@ namespace ShareTabWin
 		}
 		#endregion
 
-		private void browser_Navigated(object sender, GeckoNavigatedEventArgs e)
-		{
-			addressBar.Text = e.Uri.AbsoluteUri;
-		}
-
 		private void addressBar_KeyDown(object sender, KeyEventArgs e)
 		{
 			switch (e.Key)
@@ -98,6 +91,39 @@ namespace ShareTabWin
 					browser.Focus();
 					break;
 			}
+		}
+
+		private void browser_Navigating(object sender, GeckoNavigatingEventArgs e)
+		{
+			progress.Visibility = Visibility.Visible;
+			progress.Value = 0;
+		}
+
+		private void browser_Navigated(object sender, GeckoNavigatedEventArgs e)
+		{
+			addressBar.Text = e.Uri.AbsoluteUri;
+		}
+
+		private void browser_DocumentCompleted(object sender, EventArgs e)
+		{
+			progress.Visibility = Visibility.Hidden;
+		}
+
+		private void browser_StatusTextChanged(object sender, EventArgs e)
+		{
+			if (browser.StatusText != "" && browser.StatusText != null)
+				status.Content = browser.StatusText;
+			else
+				status.Content = "Done";
+		}
+
+		private void browser_ProgressChanged(object sender, GeckoProgressEventArgs e)
+		{
+			// TODO: progressbar needs more love
+			progress.Value = e.CurrentProgress;
+			progress.Maximum = e.MaximumProgress;
+
+			Trace.TraceInformation(progress.Value + " " + progress.Maximum);
 		}
 	}
 }

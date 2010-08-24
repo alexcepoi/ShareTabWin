@@ -6,6 +6,7 @@
 
     <Grid>
         <TextBox Name="logBox" IsReadOnly="True" TextWrapping="Wrap"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                  Text="{Binding Trace, Mode=OneWay}" />
     </Grid>
 </dock:DockableContent>

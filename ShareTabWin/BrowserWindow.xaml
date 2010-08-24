@@ -35,10 +35,16 @@
             <ComboBox HorizontalAlignment="Stretch" x:Name="addressBar" IsEditable="True" KeyDown="addressBar_KeyDown" />
         </DockPanel>
 
-        <StatusBar Height="23" x:Name="statusBar" DockPanel.Dock="Bottom" />
+        <StatusBar Height="23" x:Name="statusBar" DockPanel.Dock="Bottom">
+            <StatusBarItem DockPanel.Dock="Right">
+                <ProgressBar x:Name="progress" Width="100" Height="15"></ProgressBar>
+            </StatusBarItem>
+
+            <StatusBarItem x:Name="status" />
+        </StatusBar>
 
         <WindowsFormsHost>
-            <skyb:GeckoWebBrowser x:Name="browser" Navigated="browser_Navigated" />
+            <skyb:GeckoWebBrowser x:Name="browser" Navigated="browser_Navigated" StatusTextChanged="browser_StatusTextChanged" ProgressChanged="browser_ProgressChanged" Navigating="browser_Navigating" DocumentCompleted="browser_DocumentCompleted" />
         </WindowsFormsHost>
 
     </DockPanel>
