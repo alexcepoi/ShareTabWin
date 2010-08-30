@@ -22,6 +22,9 @@
                         CanExecute="StopHostingCommand_CanExecute" />
     </Window.CommandBindings>
 
+    <Window.InputBindings>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="my:Commands.ConnectCommand" />
+    </Window.InputBindings>
     <DockPanel>
         <Menu Height="23" HorizontalAlignment="Stretch" x:Name="menu" DockPanel.Dock="Top">
             <MenuItem Header="_File" />
