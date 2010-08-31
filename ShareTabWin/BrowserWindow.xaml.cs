@@ -125,5 +125,7 @@ namespace ShareTabWin
 
 			Trace.TraceInformation(progress.Value + " " + progress.Maximum);
 		}
+
+
 	}
 }
