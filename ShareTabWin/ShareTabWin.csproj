@@ -188,6 +188,7 @@
   <ItemGroup>
     <Content Include="Dependencies\AvalonDock.Themes.dll" />
     <Content Include="Dependencies\GeckoFX\bin\Skybound.Gecko.dll" />
+    <SplashScreen Include="Icons\splash.png" />
     <Resource Include="Dependencies\GeckoFX\bin\Skybound.Gecko.xml" />
     <Content Include="Dependencies\GeckoFX\chrome\geckofx.jar" />
     <Resource Include="Dependencies\GeckoFX\Readme.txt" />
