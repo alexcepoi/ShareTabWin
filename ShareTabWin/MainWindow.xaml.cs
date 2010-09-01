@@ -108,17 +108,11 @@ namespace ShareTabWin
 		#endregion
 
 		#region Keyboard Shortcuts
-		private void Window_KeyDown(object sender, KeyEventArgs e)
+		// Focus Addressbar (Ctrl-L)
+		private void FocusAddressbar_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
-			if (Keyboard.Modifiers == ModifierKeys.Control)
-			{
-				switch (e.Key)
-				{
-					case (Key.L):
-						browserWindow.addressBar.Focus();
-						break;
-				}
-			}
+			if (browserWindow.addressBar != null)
+				browserWindow.addressBar.Focus();
 		}
 		#endregion
 
@@ -132,6 +126,8 @@ namespace ShareTabWin
 				foreach (ZipEntry e in zip)
 					e.Extract(appPath, ExtractExistingFileAction.DoNotOverwrite);
 			}
+			
+			Skybound.Gecko.Xpcom.Initialize("xulrunner");
 			InitializeComponent();
 		}
 	}

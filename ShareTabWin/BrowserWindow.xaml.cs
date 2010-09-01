@@ -28,7 +28,7 @@ namespace ShareTabWin
 			get
 			{
 				if (m_HomePage == null)
-					m_HomePage = "http://www.google.ro/";
+					m_HomePage = "about:blank";
 				return m_HomePage;
 			}
 			set
@@ -40,7 +40,6 @@ namespace ShareTabWin
 
 		public BrowserWindow()
 		{
-			Skybound.Gecko.Xpcom.Initialize("xulrunner");
 			InitializeComponent();
 		}
 

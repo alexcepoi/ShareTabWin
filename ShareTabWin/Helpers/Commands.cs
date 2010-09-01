@@ -10,5 +10,8 @@ namespace ShareTabWin
 
 		public static RoutedCommand StartHostingCommand = new RoutedCommand();
 		public static RoutedCommand StopHostingCommand = new RoutedCommand();
+
+		// Shortcut Keys
+		public static RoutedCommand FocusAddressbar = new RoutedCommand();
 	}
 }

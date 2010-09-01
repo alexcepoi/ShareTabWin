@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dock="clr-namespace:AvalonDock;assembly=AvalonDock"  
         xmlns:my="clr-namespace:ShareTabWin"
-        Title="ShareTab" Width="1200" Height="700"
-        KeyDown="Window_KeyDown">
+        Title="ShareTab" Width="1200" Height="700">
     <Window.CommandBindings>
         <CommandBinding Command="my:Commands.ConnectCommand" 
                         Executed="ConnectCommand_Executed" 
@@ -21,10 +20,15 @@
         <CommandBinding Command="my:Commands.StopHostingCommand" 
                         Executed="StopHostingCommand_Executed"
                         CanExecute="StopHostingCommand_CanExecute" />
+
+        <!-- Shortcut Keys-->
+        <CommandBinding Command="my:Commands.FocusAddressbar"
+                        Executed="FocusAddressbar_Executed" />
     </Window.CommandBindings>
 
     <Window.InputBindings>
         <KeyBinding Key="O" Modifiers="Ctrl" Command="my:Commands.ConnectCommand" />
+        <KeyBinding Key="L" Modifiers="Ctrl" Command="my:Commands.FocusAddressbar" />
     </Window.InputBindings>
     <DockPanel>
         <Menu Height="23" HorizontalAlignment="Stretch" x:Name="menu" DockPanel.Dock="Top">
