@@ -4,7 +4,8 @@
         xmlns:dock="clr-namespace:AvalonDock;assembly=AvalonDock"  
         xmlns:my="clr-namespace:ShareTabWin"
         Title="ShareTab" Width="1200" Height="700"
-        Closed="Window_Closed">
+        Closed="Window_Closed"
+        Icon="/ShareTabWin;component/ShareTab.ico">
     <Window.CommandBindings>
         <CommandBinding Command="my:Commands.ConnectCommand" 
                         Executed="ConnectCommand_Executed" 
