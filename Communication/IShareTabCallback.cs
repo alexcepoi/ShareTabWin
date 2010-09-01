@@ -13,6 +13,6 @@ namespace Communication
 		void UserHasSignedOut(string username);
 
 		[OperationContract(IsOneWay = true)]
-		void ReceiveBroadcast(string message);
+		void ReceiveChatMessage(Infrastructure.ChatMessage message);
 	}
 }

@@ -1,0 +1,5 @@
+D:\projects\ShareTabWin-Git\ShareTabWin\Infrastructure\bin\Debug\Infrastructure.dll
+D:\projects\ShareTabWin-Git\ShareTabWin\Infrastructure\bin\Debug\Infrastructure.pdb
+D:\projects\ShareTabWin-Git\ShareTabWin\Infrastructure\obj\Debug\ResolveAssemblyReference.cache
+D:\projects\ShareTabWin-Git\ShareTabWin\Infrastructure\obj\Debug\Infrastructure.dll
+D:\projects\ShareTabWin-Git\ShareTabWin\Infrastructure\obj\Debug\Infrastructure.pdb

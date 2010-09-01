@@ -80,12 +80,16 @@
     <Compile Include="Helpers\Browser.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Helpers\ChatTextBox.cs" />
     <Compile Include="Helpers\Commands.cs" />
     <Compile Include="BrowserWindow.xaml.cs">
       <DependentUpon>BrowserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ConnectDlg.xaml.cs">
       <DependentUpon>ConnectDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\ChatPanel.xaml.cs">
+      <DependentUpon>ChatPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="WCF\ConnectionCallback.cs" />
     <Compile Include="WCF\ConnectParams.cs" />
@@ -101,6 +105,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ConnectDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Panels\ChatPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,6 +179,10 @@
     <ProjectReference Include="..\Communication\Communication.csproj">
       <Project>{F28790D0-37A0-4C79-823A-3FFC9BF86894}</Project>
       <Name>Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{4CE80311-6B87-4483-AF93-A3261DC3B1A7}</Project>
+      <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

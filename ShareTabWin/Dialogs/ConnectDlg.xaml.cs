@@ -40,7 +40,7 @@ namespace ShareTabWin
 			try
 			{
 				Connection = ShareTabChannelFactory.GetConnection(
-					(IConnectParams)ConnectParameters, new ConnectionCallback());
+					(IConnectParams)ConnectParameters, ConnectionCallback.Instance);
 
 				DialogResult = Connection.SignIn(ConnectParameters.Nickname, ConnectParameters.Passkey);
 			}
