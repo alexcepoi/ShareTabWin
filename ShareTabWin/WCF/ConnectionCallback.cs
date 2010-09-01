@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ShareTabWin
 {
-	[CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
+	[CallbackBehavior (ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
 	class ConnectionCallback : Communication.IShareTabCallback
 	{
 		private static ConnectionCallback singleton = null;
@@ -12,19 +12,22 @@ namespace ShareTabWin
 		
 		#region events
 		public event ChatReceiveEventHandler ChatReceiveEvent;
-		protected virtual void OnChatReceive (ChatReceiveEventArgs e)
-		{
-			ChatReceiveEvent (this, e);
-		}
+		public event UserSignInEventHandler UserSignInEvent;
+		public event UserSignOutEventHandler UserSignOutEvent;
+		protected virtual void OnChatReceive (ChatReceiveEventArgs e) {	ChatReceiveEvent (this, e);	}
+		protected virtual void OnUserSignIn (UserEventArgs e) { UserSignInEvent (this, e); }
+		protected virtual void OnUserSignOut (UserEventArgs e) { UserSignOutEvent (this, e); }
 
 		#endregion
 		public void UserHasSignedIn(string username)
 		{
+			OnUserSignIn (new UserEventArgs { User = new Helpers.User { Name = username } });
 			Trace.TraceInformation ("{0} just signed in", username);
 		}
 
 		public void UserHasSignedOut(string username)
 		{
+			OnUserSignOut (new UserEventArgs { User = new Helpers.User { Name = username } });
 			Trace.TraceInformation ("{0} just signed out", username);
 		}
 
@@ -73,9 +76,15 @@ namespace ShareTabWin
 	}
 
 	public delegate void ChatReceiveEventHandler (object sender, ChatReceiveEventArgs e);
+	public delegate void UserSignInEventHandler (object sender, UserEventArgs e);
+	public delegate void UserSignOutEventHandler (object sender, UserEventArgs e);
 	public class ChatReceiveEventArgs : EventArgs
 	{
 		public Infrastructure.ChatMessage Message { get; set; }
 		public ChatReceiveEventArgs (Infrastructure.ChatMessage c) { Message = c; }
+	}
+	public class UserEventArgs : EventArgs
+	{
+		public Infrastructure.User User { get; set; }
 	}
 }
