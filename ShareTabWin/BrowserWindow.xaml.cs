@@ -21,7 +21,22 @@ namespace ShareTabWin
 	/// </summary>
 	public partial class BrowserWindow : AvalonDock.DocumentContent
 	{
-		public string Homepage = "http://google.ro/";
+		#region Properties
+		private static string m_HomePage;
+		public static string HomePage
+		{
+			get
+			{
+				if (m_HomePage == null)
+					m_HomePage = "http://www.google.ro/";
+				return m_HomePage;
+			}
+			set
+			{
+				m_HomePage = value;
+			}
+		}
+		#endregion
 
 		public BrowserWindow()
 		{
@@ -32,53 +47,80 @@ namespace ShareTabWin
 		private void DocumentContent_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Open Homepage
-			browser.Navigate(Homepage);
+			browser.Navigate(HomePage);
 		}
 
-		#region Navigation Events
+		#region Navigation Commands
 		// Refresh
 		private void Refresh_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			browser.Refresh();
+			Trace.TraceInformation("Refresh Executed");
+			browser.Reload();
+		}
+
+		// Stop
+		private void Stop_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			Trace.TraceInformation("Stop Executed");
+			browser.Stop();
+			CommandManager.InvalidateRequerySuggested();
+		}
+
+		private void Stop_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			if (browser != null)
+				e.CanExecute = browser.IsBusy;
+			else
+				e.CanExecute = false;
+		}
+
+		// Home
+		private void Home_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			Trace.TraceInformation("Home Executed");
+			if (browser != null)
+				browser.Navigate(HomePage);
 		}
 
 		// Go Back
 		private void GoBack_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			Trace.TraceInformation("Back Executed");
 			browser.GoBack();
 		}
 
 		private void GoBack_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			try
-			{
+			if (browser != null)
 				e.CanExecute = browser.CanGoBack;
-			}
-			catch (NullReferenceException)
-			{
+			else
 				e.CanExecute = false;
-			}
 		}
 
 		// Go Forward
 		private void GoForward_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			Trace.TraceInformation("Forward Executed");
 			browser.GoForward();
 		}
 
 		private void GoForward_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			try
-			{
+			if (browser != null)
 				e.CanExecute = browser.CanGoForward;
-			}
-			catch (NullReferenceException)
-			{
+			else
 				e.CanExecute = false;
-			}
+		}
+
+		// Go
+		private void Go_Click(object sender, RoutedEventArgs e)
+		{
+			if (browser != null)
+				browser.Navigate(addressBar.Text);
 		}
 		#endregion
 
+		#region Renderer integration
 		private void addressBar_KeyDown(object sender, KeyEventArgs e)
 		{
 			switch (e.Key)
@@ -95,6 +137,8 @@ namespace ShareTabWin
 
 		private void browser_Navigating(object sender, GeckoNavigatingEventArgs e)
 		{
+			CommandManager.InvalidateRequerySuggested();
+
 			progress.Visibility = Visibility.Visible;
 			progress.Value = 0;
 		}
@@ -104,8 +148,15 @@ namespace ShareTabWin
 			addressBar.Text = e.Uri.AbsoluteUri;
 		}
 
+		private void browser_DocumentTitleChanged(object sender, EventArgs e)
+		{
+			Title = browser.DocumentTitle;
+		}
+
 		private void browser_DocumentCompleted(object sender, EventArgs e)
 		{
+			CommandManager.InvalidateRequerySuggested();
+
 			progress.Visibility = Visibility.Hidden;
 		}
 
@@ -123,9 +174,13 @@ namespace ShareTabWin
 			progress.Value = e.CurrentProgress;
 			progress.Maximum = e.MaximumProgress;
 
-			Trace.TraceInformation(progress.Value + " " + progress.Maximum);
+			//Trace.TraceInformation(progress.Value + " " + progress.Maximum);
 		}
 
-
+		private void browser_RequeryCommands(object sender, EventArgs e)
+		{
+			CommandManager.InvalidateRequerySuggested();
+		}
+		#endregion
 	}
 }

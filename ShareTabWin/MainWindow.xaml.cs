@@ -13,7 +13,6 @@ namespace ShareTabWin
 	public partial class MainWindow : Window
 	{
 		// TODO: remove width and height from MainWindow.xaml
-		public static RoutedCommand ConnectCommand;
 		
 		private Communication.ShareTabHost Host;
 		private Communication.IShareTabSvc Connection;
@@ -105,6 +104,21 @@ namespace ShareTabWin
 		private void About_Click(object sender, RoutedEventArgs e)
 		{
 			Trace.TraceInformation("About clicked!");
+		}
+		#endregion
+
+		#region Keyboard Shortcuts
+		private void Window_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (Keyboard.Modifiers == ModifierKeys.Control)
+			{
+				switch (e.Key)
+				{
+					case (Key.L):
+						browserWindow.addressBar.Focus();
+						break;
+				}
+			}
 		}
 		#endregion
 

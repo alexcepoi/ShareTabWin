@@ -11,26 +11,30 @@
         <CommandBinding Command="BrowseBack" Executed="GoBack_Executed" CanExecute="GoBack_CanExecute" />
         <CommandBinding Command="BrowseForward" Executed="GoForward_Executed" CanExecute="GoForward_CanExecute" />
         <CommandBinding Command="Refresh" Executed="Refresh_Executed" />
-        <CommandBinding Command="BrowseStop" />
+        <CommandBinding Command="BrowseStop" Executed="Stop_Executed" CanExecute="Stop_CanExecute" />
+        <CommandBinding Command="BrowseHome" Executed="Home_Executed" />
     </dock:DocumentContent.CommandBindings>
 
     <DockPanel>
         <DockPanel Height="26" x:Name="navBar" DockPanel.Dock="Top" >
             <Button Command="BrowseBack" DockPanel.Dock="Left">
-                <Image Source="/Icons/back.png" />
+                Back
             </Button>
             <Button Command="BrowseForward" DockPanel.Dock="Left">
-                <Image Source="/Icons/forward.png" />
+                Forward
             </Button>
             <Button Command="Refresh" DockPanel.Dock="Left">
-                <Image Source="/Icons/refresh.png" />
+                Refresh
             </Button>
             <Button Command="BrowseStop" DockPanel.Dock="Left">
-                <Image Source="/Icons/cancel.png" />
+                Stop
+            </Button>
+            <Button Command="BrowseHome" DockPanel.Dock="Left">
+                Home
             </Button>
             <Separator />
-            <Button DockPanel.Dock="Right">
-                <Image Source="/Icons/go.png" /> 
+            <Button DockPanel.Dock="Right" Click="Go_Click">
+                Go
             </Button>
 
             <ComboBox HorizontalAlignment="Stretch" x:Name="addressBar" IsEditable="True" KeyDown="addressBar_KeyDown" />
@@ -45,7 +49,7 @@
         </StatusBar>
 
         <WindowsFormsHost >
-            <helpers:Browser x:Name="browser" Navigated="browser_Navigated" StatusTextChanged="browser_StatusTextChanged" ProgressChanged="browser_ProgressChanged" Navigating="browser_Navigating" DocumentCompleted="browser_DocumentCompleted" />
+            <helpers:Browser x:Name="browser" Navigated="browser_Navigated" StatusTextChanged="browser_StatusTextChanged" ProgressChanged="browser_ProgressChanged" Navigating="browser_Navigating" DocumentCompleted="browser_DocumentCompleted" CanGoBackChanged="browser_RequeryCommands" CanGoForwardChanged="browser_RequeryCommands" DocumentTitleChanged="browser_DocumentTitleChanged" />
         </WindowsFormsHost>
 
     </DockPanel>
