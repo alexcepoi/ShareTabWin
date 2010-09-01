@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using Infrastructure;
 
 namespace Communication
 {
@@ -27,7 +28,7 @@ namespace Communication
 			else
 				return false;*/
 			var callback = OperationContext.Current.GetCallbackChannel<IShareTabCallback>();
-			userList.Add(new User(username, callback));
+			userList.Add(new ServerSideUser(username, callback));
 			callback.UserCountNotify(userList.Count);
 			userList.ForOthers(user => user.Callback.UserHasSignedIn(username));
 			return true;
@@ -49,5 +50,13 @@ namespace Communication
 
 		#endregion
 
+
+
+		public void SendChatMessage (string content)
+		{
+			ChatMessage message;
+			message = new ChatMessage (userList.Current.Name, content);
+			userList.ForEach (user => user.Callback.ReceiveChatMessage (message));
+		}
 	}
 }

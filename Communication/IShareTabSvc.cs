@@ -16,6 +16,9 @@ namespace Communication
 		[OperationContract(IsOneWay = false, IsTerminating = true)]
 		void SignOut();
 
+		[OperationContract (IsOneWay = true)]
+		void SendChatMessage (string content);
+
 		[OperationContract(IsOneWay = true)]
 		void Broadcast(string message);
 	}

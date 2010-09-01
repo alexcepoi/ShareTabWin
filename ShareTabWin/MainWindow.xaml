@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:dock="clr-namespace:AvalonDock;assembly=AvalonDock"  
         xmlns:my="clr-namespace:ShareTabWin"
-        Title="ShareTab" Width="1200" Height="700">
+        Title="ShareTab" Width="1200" Height="700"
+        Closed="Window_Closed"
+        Icon="/ShareTabWin;component/ShareTab.ico">
     <Window.CommandBindings>
         <CommandBinding Command="my:Commands.ConnectCommand" 
                         Executed="ConnectCommand_Executed" 
@@ -50,6 +52,7 @@
             <dock:ResizingPanel Orientation="Horizontal">
                 <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
                     <my:TabsPanel />
+                    <my:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />
                     <my:LogPanel />
                 </dock:DockablePane>
                 <dock:DocumentPane>

@@ -12,13 +12,16 @@ namespace ShareTabWin
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		// TODO: Probably all windows that depend on the connection should be greyed out
+		// (i.e. IsEnabled = false) when IsConnected = false. Still thinking about implementation.
+		//
 		// TODO: remove width and height from MainWindow.xaml
 		
 		private Communication.ShareTabHost Host;
 		private Communication.IShareTabSvc Connection;
 
 		#region Properties
-		private bool IsHosting
+		public bool IsHosting
 		{
 			get
 			{
@@ -33,7 +36,7 @@ namespace ShareTabWin
 			}
 		}
 
-		private bool IsConnected
+		public bool IsConnected
 		{
 			get
 			{
@@ -52,6 +55,7 @@ namespace ShareTabWin
 			var response = connectDlg.ShowDialog();
 			if (response == true)
 				Connection = connectDlg.Connection;
+			
 		}
 
 		private void ConnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -129,6 +133,17 @@ namespace ShareTabWin
 			
 			Skybound.Gecko.Xpcom.Initialize("xulrunner");
 			InitializeComponent();
+		}
+
+		private void chatPanel_ChatSendEvent (object sender, ChatSendEventArgs e)
+		{
+			if (IsConnected)
+				Connection.SendChatMessage (e.Content);
+		}
+
+		private void Window_Closed (object sender, System.EventArgs e)
+		{
+			Commands.DisconnectCommand.Execute (null, this);
 		}
 	}
 }
