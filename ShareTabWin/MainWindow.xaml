@@ -5,6 +5,7 @@
         xmlns:local="clr-namespace:ShareTabWin"
         Title="ShareTab" Width="1200" Height="700"
         Icon="/ShareTabWin;component/ShareTab.ico"
+        Loaded="Window_Loaded"
         Closed="Window_Closed">
     <Window.CommandBindings>
         <CommandBinding Command="local:Commands.ConnectCommand"
@@ -21,7 +22,11 @@
 
         <CommandBinding Command="local:Commands.StopHostingCommand"
                         Executed="StopHostingCommand_Executed"
-                        CanExecute="StopHostingCommand_CanExecute" />
+                        CanExecute="StopHostingCommand_CanExecute"
+                         />
+        <CommandBinding Command="local:Commands.Exit"
+                        Executed="ExitApplication"
+                        />
 
         <!-- Shortcut Keys-->
         <CommandBinding Command="local:Commands.FocusAddressbar"
@@ -29,20 +34,34 @@
     </Window.CommandBindings>
 
     <Window.InputBindings>
-        <KeyBinding Key="O" Modifiers="Ctrl" Command="local:Commands.ConnectCommand" />
+        <!-- <KeyBinding Key="O" Modifiers="Ctrl" Command="local:Commands.ConnectCommand" /> -->
         <KeyBinding Key="L" Modifiers="Ctrl" Command="local:Commands.FocusAddressbar" />
     </Window.InputBindings>
     <DockPanel>
-        <Menu Height="23" HorizontalAlignment="Stretch" x:Name="menu" DockPanel.Dock="Top">
-            <MenuItem Header="_File" />
-            <MenuItem Header="_Connection">
-                <MenuItem Header="Connect" Command="local:Commands.ConnectCommand" />
-                <MenuItem Header="Disconnect" Command="local:Commands.DisconnectCommand" />
+        <Menu Height="23" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="C_onnect" Command="local:Commands.ConnectCommand" />
+                <MenuItem Header="_Disconnect" Command="local:Commands.DisconnectCommand" />
                 <Separator />
-                <MenuItem Header="Start hosting" Command="local:Commands.StartHostingCommand" />
+                <MenuItem Header="Start hos_ting" Command="local:Commands.StartHostingCommand" />
                 <MenuItem Header="Stop hosting" Command="local:Commands.StopHostingCommand" />
+                <Separator />
+                <MenuItem Header="E_xit" Command="local:Commands.Exit" />
+            </MenuItem>
+                
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Undo" Command="Undo"  />
+                <MenuItem Header="_Redo" Command="Redo" />
+                <Separator />
+                <MenuItem Header="Cu_t" Command="Cut" />
+                <MenuItem Header="_Copy" Command="Copy" />
+                <MenuItem Header="_Paste" Command="Paste" />
+                <MenuItem Header="_Delete" Command="Delete" />
             </MenuItem>
             <MenuItem Header="_View" />
+            <MenuItem Header="_Window" x:Name="windowMenu" SubmenuOpened="PopulateWindowMenu">
+                <MenuItem Header="dummy" />
+            </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="_About..." Click="About_Click" />
             </MenuItem>

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.Windows.Controls;
 
 namespace ShareTabWin
 {
@@ -16,6 +17,11 @@ namespace ShareTabWin
 		
 		private Communication.ShareTabHost Host;
 		private Communication.IShareTabSvc Connection;
+
+		public MainWindow ()
+		{
+			InitializeComponent ();
+		}
 
 		#region Properties
 		public bool IsHosting
@@ -106,6 +112,11 @@ namespace ShareTabWin
 		{
 			Trace.TraceInformation("About clicked!");
 		}
+
+		private void ExitApplication (object sender, ExecutedRoutedEventArgs e)
+		{
+			Close ();
+		}
 		#endregion
 
 		#region Keyboard Shortcuts
@@ -117,11 +128,6 @@ namespace ShareTabWin
 		}
 		#endregion
 
-		public MainWindow()
-		{
-			InitializeComponent();
-		}
-
 		private void chatPanel_ChatSendEvent (object sender, ChatSendEventArgs e)
 		{
 			if (IsConnected)
@@ -132,5 +138,45 @@ namespace ShareTabWin
 		{
 			Commands.DisconnectCommand.Execute(null, this);
 		}
+
+		private void Window_Loaded (object sender, RoutedEventArgs e)
+		{
+			// TODO: this is the good collection, but how to get 
+			// it to display in the menu like we'd like?
+			foreach (var dc in dockingManager.DockableContents)
+			{
+				Trace.TraceInformation (dc.Title);
+			}
+		}
+
+		private void PopulateWindowMenu (object sender, RoutedEventArgs e)
+		{
+			windowMenu.Items.Clear ();
+			foreach (var pane in dockingManager.DockableContents)
+			{
+				var item = new MenuItem ();
+				item.Header = pane.Title;
+				item.Tag = pane;
+				item.IsChecked = pane.IsVisible;
+				//item.IsChecked = pane.IsEnabled; useless, only good to grey tabs out when not connected
+				item.Click += WindowMenuItemClick;
+				windowMenu.Items.Add (item);
+			}
+		}
+
+		protected void WindowMenuItemClick (object sender, RoutedEventArgs e)
+		{
+			AvalonDock.DockableContent pane;
+			pane = (AvalonDock.DockableContent) ((MenuItem) sender).Tag;
+			// pane.Activate (); // if all we want is windowswitching
+			//pane.IsEnabled = !pane.IsEnabled;
+			//TODO: this is buggy and i don't know why! isvisible behaves strangely?
+			if (pane.IsVisible == true)
+				pane.Hide ();
+			else
+				pane.Show ();
+		}
+
+
 	}
 }

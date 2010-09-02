@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 
 using System.Reflection;
 using System.IO;
 using Ionic.Zip;
+using System.Windows.Input;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ShareTabWin
 {
@@ -18,17 +16,82 @@ namespace ShareTabWin
 	{
 		public App()
 		{
+			// please, not in the constructor, that could cause trouble!
+		}
+		/// <summary>
+		/// Event handler for the Startup event of the application. Takes care of the following tasks:
+		/// <list type="bullet">
+		/// <item><description>
+		/// Extracts the embedded xulrunner runtime into the current folder. 
+		/// This is needed for the GeckoFX browser control to run.
+		/// </description></item>
+		/// <item><description>
+		/// Makes all textboxes in the application automatically 
+		/// select all content on receiving keyboard focus.
+		/// </description></item>
+		/// </list>
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void Application_Startup (object sender, StartupEventArgs e)
+		{
 			// Extract XULrunner to output folder
-			string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			Stream xulzip = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShareTabWin.Dependencies.xulrunner-1.9.1.7.en-US.win32.zip");
-			using (ZipFile zip = ZipFile.Read(xulzip))
+			string appPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
+			Stream xulzip = Assembly.GetExecutingAssembly ().GetManifestResourceStream ("ShareTabWin.Dependencies.xulrunner-1.9.1.7.en-US.win32.zip");
+			using (ZipFile zip = ZipFile.Read (xulzip))
 			{
-				foreach (ZipEntry e in zip)
-					e.Extract(appPath, ExtractExistingFileAction.DoNotOverwrite);
+				foreach (ZipEntry entry in zip)
+					entry.Extract (appPath, ExtractExistingFileAction.DoNotOverwrite);
 			}
 
 			// Initialize Gecko/XULrunner
-			Skybound.Gecko.Xpcom.Initialize("xulrunner");
+			Skybound.Gecko.Xpcom.Initialize ("xulrunner");
+
+			// register event
+			EventManager.RegisterClassHandler (typeof (TextBox),
+				TextBox.GotKeyboardFocusEvent,
+				new RoutedEventHandler (TextBoxSelectAll));
+
+			EventManager.RegisterClassHandler (typeof (TextBox),
+				TextBox.PreviewMouseLeftButtonDownEvent,
+				new MouseButtonEventHandler (SelectivelyIgnoreMouseButton));
+		}
+
+		/// <summary>
+		/// Select all the text inside a TextBox when it gets keyboard focus
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void TextBoxSelectAll (object sender, RoutedEventArgs e)
+		{
+			(sender as System.Windows.Controls.TextBox).SelectAll ();
+		}
+		
+		/// <summary>
+		/// Prevents weird WPF behaviour when messing with focus. When focus is received
+		/// via mouseclick, without this, the textbox content gets selected for one split
+		/// second and then quickly deselected.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void SelectivelyIgnoreMouseButton (object sender, MouseButtonEventArgs e)
+		{
+			// Find the TextBox
+			DependencyObject parent = e.OriginalSource as UIElement;
+			while (parent != null && !(parent is TextBox))
+				parent = VisualTreeHelper.GetParent (parent);
+
+			if (parent != null)
+			{
+				var textBox = (TextBox) parent;
+				if (!textBox.IsKeyboardFocusWithin)
+				{
+					// If the text box is not yet focused, give it the focus and
+					// stop further processing of this click event.
+					textBox.Focus ();
+					e.Handled = true;
+				}
+			}
 		}
 	}
 }
