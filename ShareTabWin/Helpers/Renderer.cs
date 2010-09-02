@@ -6,10 +6,14 @@ using System.Windows.Forms;
 
 namespace ShareTabWin.Helpers
 {
-	class Browser : Skybound.Gecko.GeckoWebBrowser
+	class Renderer : Skybound.Gecko.GeckoWebBrowser
 	{
 		protected override bool IsInputKey (Keys keyData)
 		{
+			if ((keyData & Keys.KeyCode) == Keys.Tab)
+				return true;
+			return false;
+
 			/*
 				if ((keyData & Keys.Modifiers) == Keys.Control && (keyData & Keys.KeyCode) == Keys.O)
 				{
@@ -21,7 +25,6 @@ namespace ShareTabWin.Helpers
 					return base.IsInputKey (keyData);
 				}
 			*/
-			return false;
 		}
 	}
 }

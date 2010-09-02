@@ -4,7 +4,7 @@
                       xmlns:dock="clr-namespace:AvalonDock;assembly=AvalonDock"
                       xmlns:skyb="clr-namespace:Skybound.Gecko;assembly=Skybound.Gecko"
                       xmlns:helpers="clr-namespace:ShareTabWin.Helpers"
-                      Title="Browser Window"
+                      Title="Blank Page"
                       Loaded="DocumentContent_Loaded">
 
     <dock:DocumentContent.CommandBindings>
@@ -49,7 +49,7 @@
         </StatusBar>
 
         <WindowsFormsHost >
-            <helpers:Browser x:Name="browser" Navigated="browser_Navigated" StatusTextChanged="browser_StatusTextChanged" ProgressChanged="browser_ProgressChanged" Navigating="browser_Navigating" DocumentCompleted="browser_DocumentCompleted" CanGoBackChanged="browser_RequeryCommands" CanGoForwardChanged="browser_RequeryCommands" DocumentTitleChanged="browser_DocumentTitleChanged" />
+            <helpers:Renderer x:Name="renderer" Navigated="browser_Navigated" StatusTextChanged="browser_StatusTextChanged" ProgressChanged="browser_ProgressChanged" Navigating="browser_Navigating" DocumentCompleted="browser_DocumentCompleted" CanGoBackChanged="browser_RequeryCommands" CanGoForwardChanged="browser_RequeryCommands" DocumentTitleChanged="browser_DocumentTitleChanged" />
         </WindowsFormsHost>
 
     </DockPanel>

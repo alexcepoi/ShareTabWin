@@ -80,7 +80,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helpers\Browser.cs">
+    <Compile Include="Helpers\Renderer.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Helpers\ChatTextBox.cs" />
@@ -96,7 +96,7 @@
     </Compile>
     <Compile Include="TabSessions\Tab.cs" />
     <Compile Include="TabSessions\TabSession.cs" />
-    <Compile Include="TabSessions\Session.cs" />
+    <Compile Include="TabSessions\BrowsingSession.cs" />
     <Compile Include="WCF\ConnectionCallback.cs" />
     <Compile Include="WCF\ConnectParams.cs" />
     <Compile Include="Panels\LogPanel.xaml.cs">

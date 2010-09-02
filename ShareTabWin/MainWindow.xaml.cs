@@ -130,7 +130,7 @@ namespace ShareTabWin
 
 		private void Window_Closed (object sender, System.EventArgs e)
 		{
-			Commands.DisconnectCommand.Execute (null, this);
+			Commands.DisconnectCommand.Execute(null, this);
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace ShareTabWin
 {
 	public class TabSession
 	{
-		public static string DisplayName = "Private Tabs";
+		public string DisplayName { get; set; }
 
 		private ObservableCollection<Tab> m_Tabs;
 		public ObservableCollection<Tab> Tabs
@@ -22,11 +22,9 @@ namespace ShareTabWin
 			}
 		}
 
-		public TabSession()
+		public TabSession(string DisplayName)
 		{
-			Tabs.Add(new Tab());
-			Tabs.Add(new Tab());
-			Tabs.Add(new Tab());
+			this.DisplayName = DisplayName;
 		}
 	}
 }

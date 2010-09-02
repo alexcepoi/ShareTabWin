@@ -46,7 +46,7 @@ namespace ShareTabWin
 		private void DocumentContent_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Open Homepage
-			browser.Navigate(HomePage);
+			renderer.Navigate(HomePage);
 		}
 
 		#region Navigation Commands
@@ -54,21 +54,21 @@ namespace ShareTabWin
 		private void Refresh_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			Trace.TraceInformation("Refresh Executed");
-			browser.Reload();
+			renderer.Reload();
 		}
 
 		// Stop
 		private void Stop_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			Trace.TraceInformation("Stop Executed");
-			browser.Stop();
+			renderer.Stop();
 			CommandManager.InvalidateRequerySuggested();
 		}
 
 		private void Stop_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			if (browser != null)
-				e.CanExecute = browser.IsBusy;
+			if (renderer != null)
+				e.CanExecute = renderer.IsBusy;
 			else
 				e.CanExecute = false;
 		}
@@ -77,21 +77,21 @@ namespace ShareTabWin
 		private void Home_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			Trace.TraceInformation("Home Executed");
-			if (browser != null)
-				browser.Navigate(HomePage);
+			if (renderer != null)
+				renderer.Navigate(HomePage);
 		}
 
 		// Go Back
 		private void GoBack_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			Trace.TraceInformation("Back Executed");
-			browser.GoBack();
+			renderer.GoBack();
 		}
 
 		private void GoBack_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			if (browser != null)
-				e.CanExecute = browser.CanGoBack;
+			if (renderer != null)
+				e.CanExecute = renderer.CanGoBack;
 			else
 				e.CanExecute = false;
 		}
@@ -100,13 +100,13 @@ namespace ShareTabWin
 		private void GoForward_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			Trace.TraceInformation("Forward Executed");
-			browser.GoForward();
+			renderer.GoForward();
 		}
 
 		private void GoForward_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
-			if (browser != null)
-				e.CanExecute = browser.CanGoForward;
+			if (renderer != null)
+				e.CanExecute = renderer.CanGoForward;
 			else
 				e.CanExecute = false;
 		}
@@ -114,8 +114,8 @@ namespace ShareTabWin
 		// Go
 		private void Go_Click(object sender, RoutedEventArgs e)
 		{
-			if (browser != null)
-				browser.Navigate(addressBar.Text);
+			if (renderer != null)
+				renderer.Navigate(addressBar.Text);
 		}
 		#endregion
 
@@ -125,11 +125,11 @@ namespace ShareTabWin
 			switch (e.Key)
 			{
 				case Key.Enter:
-					browser.Navigate((e.Source as ComboBox).Text);
+					renderer.Navigate((e.Source as ComboBox).Text);
 					break;
 				case Key.Escape:
-					addressBar.Text = browser.Url.AbsoluteUri;
-					browser.Focus();
+					addressBar.Text = renderer.Url.AbsoluteUri;
+					renderer.Focus();
 					break;
 			}
 		}
@@ -149,7 +149,7 @@ namespace ShareTabWin
 
 		private void browser_DocumentTitleChanged(object sender, EventArgs e)
 		{
-			Title = browser.DocumentTitle;
+			Title = renderer.DocumentTitle;
 		}
 
 		private void browser_DocumentCompleted(object sender, EventArgs e)
@@ -161,8 +161,8 @@ namespace ShareTabWin
 
 		private void browser_StatusTextChanged(object sender, EventArgs e)
 		{
-			if (browser.StatusText != "" && browser.StatusText != null)
-				status.Content = browser.StatusText;
+			if (renderer.StatusText != "" && renderer.StatusText != null)
+				status.Content = renderer.StatusText;
 			else
 				status.Content = "Done";
 		}
