@@ -29,8 +29,10 @@ namespace Communication
 				return false;*/
 			var callback = OperationContext.Current.GetCallbackChannel<IShareTabCallback>();
 			userList.Add(new ServerSideUser(username, callback));
-			callback.UserCountNotify(userList.Count);
-			userList.ForOthers(user => user.Callback.UserHasSignedIn(username));
+			// Notify current user of everybody
+			userList.ForEach (user => callback.UserHasSignedIn (user.Name));
+			// Notify everybody else
+			userList.ForOthers (user => user.Callback.UserHasSignedIn(username));
 			return true;
 		}
 

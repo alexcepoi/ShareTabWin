@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle ("ShareTabWin")]
-[assembly: AssemblyDescription ("")]
+[assembly: AssemblyDescription ("Collaborative web browser")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("")]
 [assembly: AssemblyProduct ("ShareTabWin")]

@@ -52,6 +52,7 @@
             <dock:ResizingPanel Orientation="Horizontal">
                 <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
                     <local:TabsPanel />
+                    <local:UsersPanel />
                     <local:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />
                     <local:LogPanel />
                 </dock:DockablePane>
