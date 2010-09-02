@@ -9,5 +9,7 @@
 # Ignore builds
 Communication/bin/**
 Communication/obj/**
+Infrastructure/bin/**
+Infrastructure/obj/**
 ShareTabWin/bin/**
 ShareTabWin/obj/**

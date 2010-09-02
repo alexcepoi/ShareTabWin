@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace ShareTabWin.Helpers
 {
-	public class User : Infrastructure.User
+	public class User : Infrastructure.User, INotifyPropertyChanged
 	{
 		private string _name;
 		public string Name
@@ -20,7 +20,7 @@ namespace ShareTabWin.Helpers
 			}
 		}
 
-		// TODO: stuff
+		#region object overrides
 		public override bool Equals (object obj)
 		{
 			User other = obj as User;
@@ -29,6 +29,19 @@ namespace ShareTabWin.Helpers
 			return Name == other.Name;
 		}
 
+		public bool Equals (User other)
+		{
+			if (((object) other) == null)
+				return false;
+			return Name == other.Name;
+		}
+
+		public override int GetHashCode ()
+		{
+			return Name.GetHashCode ();
+		}
+		#endregion
+		#region inotify impl
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		protected virtual void OnPropertyChanged (PropertyChangedEventArgs e)
@@ -38,6 +51,7 @@ namespace ShareTabWin.Helpers
 			if (handler != null)
 				handler (this, e);
 		}
+		#endregion
 	}
 	public class UserList : ObservableCollection<Infrastructure.User>
 	{
