@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Collections.Generic;
 using Communication;
 using System;
+using ShareTabWin.Helpers;
 
 namespace ShareTabWin
 {
@@ -42,7 +43,7 @@ namespace ShareTabWin
 				Connection = ShareTabChannelFactory.GetConnection(
 					(IConnectParams)ConnectParameters, ConnectionCallback.Instance);
 
-				DialogResult = Connection.SignIn(ConnectParameters.Nickname, ConnectParameters.Passkey);
+				DialogResult = Connection.SignIn(ConnectParameters.Nickname, ConnectParameters.Passkey.GetSHA ());
 			}
 
 			catch (System.ServiceModel.CommunicationException ex)

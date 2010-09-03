@@ -1,6 +1,10 @@
 ﻿using System.ServiceModel;
 namespace Communication
 {
+	/// <summary>
+	/// The callback API exposed by clients connecting to the ShareTab server. It
+	/// establishes the means for the server to communicate to the clients.
+	/// </summary>
 	public interface IShareTabCallback
 	{
 		[OperationContract(IsOneWay = true)]

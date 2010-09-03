@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-
 namespace ShareTabWin
 {
 	public class ConnectParams : INotifyPropertyChanged, Communication.IConnectParams
@@ -22,7 +21,7 @@ namespace ShareTabWin
 		public string Passkey
 		{
 			get { return passkey; }
-			set { passkey = value; OnPropertyChanged("Passkey"); }
+			set { passkey = value; OnPropertyChanged ("Passkey"); }
 		}
 		public string Nickname
 		{

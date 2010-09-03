@@ -8,7 +8,7 @@ namespace Communication
 	{
 		private List<ServerSideUser> _userlist = new List<ServerSideUser> ();
 
-		public void Add (ServerSideUser user) { _userlist.Add (user); }
+		public void Add (ServerSideUser user) { _userlist.Add (user); } // TODO: throw exception if user reuses nickname
 		public ServerSideUser GetByCallback (IShareTabCallback callback)
 		{
 			return _userlist.Find (user => user.Callback == callback);

@@ -4,6 +4,7 @@
         xmlns:dock="clr-namespace:AvalonDock;assembly=AvalonDock"
         xmlns:helpers="clr-namespace:ShareTabWin.Helpers"
         Title="Chat"
+        FocusManager.FocusedElement="{Binding ElementName=chatInput}"
         Loaded="ChatPanel_Loaded">
     <DockPanel>
 

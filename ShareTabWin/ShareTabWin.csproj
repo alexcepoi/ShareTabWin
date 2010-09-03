@@ -95,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Hasher.cs" />
     <Compile Include="Helpers\Renderer.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -3,8 +3,17 @@ using System.ServiceModel;
 
 namespace Communication
 {
+	/// <summary>
+	/// Factory that produces connection channels to a ShareTab server.
+	/// </summary>
 	public class ShareTabChannelFactory : DuplexChannelFactory<IShareTabSvc>
 	{
+		/// <summary>
+		/// Returns a channel to the ShareTab server specified.
+		/// </summary>
+		/// <param name="p">Connection parameters (hostname, port, etc)</param>
+		/// <param name="callback">Callback instance to be referenced by the server</param>
+		/// <returns></returns>
 		public static IShareTabSvc GetConnection(IConnectParams p, IShareTabCallback callback)
 		{
 			var endpoint = new EndpointAddress(String.Format

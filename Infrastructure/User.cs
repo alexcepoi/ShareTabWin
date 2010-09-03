@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Infrastructure
+﻿namespace Infrastructure
 {
+	/// <summary>
+	/// Common properties required for server and client side representations
+	/// of users.
+	/// </summary>
 	public interface User
 	{
+		/// <summary>
+		/// The nickname of the user.
+		/// </summary>
 		string Name { get; set; }
 	}
 }
