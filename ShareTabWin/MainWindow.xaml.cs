@@ -123,8 +123,11 @@ namespace ShareTabWin
 		// Focus Addressbar (Ctrl-L)
 		private void FocusAddressbar_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
-			if (browserWindow.addressBar != null)
-				browserWindow.addressBar.Focus();
+			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
+			BrowserWindow browserWindow = dockingManager.ActiveDocument as BrowserWindow;
+			if (browserWindow != null)
+				if (browserWindow.addressBar != null)
+					browserWindow.addressBar.Focus();
 		}
 		#endregion
 
@@ -141,8 +144,7 @@ namespace ShareTabWin
 
 		private void Window_Loaded (object sender, RoutedEventArgs e)
 		{
-			// TODO: this is the good collection, but how to get 
-			// it to display in the menu like we'd like?
+			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
 			foreach (var dc in dockingManager.DockableContents)
 			{
 				Trace.TraceInformation (dc.Title);

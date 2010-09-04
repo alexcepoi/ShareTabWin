@@ -70,13 +70,17 @@
         <dock:DockingManager x:Name="dockingManager">
             <dock:ResizingPanel Orientation="Horizontal">
                 <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
-                    <local:TabsPanel />
+                    <local:TabsPanel x:Name="tabsPanel"/>
                     <local:UsersPanel />
                     <local:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />
                     <local:LogPanel />
                 </dock:DockablePane>
-                <dock:DocumentPane>
-                    <local:BrowserWindow x:Name="browserWindow"/>
+                <dock:DocumentPane x:Name="documentPane" ItemsSource="{Binding ElementName=tabsPanel.PrivateSessions.Tabs, Path=Document}">
+                    <!--
+                    <local:BrowserWindow x:Name="browserWindow1"/>
+                    <local:BrowserWindow x:Name="browserWindow2"/>
+                    <local:BrowserWindow x:Name="browserWindow3"/>
+                    -->
                 </dock:DocumentPane>
             </dock:ResizingPanel>
         </dock:DockingManager>

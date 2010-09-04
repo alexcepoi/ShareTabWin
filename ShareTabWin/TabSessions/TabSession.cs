@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using System.Collections.ObjectModel;
+using AvalonDock;
 
 namespace ShareTabWin
 {
@@ -22,9 +23,6 @@ namespace ShareTabWin
 			}
 		}
 
-		public TabSession(string DisplayName)
-		{
-			this.DisplayName = DisplayName;
-		}
+		public TabSession() {}
 	}
 }

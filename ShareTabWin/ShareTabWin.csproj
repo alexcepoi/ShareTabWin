@@ -114,7 +114,6 @@
     </Compile>
     <Compile Include="TabSessions\Tab.cs" />
     <Compile Include="TabSessions\TabSession.cs" />
-    <Compile Include="TabSessions\BrowsingSession.cs" />
     <Compile Include="Panels\UsersPanel.xaml.cs">
       <DependentUpon>UsersPanel.xaml</DependentUpon>
     </Compile>
