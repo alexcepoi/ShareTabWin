@@ -7,15 +7,17 @@ namespace Communication
 {
 	public class ServerSideUser : Infrastructure.User
 	{
-		public string Name { get; set; }
+		public string Name { get; private set; }
+		public string SessionId { get; private set; }
 		public IShareTabCallback Callback
 		{
 			get;
 			private set;
 		}
 
-		public ServerSideUser (string name, IShareTabCallback callback)
+		public ServerSideUser (string sessionid, string name, IShareTabCallback callback)
 		{
+			SessionId = sessionid;
 			Name = name;
 			Callback = callback;
 		}

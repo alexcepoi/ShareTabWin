@@ -24,7 +24,7 @@ namespace ShareTabWin
 			List<string> keys = new List<string> (appSettings.Settings.AllKeys);
 
 			if (keys.Contains ("lastHostPort"))
-				StartHostingParameters.Port = int.Parse (appSettings.Settings["lastPort"].Value);
+				StartHostingParameters.Port = int.Parse (appSettings.Settings["lastHostPort"].Value);
 
 			if (keys.Contains ("lastNickname"))
 				StartHostingParameters.Nickname = appSettings.Settings["lastNickname"].Value;
@@ -41,7 +41,7 @@ namespace ShareTabWin
 			}
 			try
 			{
-				Host = new Communication.ShareTabHost (StartHostingParameters.Port);
+				Host = new Communication.ShareTabHost (StartHostingParameters.Port, StartHostingParameters.Passkey.GetSHA ());
 				Host.Open ();
 				//if (Host.State == System.ServiceModel.CommunicationState.Opened)
 				foreach (var addr in Host.BaseAddresses)
