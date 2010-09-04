@@ -95,7 +95,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\StartHostingDlg.xaml.cs">
+      <DependentUpon>StartHostingDlg.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Hasher.cs" />
+    <Compile Include="Helpers\PortValidationRule.cs" />
     <Compile Include="Helpers\Renderer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -109,6 +113,7 @@
     </Compile>
     <Compile Include="Helpers\UserList.cs" />
     <Compile Include="Helpers\UsersController.cs" />
+    <Compile Include="Helpers\ValidationHelpers.cs" />
     <Compile Include="Panels\ChatPanel.xaml.cs">
       <DependentUpon>ChatPanel.xaml</DependentUpon>
     </Compile>
@@ -127,11 +132,16 @@
     <Compile Include="Panels\TabsPanel.xaml.cs">
       <DependentUpon>TabsPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WCF\StartHostingParams.cs" />
     <Page Include="BrowserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ConnectDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\StartHostingDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

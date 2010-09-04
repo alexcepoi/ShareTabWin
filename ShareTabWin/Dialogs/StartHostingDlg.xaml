@@ -1,17 +1,16 @@
-﻿<Window x:Class="ShareTabWin.ConnectDlg"
+﻿<Window x:Class="ShareTabWin.StartHostingDlg"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:my="clr-namespace:ShareTabWin"
         xmlns:helpers="clr-namespace:ShareTabWin.Helpers"
         ShowInTaskbar="False"
-        Title="Connect to a server" ResizeMode="CanResizeWithGrip"
-        FocusManager.FocusedElement="{Binding ElementName=hostname}"
+        Title="Start hosting a ShareTab session" ResizeMode="CanResizeWithGrip"
+        FocusManager.FocusedElement="{Binding ElementName=port}"
         WindowStartupLocation="CenterOwner" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" SizeToContent="WidthAndHeight">
     <StackPanel Margin="5" >
-        <GroupBox Header="Server" >
+        <GroupBox Header="Settings" >
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
@@ -19,18 +18,17 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2*" MinWidth="150"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Hostname" Target="{Binding ElementName=hostname}"/>
-                <Label Grid.Column="0" Grid.Row="1" Content="Port" Target="{Binding ElementName=port}"/>
-                <Label Grid.Column="0" Grid.Row="2" Content="Passkey" Target="{Binding ElementName=passkey}"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Name="hostname" Text="{Binding Hostname, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Name="port" ToolTip="{Binding ElementName=port, Path=(Validation.Errors).CurrentItem.ErrorContent}">
+                <Label Grid.Column="0" Grid.Row="0" Content="Port" Target="{Binding ElementName=port}"/>
+                <Label Grid.Column="0" Grid.Row="1" Content="Passkey" Target="{Binding ElementName=passkey}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Name="port" ToolTip="{Binding ElementName=port, Path=(Validation.Errors).CurrentItem.ErrorContent}">
                     <Binding Path="Port" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <helpers:PortValidationRule />
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox>
-                <TextBox Grid.Column="1" Grid.Row="2" Name="passkey" Text="{Binding Passkey, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Grid.Column="1" Grid.Row="1" Name="passkey" Text="{Binding Passkey, UpdateSourceTrigger=PropertyChanged}" 
+                         ToolTip="Key that will be required for all users who try to connect to the public session."/>
             </Grid>
         </GroupBox>
         <GroupBox Header="User" >
@@ -40,12 +38,14 @@
                     <ColumnDefinition Width="2*" MinWidth="150"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Nickname" Target="{Binding ElementName=nickname}" />
-                <TextBox Grid.Column="1" Name="nickname" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Grid.Column="1" Name="nickname" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="The name with which you want to be visible to other users."/>
             </Grid>
         </GroupBox>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Content="Connect" Margin="2" IsDefault="True" Width="75" Click="Connect_Click" />
+            <Button Content="Host" Margin="2" IsDefault="True" Width="75" Click="Host_Click" />
             <Button Content="Cancel" Width="75" Margin="2" IsCancel="True"/>
         </StackPanel>
     </StackPanel>
 </Window>
+

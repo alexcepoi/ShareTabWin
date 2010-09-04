@@ -81,11 +81,14 @@ namespace ShareTabWin
 		// Start Hosting
 		private void StartHostingCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			Host = new Communication.ShareTabHost(6667);
-			Host.Open();
-			if (Host.State == System.ServiceModel.CommunicationState.Opened)
-				foreach (var addr in Host.BaseAddresses)
-					Trace.TraceInformation("Now listening on {0}", addr.AbsoluteUri);
+			StartHostingDlg startHostingDlg = new StartHostingDlg ();
+			startHostingDlg.Owner = this;
+			var response = startHostingDlg.ShowDialog ();
+			if (response == true)
+			{
+				Host = startHostingDlg.Host;
+				Connection = startHostingDlg.Connection;
+			}
 		}
 
 		private void StartHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
