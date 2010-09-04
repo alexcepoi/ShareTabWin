@@ -75,7 +75,7 @@
                     <local:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />
                     <local:LogPanel />
                 </dock:DockablePane>
-                <dock:DocumentPane x:Name="documentPane" ItemsSource="{Binding ElementName=tabsPanel.PrivateSessions.Tabs, Path=Document}">
+                <dock:DocumentPane x:Name="documentPane"> <!--ItemsSource="{Binding ElementName=tabsPanel.PrivateSessions.Tabs, Path=Document}">-->
                     <!--
                     <local:BrowserWindow x:Name="browserWindow1"/>
                     <local:BrowserWindow x:Name="browserWindow2"/>

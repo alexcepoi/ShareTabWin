@@ -144,6 +144,7 @@ namespace ShareTabWin
 
 		private void Window_Loaded (object sender, RoutedEventArgs e)
 		{
+			documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
 			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
 			foreach (var dc in dockingManager.DockableContents)
 			{
