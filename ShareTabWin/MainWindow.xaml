@@ -41,11 +41,11 @@
     <DockPanel>
         <Menu Height="23" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="C_onnect" Command="local:Commands.ConnectCommand" />
+                <MenuItem Header="C_onnect..." Command="local:Commands.ConnectCommand" />
                 <MenuItem Header="_Disconnect" Command="local:Commands.DisconnectCommand" />
                 <Separator />
-                <MenuItem Header="Start hos_ting" Command="local:Commands.StartHostingCommand" />
-                <MenuItem Header="Stop hosting" Command="local:Commands.StopHostingCommand" />
+                <MenuItem Header="Start _hosting..." Command="local:Commands.StartHostingCommand" />
+                <MenuItem Header="S_top hosting" Command="local:Commands.StopHostingCommand" />
                 <Separator />
                 <MenuItem Header="E_xit" Command="local:Commands.ExitCommand" />
             </MenuItem>

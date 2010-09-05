@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Collections.Generic;
 using Communication;
-using System;
 using ShareTabWin.Helpers;
 
 namespace ShareTabWin
@@ -38,6 +37,10 @@ namespace ShareTabWin
 
 		private void Connect_Click(object sender, RoutedEventArgs e)
 		{
+			if (!this.IsValid())
+			{
+				return;
+			}
 			try
 			{
 				Connection = ShareTabChannelFactory.GetConnection(
@@ -59,6 +62,8 @@ namespace ShareTabWin
 			appSettings.Settings.Add("lastNickname", ConnectParameters.Nickname);
 			config.Save(ConfigurationSaveMode.Modified);
 			ConfigurationManager.RefreshSection("appSettings");
+
+			
 		}
 	}
 }

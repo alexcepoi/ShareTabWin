@@ -9,6 +9,6 @@
 		/// <summary>
 		/// The nickname of the user.
 		/// </summary>
-		string Name { get; set; }
+		string Name { get; }
 	}
 }

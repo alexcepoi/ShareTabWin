@@ -8,16 +8,25 @@ namespace Communication
 	{
 		private List<ServerSideUser> _userlist = new List<ServerSideUser> ();
 
-		public void Add (ServerSideUser user) { _userlist.Add (user); } // TODO: throw exception if user reuses nickname
+		public void Add (ServerSideUser user) 
+		{
+			if (_userlist.Find (u => u.Name == user.Name) != null)
+				throw new ArgumentException ("Nickname is already taken");
+			_userlist.Add (user); 
+		}
 		public ServerSideUser GetByCallback (IShareTabCallback callback)
 		{
 			return _userlist.Find (user => user.Callback == callback);
+		}
+		public ServerSideUser GetBySessionId (string sessionid)
+		{
+			return _userlist.Find (user => user.SessionId == sessionid);
 		}
 		public ServerSideUser Current
 		{
 			get
 			{
-				return GetByCallback (OperationContext.Current.GetCallbackChannel<IShareTabCallback> ());
+				return GetBySessionId (OperationContext.Current.Channel.SessionId);
 			}
 		}
 		public void RemoveCurrent () { _userlist.Remove (Current); }
@@ -33,7 +42,7 @@ namespace Communication
 		{
 			_userlist.ForEach (delegate (ServerSideUser user)
 			{
-				if (user.Callback != OperationContext.Current.GetCallbackChannel<IShareTabCallback> ())
+				if (user.SessionId != OperationContext.Current.Channel.SessionId)
 					action (user);
 			});
 		}

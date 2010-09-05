@@ -9,50 +9,39 @@ namespace Communication
 	public class ShareTabProvider : IShareTabSvc
 	{
 		private static UserList userList = new UserList();
-		public string Password { get; set; }
-		public ShareTabProvider()
-		{
-			/*if (pass.Length == 0)
-				throw new System.ArgumentException ();
-			if (pass == null)
-				throw new System.ArgumentNullException ();
-			
-			Password = pass;*/
-		}
+		public static string Password { private get; set; }
 
 		#region IShareTabSvc implementation
+
+		//TODO: make it return an Enum or an Exception instead of bool. Enum should do it.
 		public bool SignIn(string username, string password)
 		{
-			/*if (password == this.Password)
-				return true;
-			else
-				return false;*/
+			if (password != Password)
+				return false;
+
 			var callback = OperationContext.Current.GetCallbackChannel<IShareTabCallback>();
-			userList.Add(new ServerSideUser(username, callback));
+			string sessionid = OperationContext.Current.Channel.SessionId;
+			try
+			{
+				userList.Add (new ServerSideUser (sessionid, username, callback));
+			}
+			catch (ArgumentException)
+			{
+				return false;
+			}
 			// Notify current user of everybody
 			userList.ForEach (user => callback.UserHasSignedIn (user.Name));
 			// Notify everybody else
-			userList.ForOthers (user => user.Callback.UserHasSignedIn(username));
+			userList.ForOthers (user => user.Callback.UserHasSignedIn (username));
 			return true;
 		}
 
-
 		public void SignOut()
 		{
-			userList.ForOthers(user => user.Callback.UserHasSignedOut(userList.Current.Name));
+			userList.ForOthers (user => user.Callback.UserHasSignedOut (userList.Current.Name));
 			userList.RemoveCurrent();
 			return;
 		}
-
-
-		public void Broadcast(string message)
-		{
-			Console.WriteLine(message);
-		}
-
-		#endregion
-
-
 
 		public void SendChatMessage (string content)
 		{
@@ -60,5 +49,6 @@ namespace Communication
 			message = new ChatMessage (userList.Current.Name, content);
 			userList.ForEach (user => user.Callback.ReceiveChatMessage (message));
 		}
+		#endregion
 	}
 }

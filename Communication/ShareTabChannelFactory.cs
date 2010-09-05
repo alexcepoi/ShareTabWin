@@ -11,7 +11,7 @@ namespace Communication
 		/// <summary>
 		/// Returns a channel to the ShareTab server specified.
 		/// </summary>
-		/// <param name="p">Connection parameters (hostname, port, etc)</param>
+		/// <param name="p">Connection parameters (hostname, port)</param>
 		/// <param name="callback">Callback instance to be referenced by the server</param>
 		/// <returns></returns>
 		public static IShareTabSvc GetConnection(IConnectParams p, IShareTabCallback callback)
