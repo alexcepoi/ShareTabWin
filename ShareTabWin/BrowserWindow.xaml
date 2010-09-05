@@ -16,24 +16,31 @@
     </dock:DocumentContent.CommandBindings>
 
     <DockPanel>
-        <DockPanel Height="26" x:Name="navBar" DockPanel.Dock="Top" >
-            <Button Command="BrowseBack" DockPanel.Dock="Left">
+        <DockPanel.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="VisualStyles.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </DockPanel.Resources>
+        <DockPanel Height="26" x:Name="navBar" DockPanel.Dock="Top" Background="Coral">
+            <Button Command="BrowseBack" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4,0,0,4">
                 Back
             </Button>
-            <Button Command="BrowseForward" DockPanel.Dock="Left">
+            <Button Command="BrowseForward" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="0,4,4,0">
                 Forward
             </Button>
-            <Button Command="Refresh" DockPanel.Dock="Left">
+            <Button Command="Refresh" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4">
                 Refresh
             </Button>
-            <Button Command="BrowseStop" DockPanel.Dock="Left">
+            <Button Command="BrowseStop" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4">
                 Stop
             </Button>
-            <Button Command="BrowseHome" DockPanel.Dock="Left">
+            <Button Command="BrowseHome" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4">
                 Home
             </Button>
             <Separator />
-            <Button DockPanel.Dock="Right" Click="Go_Click">
+            <Button DockPanel.Dock="Right" Click="Go_Click" helpers:CustomProps.MyCornerRadius="4">
                 Go
             </Button>
 

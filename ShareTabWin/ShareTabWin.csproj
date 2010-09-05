@@ -98,6 +98,7 @@
     <Compile Include="Dialogs\StartHostingDlg.xaml.cs">
       <DependentUpon>StartHostingDlg.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CustomProps.cs" />
     <Compile Include="Helpers\Hasher.cs" />
     <Compile Include="Helpers\PortValidationRule.cs" />
     <Compile Include="Helpers\Renderer.cs">
@@ -171,6 +172,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Panels\TabsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VisualStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
