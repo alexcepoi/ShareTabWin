@@ -4,10 +4,7 @@ using System.Diagnostics;
 using System.Windows.Controls;
 
 
-using System.Collections.ObjectModel;
-using AvalonDock;
-using System.Collections;
-using System.Linq;
+using System;
 
 
 namespace ShareTabWin
@@ -141,18 +138,23 @@ namespace ShareTabWin
 		private void NewTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			Tab noob = new Tab();
-			tabsPanel.PrivateSession.Tabs.Add(noob);
+
+			App.Current.Dispatcher.BeginInvoke
+				(
+				new Action<Tab>(tab => tabsPanel.PrivateSession.Tabs.Add(tab)), noob
+				);
+
 			noob.Focus();
 		}
 
 		// Close Tab
 		private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			int x = dockingManager.Documents.IndexOf(dockingManager.ActiveDocument as Tab);
-			Trace.TraceInformation("" + x);
-
 			if (dockingManager.ActiveDocument != null)
-				dockingManager.ActiveDocument.Close();
+				App.Current.Dispatcher.BeginInvoke
+				(
+					new Action (() => dockingManager.ActiveDocument.Close())
+				);
 		}
 		#endregion
 
@@ -174,7 +176,8 @@ namespace ShareTabWin
 			
 			// Open a Tab with HomePage
 			NewTabCommand_Executed(null, null);
-			(dockingManager.ActiveDocument as Tab).renderer.Navigate(Tab.HomePage);
+			// FIXME: open homepage on first tab
+			//(dockingManager.ActiveDocument as Tab).renderer.Navigate(Tab.HomePage);
 
 			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
 			foreach (var dc in dockingManager.DockableContents)
