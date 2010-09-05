@@ -1,4 +1,5 @@
-﻿namespace ShareTabWin
+﻿using System.Windows.Controls;
+namespace ShareTabWin
 {
 	/// <summary>
 	/// Interaction logic for Tabs.xaml
@@ -33,6 +34,13 @@
 		public TabsPanel()
 		{
 			InitializeComponent();
+		}
+
+		private void TabsTreeView_Selected(object sender, System.Windows.RoutedEventArgs e)
+		{
+			TabsTreeView.Tag = e.OriginalSource;
+			Tab selected = (e.OriginalSource as TreeViewItem).DataContext as Tab;
+			selected.Activate();
 		}
 	}
 }

@@ -3,8 +3,12 @@ using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Controls;
 
+
 using System.Collections.ObjectModel;
 using AvalonDock;
+using System.Collections;
+using System.Linq;
+
 
 namespace ShareTabWin
 {
@@ -206,6 +210,37 @@ namespace ShareTabWin
 				pane.Hide ();
 			else
 				pane.Show ();
+		}
+
+		// TODO: source should be of type TreeView/TreeViewItem
+		// DFS through TreeView the TreeViewItem which has Tab target
+		private TreeViewItem getTreeViewItem (dynamic source, Tab target)
+		{
+			for (int i = 0; i < source.Items.Count; ++i)
+			{
+				TreeViewItem child = source.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
+				if (child.HasItems)
+				{
+					TreeViewItem result = getTreeViewItem(child, target);
+					if (result != null) return result;
+				}
+				else
+					if (child.DataContext == target)
+						return child;
+			}
+			
+			return null;
+		}
+
+		private void dockingManager_ActiveDocumentChanged(object sender, System.EventArgs e)
+		{
+			Tab target = dockingManager.ActiveDocument as Tab;
+			
+			TreeViewItem item = getTreeViewItem(tabsPanel.TabsTreeView, target);
+			if (item == null)
+				Trace.TraceError("Huston we have a problem");
+			else
+				item.IsSelected = true;
 		}
 	}
 }

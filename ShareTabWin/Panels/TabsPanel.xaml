@@ -5,7 +5,7 @@
         xmlns:local="clr-namespace:ShareTabWin"
         Title="Tabs">
     <Grid>
-        <TreeView x:Name="TabsTreeView">
+        <TreeView x:Name="TabsTreeView" TreeViewItem.Selected="TabsTreeView_Selected">
             <!-- Tab Sessions -->
             <local:TabSession x:Name="m_PublicSession" DisplayName="Public Tabs" />
             <local:TabSession x:Name="m_PrivateSession" DisplayName="Private Tabs" />
