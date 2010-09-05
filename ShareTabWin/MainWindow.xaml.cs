@@ -244,9 +244,7 @@ namespace ShareTabWin
 			Tab target = dockingManager.ActiveDocument as Tab;
 			
 			TreeViewItem item = getTreeViewItem(tabsPanel.TabsTreeView, target);
-			if (item == null)
-				Trace.TraceError("Huston we have a problem");
-			else
+			if (item != null)
 				item.IsSelected = true;
 		}
 
