@@ -132,6 +132,7 @@
     <Compile Include="Panels\TabsPanel.xaml.cs">
       <DependentUpon>TabsPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WCF\Events.cs" />
     <Compile Include="WCF\StartHostingParams.cs" />
     <Page Include="BrowserWindow.xaml">
       <SubType>Designer</SubType>

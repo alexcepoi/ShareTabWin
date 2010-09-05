@@ -69,6 +69,7 @@ namespace ShareTabWin
 		// Disconnect
 		private void DisconnectCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
+			OnDisconnected (new RoutedEventArgs ());
 			Connection.SignOut();
 			Connection = null;
 		}
@@ -181,5 +182,7 @@ namespace ShareTabWin
 		}
 
 
+		public event ShareTabWin.WCF.Events.DisconnectedEventHandler Disconnected;
+		protected void OnDisconnected (RoutedEventArgs e) { Disconnected (this, e); }
 	}
 }
