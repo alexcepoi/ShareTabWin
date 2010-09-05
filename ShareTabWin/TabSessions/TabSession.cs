@@ -15,6 +15,10 @@ namespace ShareTabWin
 					m_Tabs = new ObservableCollection<Tab>();
 				return m_Tabs;
 			}
+			set
+			{
+				m_Tabs = value;
+			}
 		}
 
 		public TabSession() {}

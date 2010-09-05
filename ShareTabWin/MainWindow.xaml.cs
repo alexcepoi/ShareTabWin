@@ -144,6 +144,9 @@ namespace ShareTabWin
 		// Close Tab
 		private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
+			int x = dockingManager.Documents.IndexOf(dockingManager.ActiveDocument as Tab);
+			Trace.TraceInformation("" + x);
+
 			if (dockingManager.ActiveDocument != null)
 				dockingManager.ActiveDocument.Close();
 		}
@@ -164,12 +167,16 @@ namespace ShareTabWin
 		{
 			// Binding set in XAML
 			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
+			
+			// Open a Tab with HomePage
 			NewTabCommand_Executed(null, null);
+			(dockingManager.ActiveDocument as Tab).renderer.Navigate(Tab.HomePage);
 
 			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
 			foreach (var dc in dockingManager.DockableContents)
 			{
 				Trace.TraceInformation (dc.Title);
+				System.Windows.Data.Binding a = new System.Windows.Data.Binding();
 			}
 		}
 
