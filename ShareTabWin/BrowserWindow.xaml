@@ -44,7 +44,7 @@
                 <Image Width="12" Height="16" Source="/ShareTabWin;component/Icons/play_12x16.png" />
             </Button>
 
-            <ComboBox HorizontalAlignment="Stretch" x:Name="addressBar" IsEditable="True" KeyDown="addressBar_KeyDown" Margin="0,2,0,2"/>
+            <ComboBox HorizontalAlignment="Stretch" x:Name="addressBar" IsEditable="True" KeyDown="addressBar_KeyDown" Margin="0,5,0,5"/>
         </DockPanel>
 
         <StatusBar Height="23" x:Name="statusBar" DockPanel.Dock="Bottom">
