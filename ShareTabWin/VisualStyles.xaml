@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:helpers="clr-namespace:ShareTabWin.Helpers">
     <Style TargetType="{x:Type Button}" x:Name="Glass">
+        <Setter Property="Width" Value="26" />
+        <Setter Property="Height" Value="26" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -17,8 +19,8 @@
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                     </ControlTemplate.Resources>
-                    <Border BorderBrush="#FFFFFFFF" BorderThickness="1,1,1,1" CornerRadius="{TemplateBinding helpers:CustomProps.MyCornerRadius}">
-                        <Border x:Name="border" Background="#7F000000" BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="{TemplateBinding helpers:CustomProps.MyCornerRadius}">
+                    <!--Border BorderBrush="#FFFFFFFF" BorderThickness="1,1,1,1" CornerRadius="{TemplateBinding helpers:CustomProps.MyCornerRadius}"-->
+                        <Border x:Name="border" Background="#66000000" BorderBrush="#FF000000" BorderThickness="1,1,1,1" CornerRadius="{TemplateBinding helpers:CustomProps.MyCornerRadius}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="0.507*"/>
@@ -27,23 +29,15 @@
                                 <Border Opacity="0" HorizontalAlignment="Stretch" x:Name="glow" Width="Auto" Grid.RowSpan="2" CornerRadius="{TemplateBinding helpers:CustomProps.MyCornerRadius}">
                                     <Border.Background>
                                         <RadialGradientBrush>
-                                            <RadialGradientBrush.RelativeTransform>
-                                                <TransformGroup>
-                                                    <ScaleTransform ScaleX="1.702" ScaleY="2.243"/>
-                                                    <SkewTransform AngleX="0" AngleY="0"/>
-                                                    <RotateTransform Angle="0"/>
-                                                    <TranslateTransform X="-0.368" Y="-0.152"/>
-                                                </TransformGroup>
-                                            </RadialGradientBrush.RelativeTransform>
                                             <GradientStop Color="#B28DBDFF" Offset="0"/>
-                                            <GradientStop Color="#008DBDFF" Offset="1"/>
+                                            <GradientStop Color="#668DBDFF" Offset="1"/>
                                         </RadialGradientBrush>
                                     </Border.Background>
                                 </Border>
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" Grid.RowSpan="2"/>
                                 <Border HorizontalAlignment="Stretch" Margin="0,0,0,0" x:Name="shine" Width="Auto" CornerRadius="{TemplateBinding helpers:CustomProps.MyCornerRadius}">
                                     <Border.Background>
-                                        <LinearGradientBrush EndPoint="0.494,0.889" StartPoint="0.494,0.028">
+                                        <LinearGradientBrush  EndPoint="0.494,0.889" StartPoint="0.494,0.028">
                                             <GradientStop Color="#99FFFFFF" Offset="0"/>
                                             <GradientStop Color="#33FFFFFF" Offset="1"/>
                                         </LinearGradientBrush>
@@ -51,7 +45,7 @@
                                 </Border>
                             </Grid>
                         </Border>
-                    </Border>
+                    <!--/Border-->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" TargetName="border" Value="#FFCCCCCC" />

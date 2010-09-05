@@ -23,28 +23,28 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DockPanel.Resources>
-        <DockPanel Height="26" x:Name="navBar" DockPanel.Dock="Top" Background="Coral">
-            <Button Command="BrowseBack" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4,0,0,4">
-                Back
+        <DockPanel  x:Name="navBar" DockPanel.Dock="Top">
+            <Button Command="BrowseBack" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4,0,0,4" Margin="2,2,0,2">
+                <Image Width="16" Height="16" Source="/ShareTabWin;component/Icons/arrow_left_16x16.png" />
             </Button>
-            <Button Command="BrowseForward" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="0,4,4,0">
-                Forward
+            <Button Command="BrowseForward" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="0,4,4,0" Margin="0,2,2,2">
+                <Image Width="16" Height="16" Source="/ShareTabWin;component/Icons/arrow_right_16x16.png" />
             </Button>
-            <Button Command="Refresh" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4">
-                Refresh
+            <Button Command="Refresh" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4" Margin="0,2,2,2">
+                <Image Width="12" Height="14" Source="/ShareTabWin;component/Icons/reload_12x14.png" />
             </Button>
-            <Button Command="BrowseStop" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4">
-                Stop
+            <Button Command="BrowseStop" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4" Margin="0,2,2,2">
+                <Image Width="14" Height="14" Source="/ShareTabWin;component/Icons/x_14x14.png" />
             </Button>
-            <Button Command="BrowseHome" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4">
-                Home
+            <Button Command="BrowseHome" DockPanel.Dock="Left" helpers:CustomProps.MyCornerRadius="4" Margin="0,2,2,2">
+                <Image Width="16" Height="16" Source="/ShareTabWin;component/Icons/home_16x16.png" />
             </Button>
             <Separator />
-            <Button DockPanel.Dock="Right" Click="Go_Click" helpers:CustomProps.MyCornerRadius="4">
-                Go
+            <Button DockPanel.Dock="Right" Click="Go_Click" helpers:CustomProps.MyCornerRadius="4" Margin="2">
+                <Image Width="12" Height="16" Source="/ShareTabWin;component/Icons/play_12x16.png" />
             </Button>
 
-            <ComboBox HorizontalAlignment="Stretch" x:Name="addressBar" IsEditable="True" KeyDown="addressBar_KeyDown" />
+            <ComboBox HorizontalAlignment="Stretch" x:Name="addressBar" IsEditable="True" KeyDown="addressBar_KeyDown" Margin="0,2,0,2"/>
         </DockPanel>
 
         <StatusBar Height="23" x:Name="statusBar" DockPanel.Dock="Bottom">
