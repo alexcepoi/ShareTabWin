@@ -39,8 +39,10 @@ namespace ShareTabWin
 		private void TabsTreeView_Selected(object sender, System.Windows.RoutedEventArgs e)
 		{
 			TabsTreeView.Tag = e.OriginalSource;
-			Tab selected = (e.OriginalSource as TreeViewItem).DataContext as Tab;
-			selected.Activate();
+			
+			TreeViewItem item = e.OriginalSource as TreeViewItem;
+			if (item.DataContext is Tab)
+				(item.DataContext as Tab).Activate();
 		}
 	}
 }
