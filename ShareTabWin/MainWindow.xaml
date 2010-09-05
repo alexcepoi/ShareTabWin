@@ -8,6 +8,7 @@
         Loaded="Window_Loaded"
         Closed="Window_Closed">
     <Window.CommandBindings>
+        <!-- Menu Commands -->
         <CommandBinding Command="local:Commands.ConnectCommand"
                         Executed="ConnectCommand_Executed" 
                         CanExecute="ConnectCommand_CanExecute" />
@@ -22,21 +23,21 @@
 
         <CommandBinding Command="local:Commands.StopHostingCommand"
                         Executed="StopHostingCommand_Executed"
-                        CanExecute="StopHostingCommand_CanExecute"
-                         />
-        <CommandBinding Command="local:Commands.Exit"
-                        Executed="ExitApplication"
-                        />
+                        CanExecute="StopHostingCommand_CanExecute" />
 
+        <CommandBinding Command="local:Commands.ExitCommand"
+                        Executed="ExitCommand_Executed" />
         <!-- Shortcut Keys-->
-        <CommandBinding Command="local:Commands.FocusAddressbar"
-                        Executed="FocusAddressbar_Executed" />
+        <CommandBinding Command="local:Commands.FocusAddressbarCommand"
+                        Executed="FocusAddressbarCommand_Executed" />
+
+        <CommandBinding Command="local:Commands.NewTabCommand"
+                        Executed="NewTabCommand_Executed" />
+        
+        <CommandBinding Command="local:Commands.CloseTabCommand"
+                        Executed="CloseTabCommand_Executed" />
     </Window.CommandBindings>
 
-    <Window.InputBindings>
-        <!-- <KeyBinding Key="O" Modifiers="Ctrl" Command="local:Commands.ConnectCommand" /> -->
-        <KeyBinding Key="L" Modifiers="Ctrl" Command="local:Commands.FocusAddressbar" />
-    </Window.InputBindings>
     <DockPanel>
         <Menu Height="23" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -46,9 +47,9 @@
                 <MenuItem Header="Start hos_ting" Command="local:Commands.StartHostingCommand" />
                 <MenuItem Header="Stop hosting" Command="local:Commands.StopHostingCommand" />
                 <Separator />
-                <MenuItem Header="E_xit" Command="local:Commands.Exit" />
+                <MenuItem Header="E_xit" Command="local:Commands.ExitCommand" />
             </MenuItem>
-                
+
             <MenuItem Header="_Edit">
                 <MenuItem Header="_Undo" Command="Undo"  />
                 <MenuItem Header="_Redo" Command="Redo" />
@@ -67,21 +68,18 @@
             </MenuItem>
         </Menu>
 
-        <dock:DockingManager x:Name="dockingManager" DocumentsSource="{Binding ElementName=tabsPanel, Path=PrivateSession.Tabs, Mode=TwoWay}">
+        <dock:DockingManager x:Name="dockingManager" DocumentsSource="{Binding ElementName=tabsPanel, Path=PrivateSession.Tabs}">
             <dock:ResizingPanel Orientation="Horizontal">
-                <dock:DockablePane dock:ResizingPanel.ResizeWidth="350"><!-- SelectedItem="{Binding ElementName=tabsPanel}">-->
-                    <local:TabsPanel x:Name="tabsPanel"/>
-                    <local:UsersPanel />
+                <!-- Docked -->
+                <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
+                    <local:TabsPanel x:Name="tabsPanel" Selector.IsSelected="True" />
+                    <local:UsersPanel x:Name="usersPanel" />
                     <local:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />
-                    <local:LogPanel />
+                    <local:LogPanel x:Name="logPanel" />
                 </dock:DockablePane>
-                <dock:DocumentPane x:Name="documentPane"> <!--ItemsSource="{Binding ElementName=tabsPanel.PrivateSessions.Tabs, Path=Document}">-->
-                    <!--
-                    <local:BrowserWindow x:Name="browserWindow1"/>
-                    <local:BrowserWindow x:Name="browserWindow2"/>
-                    <local:BrowserWindow x:Name="browserWindow3"/>
-                    -->
-                </dock:DocumentPane>
+
+                <!-- Documents -->
+                <dock:DocumentPane x:Name="documentPane" />
             </dock:ResizingPanel>
         </dock:DockingManager>
     </DockPanel>

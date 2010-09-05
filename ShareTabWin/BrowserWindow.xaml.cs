@@ -21,32 +21,13 @@ namespace ShareTabWin
 	/// </summary>
 	public partial class BrowserWindow : AvalonDock.DocumentContent
 	{
-		#region Properties
-		private static string m_HomePage;
-		public static string HomePage
-		{
-			get
-			{
-				if (m_HomePage == null)
-					m_HomePage = "about:blank";
-				return m_HomePage;
-			}
-			set
-			{
-				m_HomePage = value;
-			}
-		}
-		#endregion
-
 		public BrowserWindow()
 		{
 			InitializeComponent();
 		}
 
-		private void DocumentContent_Loaded(object sender, RoutedEventArgs e)
+		protected virtual void  DocumentContent_Loaded(object sender, RoutedEventArgs e)
 		{
-			// Open Homepage
-			// renderer.Navigate(HomePage);
 		}
 
 		#region Navigation Commands
@@ -78,7 +59,7 @@ namespace ShareTabWin
 		{
 			Trace.TraceInformation("Home Executed");
 			if (renderer != null)
-				renderer.Navigate(HomePage);
+				renderer.Navigate(Tab.HomePage);
 		}
 
 		// Go Back

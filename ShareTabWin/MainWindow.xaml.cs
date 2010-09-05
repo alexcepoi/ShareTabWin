@@ -116,25 +116,36 @@ namespace ShareTabWin
 			Trace.TraceInformation("About clicked!");
 		}
 
-		private void ExitApplication (object sender, ExecutedRoutedEventArgs e)
+		private void ExitCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			Close ();
 		}
 		#endregion
 
 		#region Keyboard Shortcuts
-		// Focus Addressbar (Ctrl-L)
-		static int i = 0;
-		private void FocusAddressbar_Executed (object sender, ExecutedRoutedEventArgs e)
+		// Focus Addressbar
+		private void FocusAddressbarCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
-			tabsPanel.PrivateSession.Tabs.Add(new Tab() { Title = "Ada" + i });
-			i++;
-
 			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
 			BrowserWindow browserWindow = dockingManager.ActiveDocument as BrowserWindow;
 			if (browserWindow != null)
 				if (browserWindow.addressBar != null)
 					browserWindow.addressBar.Focus();
+		}
+
+		// New Tab
+		private void NewTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			Tab noob = new Tab();
+			tabsPanel.PrivateSession.Tabs.Add(noob);
+			noob.Focus();
+		}
+
+		// Close Tab
+		private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			if (dockingManager.ActiveDocument != null)
+				dockingManager.ActiveDocument.Close();
 		}
 		#endregion
 
@@ -151,9 +162,9 @@ namespace ShareTabWin
 
 		private void Window_Loaded (object sender, RoutedEventArgs e)
 		{
-			//dockingManager.DocumentsSource = tabsPanel.PrivateSession.Tabs;
-			tabsPanel.PrivateSession.Tabs.Add(new Tab() { Title = "Ada" + i });
-			i++;
+			// Binding set in XAML
+			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
+			NewTabCommand_Executed(null, null);
 
 			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
 			foreach (var dc in dockingManager.DockableContents)
@@ -189,7 +200,5 @@ namespace ShareTabWin
 			else
 				pane.Show ();
 		}
-
-
 	}
 }

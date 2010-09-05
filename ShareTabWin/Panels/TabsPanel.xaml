@@ -5,11 +5,11 @@
         xmlns:local="clr-namespace:ShareTabWin"
         Title="Tabs">
     <Grid>
-        <TreeView x:Name="TabsTreeView"> <!--ItemsSource="{x:Static local:BrowsingSession.Sessions}">-->
+        <TreeView x:Name="TabsTreeView">
             <!-- Tab Sessions -->
-            <local:TabSession x:Name="PublicSession" DisplayName="Public Session" />
-            <local:TabSession x:Name="PrivateSession" DisplayName="Private Session" />
-            
+            <local:TabSession x:Name="m_PublicSession" DisplayName="Public Tabs" />
+            <local:TabSession x:Name="m_PrivateSession" DisplayName="Private Tabs" />
+
             <!-- Template: Tabs -->
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Tabs}">
