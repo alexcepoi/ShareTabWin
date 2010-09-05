@@ -7,13 +7,8 @@
     <Grid>
         <TreeView x:Name="TabsTreeView"> <!--ItemsSource="{x:Static local:BrowsingSession.Sessions}">-->
             <!-- Tab Sessions -->
-            <local:TabSession x:Name="PublicSession" DisplayName="Public Session">
-            </local:TabSession>
-            <local:TabSession x:Name="PrivateSession" DisplayName="Private Session">
-                <local:TabSession.Tabs>
-                    <local:Tab />
-                </local:TabSession.Tabs>
-            </local:TabSession>
+            <local:TabSession x:Name="PublicSession" DisplayName="Public Session" />
+            <local:TabSession x:Name="PrivateSession" DisplayName="Private Session" />
             
             <!-- Template: Tabs -->
             <TreeView.ItemTemplate>

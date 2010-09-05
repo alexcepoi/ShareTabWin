@@ -67,9 +67,9 @@
             </MenuItem>
         </Menu>
 
-        <dock:DockingManager x:Name="dockingManager">
+        <dock:DockingManager x:Name="dockingManager" DocumentsSource="{Binding ElementName=tabsPanel, Path=PrivateSession.Tabs, Mode=TwoWay}">
             <dock:ResizingPanel Orientation="Horizontal">
-                <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
+                <dock:DockablePane dock:ResizingPanel.ResizeWidth="350"><!-- SelectedItem="{Binding ElementName=tabsPanel}">-->
                     <local:TabsPanel x:Name="tabsPanel"/>
                     <local:UsersPanel />
                     <local:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />

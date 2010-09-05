@@ -3,6 +3,9 @@ using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Controls;
 
+using System.Collections.ObjectModel;
+using AvalonDock;
+
 namespace ShareTabWin
 {
 	/// <summary>
@@ -121,8 +124,12 @@ namespace ShareTabWin
 
 		#region Keyboard Shortcuts
 		// Focus Addressbar (Ctrl-L)
+		static int i = 0;
 		private void FocusAddressbar_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
+			tabsPanel.PrivateSession.Tabs.Add(new Tab() { Title = "Ada" + i });
+			i++;
+
 			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
 			BrowserWindow browserWindow = dockingManager.ActiveDocument as BrowserWindow;
 			if (browserWindow != null)
@@ -144,7 +151,10 @@ namespace ShareTabWin
 
 		private void Window_Loaded (object sender, RoutedEventArgs e)
 		{
-			documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
+			//dockingManager.DocumentsSource = tabsPanel.PrivateSession.Tabs;
+			tabsPanel.PrivateSession.Tabs.Add(new Tab() { Title = "Ada" + i });
+			i++;
+
 			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
 			foreach (var dc in dockingManager.DockableContents)
 			{

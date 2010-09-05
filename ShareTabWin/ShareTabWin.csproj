@@ -216,6 +216,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Dependencies\AvalonDock.dll" />
     <Content Include="Dependencies\AvalonDock.Themes.dll" />
     <Content Include="Dependencies\GeckoFX\bin\Skybound.Gecko.dll" />
     <Resource Include="ShareTab.ico" />

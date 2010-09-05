@@ -46,7 +46,7 @@ namespace ShareTabWin
 		private void DocumentContent_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Open Homepage
-			renderer.Navigate(HomePage);
+			// renderer.Navigate(HomePage);
 		}
 
 		#region Navigation Commands
