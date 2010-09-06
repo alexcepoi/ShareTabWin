@@ -50,7 +50,7 @@ namespace ShareTabWin
 
 		public void ReceiveTabAdded (Infrastructure.Tab tab)
 		{
-			Trace.TraceInformation ("TabAdded");
+			Trace.TraceInformation ("Tab Added by " + tab.Owner);
 			OnTabAdded (new TabAddedArgs (tab));
 		}
 

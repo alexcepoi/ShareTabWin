@@ -17,7 +17,19 @@
                     <TextBlock FontWeight="Bold" Margin="5" Text="{Binding Path=DisplayName}" />
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="3" Text="{Binding Path=Title}" />
+                            <TextBlock Margin="3" Text="{Binding Path=Title}">
+                                <TextBlock.ToolTip>
+                                    <TextBlock MaxWidth="300" TextWrapping="NoWrap">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="Title: {0}&#x0a;URL: {1}&#x0a;Owner: {2}">
+                                                <Binding Path="TabData.Title" />
+                                                <Binding Path="TabData.Url" />
+                                                <Binding Path="TabData.Owner" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
                         </DataTemplate>
                     </HierarchicalDataTemplate.ItemTemplate>
                 </HierarchicalDataTemplate>

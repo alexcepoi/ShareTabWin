@@ -51,7 +51,7 @@ namespace ShareTabWin
 				TabData.Title = "Blank Page";
 		}
 
-		protected override void DocumentContent_Loaded(object sender, RoutedEventArgs e)
+		protected override void renderer_HandleCreated(object sender, EventArgs e)
 		{
 			renderer.Navigate(TabData.Url);
 		}

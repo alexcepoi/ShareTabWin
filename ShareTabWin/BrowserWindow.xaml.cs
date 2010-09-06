@@ -18,9 +18,7 @@ namespace ShareTabWin
 			InitializeComponent();
 		}
 
-		protected virtual void  DocumentContent_Loaded(object sender, RoutedEventArgs e)
-		{
-		}
+		protected virtual void renderer_HandleCreated(object sender, EventArgs e) {}
 
 		#region Navigation Commands
 		// Refresh
