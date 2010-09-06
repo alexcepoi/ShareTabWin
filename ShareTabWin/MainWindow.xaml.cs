@@ -143,7 +143,7 @@ namespace ShareTabWin
 		// New Tab
 		private void NewTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			Tab noob = new Tab();
+			Tab noob = new PrivateTab ();
 
 			App.Current.Dispatcher.BeginInvoke
 				(

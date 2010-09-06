@@ -5,8 +5,16 @@
         xmlns:local="clr-namespace:ShareTabWin"
         Loaded="TabsPanel_Loaded"
         Title="Tabs">
+	<dock:DockableContent.CommandBindings>
+		<CommandBinding Command="local:Commands.ClonePublicTab"
+						Executed="ClonePublicTab_Executed"
+						CanExecute="IsSelectedPublicTab" />
+	</dock:DockableContent.CommandBindings>
     <Grid>
-        <TreeView x:Name="TabsTreeView" TreeViewItem.Selected="TabsTreeView_Selected">
+        <TreeView x:Name="TabsTreeView" TreeViewItem.Selected="TabsTreeView_Selected" >
+			<TreeView.InputBindings>
+				<MouseBinding Command="local:Commands.ClonePublicTab" Gesture="LeftDoubleClick" />
+			</TreeView.InputBindings>
             <!-- Tab Sessions -->
             <local:TabSession x:Name="m_PublicSession" DisplayName="Public Tabs" />
             <local:TabSession x:Name="m_PrivateSession" DisplayName="Private Tabs" />
@@ -29,6 +37,12 @@
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </TextBlock.ToolTip>
+                                <TextBlock.InputBindings>
+                                    <MouseBinding Command="local:Commands.ClonePublicTab" Gesture="LeftDoubleClick" />
+                                    <!-- <MouseBinding Command="local:Commands.PushTab" Gesture="LeftDoubleClick" />
+                                    needs just a little more love and will totally work, just need moving all the commands here
+                                    -->
+                                </TextBlock.InputBindings>
                             </TextBlock>
                         </DataTemplate>
                     </HierarchicalDataTemplate.ItemTemplate>
