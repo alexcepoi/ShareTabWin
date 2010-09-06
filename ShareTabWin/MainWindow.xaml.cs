@@ -76,6 +76,8 @@ namespace ShareTabWin
 			OnDisconnected (new RoutedEventArgs ());
 			Connection.SignOut();
 			Connection = null;
+
+			tabsPanel.PublicSession.Tabs.Clear();
 		}
 
 		private void DisconnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)

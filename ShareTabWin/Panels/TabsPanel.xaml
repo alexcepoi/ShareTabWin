@@ -17,7 +17,7 @@
                     <TextBlock FontWeight="Bold" Margin="5" Text="{Binding Path=DisplayName}" />
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Path=Title}" />
+                            <TextBlock Margin="3" Text="{Binding Path=Title}" />
                         </DataTemplate>
                     </HierarchicalDataTemplate.ItemTemplate>
                 </HierarchicalDataTemplate>

@@ -15,12 +15,12 @@ namespace ShareTabWin
 		}
 		public string Passkey
 		{
-			get { return passkey; }
+			get { return passkey != null ? passkey : ""; }
 			set { passkey = value; OnPropertyChanged ("Passkey"); }
 		}
 		public string Nickname
 		{
-			get { return nickname; }
+			get { return nickname != null ? nickname : ""; }
 			set { nickname = value; OnPropertyChanged("Nickname"); }
 		}
 
