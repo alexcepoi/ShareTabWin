@@ -12,6 +12,7 @@ namespace ShareTabWin
 		public static RoutedCommand StopHostingCommand = new RoutedCommand();
 		public static RoutedCommand ExitCommand = new RoutedCommand();
 		public static RoutedCommand PushTab = new RoutedCommand ();
+		public static RoutedCommand ClonePublicTab = new RoutedCommand ();
 
 		// Shortcut Keys
 		public static RoutedCommand FocusAddressbarCommand = new RoutedCommand();

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System;
+using System.Windows.Input;
 namespace ShareTabWin
 {
 	/// <summary>
@@ -54,7 +55,21 @@ namespace ShareTabWin
 		void OnTabAdded (object sender, TabAddedArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
-				tab => PublicSession.Tabs.Add (new Tab (tab))), e.Tab);
+				tab => PublicSession.Tabs.Add (new PublicTab (tab))), e.Tab);
 		}
+
+		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = (TabsTreeView.SelectedItem is PublicTab);
+		}
+
+		private void ClonePublicTab_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+			System.Diagnostics.Trace.TraceInformation ("ClonePublicTab_Executed");
+			App.Current.Dispatcher.BeginInvoke (new Action<Tab> (
+				tab => PrivateSession.Tabs.Add (new PrivateTab (tab.TabData))),
+				TabsTreeView.SelectedItem);
+		}
+
 	}
 }
