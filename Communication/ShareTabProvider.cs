@@ -54,7 +54,7 @@ namespace Communication
 
 		public void AddTab (Tab tab)
 		{
-			publicTabs.Add (tab); // not really sure this is even needed?
+			publicTabs.Add (tab); // not really sure this is even needed? ==> when new user connects
 			userList.ForEach (user => user.Callback.ReceiveTabAdded (tab));
 		}
 	}

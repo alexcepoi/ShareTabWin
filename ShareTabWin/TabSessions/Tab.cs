@@ -13,7 +13,21 @@ namespace ShareTabWin
 		{
 			renderer.Navigated += UpdateTabUrl;
 			renderer.DocumentTitleChanged += UpdateTabTitle;
+			
 			TabData = new Infrastructure.Tab ();
+		}
+
+		public Tab(Infrastructure.Tab tabData): this()
+		{
+			this.TabData = tabData;
+			this.Title = tabData.Title;
+		}
+
+		public Tab(string Url): this()
+		{
+
+			this.TabData.Url = Url;
+			_navigationRequested = true;
 		}
 
 		void UpdateTabUrl (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
@@ -33,18 +47,8 @@ namespace ShareTabWin
 		void UpdateTabTitle (object sender, EventArgs e)
 		{
 			this.TabData.Title = renderer.DocumentTitle;
-		}
-
-		public Tab (Infrastructure.Tab tabData) : this()
-		{
-			this.TabData = tabData;
-			this.Title = tabData.Title;
-		}
-		public Tab(string Url): this()
-		{
-
-			this.TabData.Url = Url;
-			_navigationRequested = true;
+			if (TabData.Title == "" || TabData.Title == null)
+				TabData.Title = "Blank Page";
 		}
 
 		protected override void DocumentContent_Loaded(object sender, RoutedEventArgs e)

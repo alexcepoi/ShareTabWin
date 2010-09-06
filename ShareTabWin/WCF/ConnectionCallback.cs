@@ -15,7 +15,7 @@ namespace ShareTabWin
 		public event UserSignInEventHandler UserSignInEvent;
 		public event UserSignOutEventHandler UserSignOutEvent;
 		public event TabAddedEventHandler TabAdded;
-		protected virtual void OnChatReceive (ChatReceiveEventArgs e) {	ChatReceiveEvent (this, e);	}
+		protected virtual void OnChatReceive (ChatReceiveEventArgs e) { ChatReceiveEvent (this, e); }
 		protected virtual void OnUserSignIn (UserEventArgs e) { UserSignInEvent (this, e); }
 		protected virtual void OnUserSignOut (UserEventArgs e) { UserSignOutEvent (this, e); }
 		protected virtual void OnTabAdded (TabAddedArgs e) { TabAdded (this, e); }
@@ -43,10 +43,8 @@ namespace ShareTabWin
 
 		public void ReceiveChatMessage (Infrastructure.ChatMessage message)
 		{
-			
 			Trace.TraceInformation ("{0} {1}", message.SenderNickname, message.Content);
 			OnChatReceive (new ChatReceiveEventArgs (message));
-
 		}
 
 

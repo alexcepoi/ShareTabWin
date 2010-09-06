@@ -5,7 +5,6 @@ namespace Infrastructure
 	[DataContract]
 	public class Tab
 	{
-
 		[DataMember]
 		public string Url { get; set; }
 
@@ -14,5 +13,10 @@ namespace Infrastructure
 
 		[DataMember]
 		public string Content { get; set; }
+
+		public Tab()
+		{
+			Title = "Blank Page";
+		}
 	}
 }
