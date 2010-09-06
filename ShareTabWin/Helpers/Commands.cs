@@ -22,6 +22,7 @@ namespace ShareTabWin
 		{
 			// Menu Commands
 			ConnectCommand.InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
+			StartHostingCommand.InputGestures.Add(new KeyGesture(Key.N, ModifierKeys.Control));
 			ExitCommand.InputGestures.Add(new KeyGesture(Key.Q, ModifierKeys.Control));
 			PushTab.InputGestures.Add (new KeyGesture (Key.P, ModifierKeys.Control));
 

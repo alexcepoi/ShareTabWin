@@ -34,6 +34,8 @@ namespace Communication
 			userList.ForEach (user => callback.UserHasSignedIn (user.Name));
 			// Notify everybody else
 			userList.ForOthers (user => user.Callback.UserHasSignedIn (username));
+			// Fetch public tabs list
+			publicTabs.ForEach(tab => callback.ReceiveTabAdded(tab));
 			return true;
 		}
 
@@ -54,6 +56,7 @@ namespace Communication
 
 		public void AddTab (Tab tab)
 		{
+
 			publicTabs.Add (tab); // not really sure this is even needed? ==> when new user connects
 			userList.ForEach (user => user.Callback.ReceiveTabAdded (tab));
 		}

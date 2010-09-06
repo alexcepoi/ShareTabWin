@@ -14,6 +14,9 @@ namespace Infrastructure
 		[DataMember]
 		public string Content { get; set; }
 
+		[DataMember]
+		public string Owner { get; set; }
+
 		public Tab()
 		{
 			Title = "Blank Page";
