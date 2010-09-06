@@ -5,16 +5,16 @@
         xmlns:local="clr-namespace:ShareTabWin"
         Loaded="TabsPanel_Loaded"
         Title="Tabs">
-	<dock:DockableContent.CommandBindings>
-		<CommandBinding Command="local:Commands.ClonePublicTab"
-						Executed="ClonePublicTab_Executed"
-						CanExecute="IsSelectedPublicTab" />
-	</dock:DockableContent.CommandBindings>
+    <dock:DockableContent.CommandBindings>
+        <CommandBinding Command="local:Commands.ClonePublicTab"
+                        Executed="ClonePublicTab_Executed"
+                        CanExecute="IsSelectedPublicTab" />
+    </dock:DockableContent.CommandBindings>
     <Grid>
         <TreeView x:Name="TabsTreeView" TreeViewItem.Selected="TabsTreeView_Selected" >
-			<TreeView.InputBindings>
-				<MouseBinding Command="local:Commands.ClonePublicTab" Gesture="LeftDoubleClick" />
-			</TreeView.InputBindings>
+            <TreeView.InputBindings>
+                <MouseBinding Command="local:Commands.ClonePublicTab" Gesture="LeftDoubleClick" />
+            </TreeView.InputBindings>
             <!-- Tab Sessions -->
             <local:TabSession x:Name="m_PublicSession" DisplayName="Public Tabs" />
             <local:TabSession x:Name="m_PrivateSession" DisplayName="Private Tabs" />
