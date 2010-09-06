@@ -14,9 +14,11 @@ namespace ShareTabWin
 		public event ChatReceiveEventHandler ChatReceiveEvent;
 		public event UserSignInEventHandler UserSignInEvent;
 		public event UserSignOutEventHandler UserSignOutEvent;
+		public event TabAddedEventHandler TabAdded;
 		protected virtual void OnChatReceive (ChatReceiveEventArgs e) {	ChatReceiveEvent (this, e);	}
 		protected virtual void OnUserSignIn (UserEventArgs e) { UserSignInEvent (this, e); }
 		protected virtual void OnUserSignOut (UserEventArgs e) { UserSignOutEvent (this, e); }
+		protected virtual void OnTabAdded (TabAddedArgs e) { TabAdded (this, e); }
 
 		#endregion
 		public void UserHasSignedIn(string username)
@@ -29,12 +31,6 @@ namespace ShareTabWin
 		{
 			OnUserSignOut (new UserEventArgs { User = new Helpers.User { Name = username } });
 			Trace.TraceInformation ("{0} just signed out", username);
-		}
-
-
-		public void UserCountNotify(int users)
-		{
-			Trace.TraceInformation ("{0} users currently online", users);
 		}
 
 		public static void DisplayMessage(string message)
@@ -51,6 +47,13 @@ namespace ShareTabWin
 			Trace.TraceInformation ("{0} {1}", message.SenderNickname, message.Content);
 			OnChatReceive (new ChatReceiveEventArgs (message));
 
+		}
+
+
+		public void ReceiveTabAdded (Infrastructure.Tab tab)
+		{
+			Trace.TraceInformation ("TabAdded");
+			OnTabAdded (new TabAddedArgs (tab));
 		}
 
 		private ConnectionCallback ()
@@ -73,11 +76,13 @@ namespace ShareTabWin
 				}
 			}
 		}
+
 	}
 
 	public delegate void ChatReceiveEventHandler (object sender, ChatReceiveEventArgs e);
 	public delegate void UserSignInEventHandler (object sender, UserEventArgs e);
 	public delegate void UserSignOutEventHandler (object sender, UserEventArgs e);
+	public delegate void TabAddedEventHandler (object sender, TabAddedArgs e);
 	public class ChatReceiveEventArgs : EventArgs
 	{
 		public Infrastructure.ChatMessage Message { get; set; }
@@ -86,5 +91,10 @@ namespace ShareTabWin
 	public class UserEventArgs : EventArgs
 	{
 		public Infrastructure.User User { get; set; }
+	}
+	public class TabAddedArgs : EventArgs
+	{
+		public Infrastructure.Tab Tab { get; private set; }
+		public TabAddedArgs (Infrastructure.Tab tab) { Tab = tab; }
 	}
 }

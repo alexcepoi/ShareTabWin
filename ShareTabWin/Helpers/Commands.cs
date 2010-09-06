@@ -11,6 +11,7 @@ namespace ShareTabWin
 		public static RoutedCommand StartHostingCommand = new RoutedCommand();
 		public static RoutedCommand StopHostingCommand = new RoutedCommand();
 		public static RoutedCommand ExitCommand = new RoutedCommand();
+		public static RoutedCommand PushTab = new RoutedCommand ();
 
 		// Shortcut Keys
 		public static RoutedCommand FocusAddressbarCommand = new RoutedCommand();
@@ -22,6 +23,7 @@ namespace ShareTabWin
 			// Menu Commands
 			ConnectCommand.InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
 			ExitCommand.InputGestures.Add(new KeyGesture(Key.Q, ModifierKeys.Control));
+			PushTab.InputGestures.Add (new KeyGesture (Key.P, ModifierKeys.Control));
 
 			// Shortcut Keys
 			FocusAddressbarCommand.InputGestures.Add(new KeyGesture(Key.L, ModifierKeys.Control));

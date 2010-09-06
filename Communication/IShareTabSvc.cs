@@ -22,5 +22,8 @@ namespace Communication
 
 		[OperationContract (IsOneWay = true)]
 		void SendChatMessage (string content);
+
+		[OperationContract (IsOneWay = true)]
+		void AddTab (Infrastructure.Tab tab);
 	}
 }

@@ -1,33 +1,55 @@
 ﻿using System.Windows;
+using System;
 
 namespace ShareTabWin
 {
 	public class Tab : BrowserWindow
 	{
-		public static string HomePage { get; set; }
-		static Tab()
-		{
-			// TODO: this should be store in configuration file
-			HomePage = "http://google.ro/";
-		}
-
-		#region Properties
-		private string Url;
-		#endregion
+		public static string HomePage = "http://google.ro/";
+		public Infrastructure.Tab TabData { get; private set; }
+		private bool _navigationRequested = false;
 
 		public Tab()
 		{
+			renderer.Navigated += UpdateTabUrl;
+			renderer.DocumentTitleChanged += UpdateTabTitle;
+			TabData = new Infrastructure.Tab ();
 		}
 
+		void UpdateTabUrl (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
+		{
+			// Do not update the TabData if it contains a navigation request which will be 
+			// executed on load. (not elegant?)
+			if (_navigationRequested)
+			{
+				_navigationRequested = false;
+				return;
+			} 
+			
+			this.TabData.Url = e.Uri.AbsoluteUri;
+			this.TabData.Content = string.Empty; // for now
+		}
+
+		void UpdateTabTitle (object sender, EventArgs e)
+		{
+			this.TabData.Title = renderer.DocumentTitle;
+		}
+
+		public Tab (Infrastructure.Tab tabData) : this()
+		{
+			this.TabData = tabData;
+			this.Title = tabData.Title;
+		}
 		public Tab(string Url): this()
 		{
-			this.Url = Url;
+
+			this.TabData.Url = Url;
+			_navigationRequested = true;
 		}
 
 		protected override void DocumentContent_Loaded(object sender, RoutedEventArgs e)
 		{
-			// Open Homepage
-			renderer.Navigate(Url);
+			renderer.Navigate(TabData.Url);
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System;
 namespace ShareTabWin
 {
 	/// <summary>
@@ -43,6 +44,17 @@ namespace ShareTabWin
 			TreeViewItem item = e.OriginalSource as TreeViewItem;
 			if (item.DataContext is Tab)
 				(item.DataContext as Tab).Activate();
+		}
+
+		private void TabsPanel_Loaded (object sender, System.Windows.RoutedEventArgs e)
+		{
+			ConnectionCallback.Instance.TabAdded += OnTabAdded;
+		}
+
+		void OnTabAdded (object sender, TabAddedArgs e)
+		{
+			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
+				tab => PublicSession.Tabs.Add (new Tab (tab))), e.Tab);
 		}
 	}
 }

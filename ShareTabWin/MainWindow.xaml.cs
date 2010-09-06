@@ -179,7 +179,8 @@ namespace ShareTabWin
 			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
 			
 			// Open a Tab with HomePage
-			NewTabCommand_Executed(null, null);
+			tabsPanel.PrivateSession.Tabs.Add (new Tab (Tab.HomePage)); //add invoke if needed
+			//NewTabCommand_Executed(null, null);
 			// FIXME: open homepage on first tab
 			//(dockingManager.ActiveDocument as Tab).renderer.Navigate(Tab.HomePage);
 
@@ -250,5 +251,11 @@ namespace ShareTabWin
 
 		public event ShareTabWin.WCF.Events.DisconnectedEventHandler Disconnected;
 		protected void OnDisconnected (RoutedEventArgs e) { Disconnected (this, e); }
+
+		private void PushTab_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+			Trace.TraceInformation ("PushTab executed");
+			Connection.AddTab ((dockingManager.ActiveDocument as Tab).TabData);
+		}
 	}
 }

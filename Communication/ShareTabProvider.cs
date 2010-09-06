@@ -9,6 +9,7 @@ namespace Communication
 	public class ShareTabProvider : IShareTabSvc
 	{
 		private static UserList userList = new UserList();
+		private static TabList publicTabs = new TabList ();
 		public static string Password { private get; set; }
 
 		#region IShareTabSvc implementation
@@ -50,5 +51,11 @@ namespace Communication
 			userList.ForEach (user => user.Callback.ReceiveChatMessage (message));
 		}
 		#endregion
+
+		public void AddTab (Tab tab)
+		{
+			publicTabs.Add (tab); // not really sure this is even needed?
+			userList.ForEach (user => user.Callback.ReceiveTabAdded (tab));
+		}
 	}
 }

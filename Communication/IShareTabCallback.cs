@@ -11,12 +11,12 @@ namespace Communication
 		void UserHasSignedIn(string username);
 
 		[OperationContract(IsOneWay = true)]
-		void UserCountNotify(int users);
-
-		[OperationContract(IsOneWay = true)]
 		void UserHasSignedOut(string username);
 
 		[OperationContract(IsOneWay = true)]
 		void ReceiveChatMessage(Infrastructure.ChatMessage message);
+
+		[OperationContract (IsOneWay = true)]
+		void ReceiveTabAdded (Infrastructure.Tab tab); 
 	}
 }

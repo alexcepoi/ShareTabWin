@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IConnectParams.cs" />
+    <Compile Include="TabList.cs" />
     <Compile Include="UserMgmt\ServerSideUser.cs" />
     <Compile Include="UserMgmt\UserList.cs" />
     <Compile Include="ShareTabChannelFactory.cs" />
