@@ -21,6 +21,7 @@ namespace ShareTabWin
 		{
 			this.TabData = tabData;
 			this.Title = tabData.Title;
+			_navigationRequested = true;
 		}
 
 		public Tab(string Url): this()
