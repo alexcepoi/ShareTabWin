@@ -31,6 +31,9 @@
         <CommandBinding Command="local:Commands.PushTab"
                         Executed="PushTab_Executed" 
                         CanExecute="PushTab_CanExecute"/>
+        
+        <CommandBinding Command="local:Commands.WatchingToggle"
+                        Executed="WatchingToggle_Executed" />
         <!-- Shortcut Keys-->
         <CommandBinding Command="local:Commands.FocusAddressbarCommand"
                         Executed="FocusAddressbarCommand_Executed" />
@@ -64,7 +67,13 @@
                 <MenuItem Header="_Delete" Command="Delete" />
             </MenuItem>
             <MenuItem Header="_Session" >
-                <MenuItem IsCheckable="True" Header="Follow" />
+                <MenuItem.DataContext>
+                    <local:ClientStatus x:Name="_clientStatus" IsWatching="False"/>
+                </MenuItem.DataContext>
+                <MenuItem Header="Watch"
+                          IsCheckable="False"
+                          IsChecked="{Binding IsWatching, Mode=TwoWay}"
+                          Command="local:Commands.WatchingToggle"/>
                 <MenuItem Header="Request control" />
             </MenuItem>
             <MenuItem Header="_Window" x:Name="windowMenu" SubmenuOpened="PopulateWindowMenu">

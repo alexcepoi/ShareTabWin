@@ -50,6 +50,12 @@ namespace ShareTabWin
 				return Connection != null;
 			}
 		}
+
+		public ClientStatus ClientStatus 
+		{
+			get { return _clientStatus; }
+			set { _clientStatus = value; }
+		}
 		#endregion
 
 		#region Commands
@@ -74,6 +80,8 @@ namespace ShareTabWin
 		private void DisconnectCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			OnDisconnected (new RoutedEventArgs ());
+			if (ClientStatus.IsWatching)
+				WatchingToggle_Executed (null, null);
 			Connection.SignOut();
 			Connection = null;
 
@@ -262,6 +270,30 @@ namespace ShareTabWin
 		private void PushTab_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsConnected && tabsPanel.TabsTreeView.SelectedItem is PrivateTab;
+		}
+
+		private void WatchingToggle_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+			// can't toggle if not connected
+			if (!IsConnected) return;
+			ClientStatus.IsWatching = !ClientStatus.IsWatching;
+
+			//change the fucking bindings. aproape merge dar e cumva pe dos:
+			// când iswatching devine true uite ce se întâmplă:
+			// în tabsPanel în privatesession apare tot ce e în public session
+			// dar documentele din dockingmanager nu se schimbă nici dale dracu
+			// și nu se mai poate da înapoi. 
+
+			if (ClientStatus.IsWatching == true)
+			{
+				//documentPane.ItemsSource = tabsPanel.PublicSession.Tabs;
+				dockingManager.DocumentsSource = tabsPanel.PublicSession.Tabs;
+			}
+			else
+			{
+				//documentPane.ItemsSource = null;
+				dockingManager.DocumentsSource = tabsPanel.PrivateSession.Tabs;
+			}
 		}
 		
 	}
