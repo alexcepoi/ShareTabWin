@@ -29,8 +29,8 @@
                         Executed="ExitCommand_Executed" />
         
         <CommandBinding Command="local:Commands.PushTab"
-                        Executed="PushTab_Executed"
-                        CanExecute="DisconnectCommand_CanExecute" />
+                        Executed="PushTab_Executed" 
+                        CanExecute="PushTab_CanExecute"/>
         <!-- Shortcut Keys-->
         <CommandBinding Command="local:Commands.FocusAddressbarCommand"
                         Executed="FocusAddressbarCommand_Executed" />

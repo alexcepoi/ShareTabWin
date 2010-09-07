@@ -71,5 +71,16 @@ namespace ShareTabWin
 				TabsTreeView.SelectedItem);
 		}
 
+		private void TreeViewItem_MouseRightButtonDown(object sender, MouseEventArgs e)
+		{
+			TreeViewItem item = sender as TreeViewItem;
+			if (item != null)
+			{
+				//item.Focus();
+				item.IsSelected = true;
+				e.Handled = true;
+			}
+		}
+
 	}
 }

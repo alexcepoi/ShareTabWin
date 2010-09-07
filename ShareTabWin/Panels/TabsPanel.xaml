@@ -15,12 +15,19 @@
             <TreeView.InputBindings>
                 <MouseBinding Command="local:Commands.ClonePublicTab" Gesture="LeftDoubleClick" />
             </TreeView.InputBindings>
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="local:Commands.PushTab" Header="Share tab" />
+                    <MenuItem Command="local:Commands.ClonePublicTab" Header="Get a private copy" />
+                </ContextMenu>
+            </TreeView.ContextMenu>
             <!-- Tab Sessions -->
             <local:TabSession x:Name="m_PublicSession" DisplayName="Public Tabs" />
             <local:TabSession x:Name="m_PrivateSession" DisplayName="Private Tabs" />
 
             <!-- Template: Tabs -->
             <TreeView.ItemTemplate>
+                
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Tabs}">
                     <TextBlock FontWeight="Bold" Margin="5" Text="{Binding Path=DisplayName}" />
                     <HierarchicalDataTemplate.ItemTemplate>
@@ -53,6 +60,9 @@
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="True" />
+
+                    <EventSetter Event="TreeViewItem.MouseRightButtonDown"
+                                 Handler="TreeViewItem_MouseRightButtonDown"/>
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>
