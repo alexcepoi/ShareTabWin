@@ -55,7 +55,7 @@ namespace ShareTabWin
 		void OnTabAdded (object sender, TabAddedArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
-				tab => PublicSession.Tabs.Add (new PublicTab (tab))), e.Tab);
+				tab => PublicSession.Add (new PublicTab (tab))), e.Tab);
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)
@@ -67,7 +67,7 @@ namespace ShareTabWin
 		{
 			System.Diagnostics.Trace.TraceInformation ("ClonePublicTab_Executed");
 			App.Current.Dispatcher.BeginInvoke (new Action<Tab> (
-				tab => PrivateSession.Tabs.Add (new PrivateTab (tab.TabData))),
+				tab => PrivateSession.Add (new PrivateTab (tab.TabData))),
 				TabsTreeView.SelectedItem);
 		}
 
@@ -81,6 +81,5 @@ namespace ShareTabWin
 				e.Handled = true;
 			}
 		}
-
 	}
 }

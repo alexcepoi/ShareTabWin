@@ -28,7 +28,7 @@
             <!-- Template: Tabs -->
             <TreeView.ItemTemplate>
                 
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Tabs}">
+                <HierarchicalDataTemplate ItemsSource="{Binding}">
                     <TextBlock FontWeight="Bold" Margin="5" Text="{Binding Path=DisplayName}" />
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate>

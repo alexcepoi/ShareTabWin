@@ -85,7 +85,7 @@
         </Menu>
 
         <dock:DockingManager x:Name="dockingManager" ActiveDocumentChanged="dockingManager_ActiveDocumentChanged"
-                             DocumentsSource="{Binding}"><!-- ElementName=tabsPanel, Path=PrivateSession.Tabs, Mode=TwoWay}">-->
+                             DocumentsSource="{Binding}"><!-- ElementName=tabsPanel, Path=PrivateSession, Mode=TwoWay}">-->
             <dock:ResizingPanel Orientation="Horizontal">
                 <!-- Docked -->
                 <dock:DockablePane dock:ResizingPanel.ResizeWidth="350"   >

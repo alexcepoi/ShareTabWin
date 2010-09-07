@@ -25,7 +25,7 @@ namespace ShareTabWin
 		public MainWindow ()
 		{
 			InitializeComponent ();
-			dockingManager.DataContext = tabsPanel.PrivateSession.Tabs;
+			dockingManager.DataContext = tabsPanel.PrivateSession;
 		}
 
 		#region Properties
@@ -86,7 +86,7 @@ namespace ShareTabWin
 			Connection.SignOut();
 			Connection = null;
 
-			tabsPanel.PublicSession.Tabs.Clear();
+			tabsPanel.PublicSession.Clear();
 		}
 
 		private void DisconnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -142,7 +142,7 @@ namespace ShareTabWin
 		// Focus Addressbar
 		private void FocusAddressbarCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
-			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
+			//documentPane.ItemsSource = tabsPanel.PrivateSession;
 			BrowserWindow browserWindow = dockingManager.ActiveDocument as BrowserWindow;
 			if (browserWindow != null)
 				if (browserWindow.addressBar != null)
@@ -156,7 +156,7 @@ namespace ShareTabWin
 
 			App.Current.Dispatcher.BeginInvoke
 				(
-				new Action<Tab>(tab => tabsPanel.PrivateSession.Tabs.Add(tab)), noob
+				new Action<Tab>(tab => tabsPanel.PrivateSession.Add(tab)), noob
 				);
 
 			noob.Focus();
@@ -187,11 +187,11 @@ namespace ShareTabWin
 		private void Window_Loaded (object sender, RoutedEventArgs e)
 		{
 			// Binding set in XAML
-			//dockingManager.DocumentsSource = tabsPanel.PrivateSession.Tabs;
-			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
+			//dockingManager.DocumentsSource = tabsPanel.PrivateSession;
+			//documentPane.ItemsSource = tabsPanel.PrivateSession;
 			
 			// Open a Tab with HomePage
-			tabsPanel.PrivateSession.Tabs.Add (new PrivateTab (Tab.HomePage)); //add invoke if needed
+			tabsPanel.PrivateSession.Add (new PrivateTab (Tab.HomePage)); //add invoke if needed
 
 			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
 			foreach (var dc in dockingManager.DockableContents)
@@ -285,15 +285,17 @@ namespace ShareTabWin
 
 			if (ClientStatus.IsWatching == true)
 			{
-				//documentPane.ItemsSource = tabsPanel.PublicSession.Tabs;
+				//documentPane.ItemsSource = tabsPanel.PublicSession;
 				//System.Windows.Data.Binding binding = new System.Windows.Data.Binding();
 				//binding.Source = tabsPanel;
 				//binding.Path = new PropertyPath("PublicSession.Tab");
 				//dockingManager.SetBinding(AvalonDock.DockingManager.DocumentsSourceProperty, binding);
-				//dockingManager.DocumentsSource = tabsPanel.PublicSession.Tabs;
-				dockingManager.DataContext = tabsPanel.PublicSession.Tabs;
-				System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateTarget();
-				System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateSource();
+				//dockingManager.DocumentsSource = tabsPanel.PublicSession;
+				dockingManager.DataContext = tabsPanel.PublicSession;
+				//tabsPanel.PrivateSession.Refresh();
+				//tabsPanel.PublicSession.Refresh();
+				//System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateTarget();
+				//System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateSource();
 			}
 			else
 			{
@@ -302,10 +304,12 @@ namespace ShareTabWin
 				//binding.Source = tabsPanel;
 				//binding.Path = new PropertyPath("PrivateSession.Tab");
 				//dockingManager.SetBinding(AvalonDock.DockingManager.DocumentsSourceProperty, binding);
-				//dockingManager.DocumentsSource = tabsPanel.PrivateSession.Tabs;
-				dockingManager.DataContext = tabsPanel.PrivateSession.Tabs;
-				System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateTarget();
-				System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateSource();
+				//dockingManager.DocumentsSource = tabsPanel.PrivateSession;
+				dockingManager.DataContext = tabsPanel.PrivateSession;
+				//tabsPanel.PrivateSession.Refresh();
+				//tabsPanel.PublicSession.Refresh();
+				//System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateTarget();
+				//System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateSource();
 			}
 		}
 	}
