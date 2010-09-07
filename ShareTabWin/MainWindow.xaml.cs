@@ -25,6 +25,7 @@ namespace ShareTabWin
 		public MainWindow ()
 		{
 			InitializeComponent ();
+			dockingManager.DataContext = tabsPanel.PrivateSession.Tabs;
 		}
 
 		#region Properties
@@ -186,13 +187,11 @@ namespace ShareTabWin
 		private void Window_Loaded (object sender, RoutedEventArgs e)
 		{
 			// Binding set in XAML
+			//dockingManager.DocumentsSource = tabsPanel.PrivateSession.Tabs;
 			//documentPane.ItemsSource = tabsPanel.PrivateSession.Tabs;
 			
 			// Open a Tab with HomePage
 			tabsPanel.PrivateSession.Tabs.Add (new PrivateTab (Tab.HomePage)); //add invoke if needed
-			//NewTabCommand_Executed(null, null);
-			// FIXME: open homepage on first tab
-			//(dockingManager.ActiveDocument as Tab).renderer.Navigate(Tab.HomePage);
 
 			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
 			foreach (var dc in dockingManager.DockableContents)
@@ -287,14 +286,27 @@ namespace ShareTabWin
 			if (ClientStatus.IsWatching == true)
 			{
 				//documentPane.ItemsSource = tabsPanel.PublicSession.Tabs;
-				dockingManager.DocumentsSource = tabsPanel.PublicSession.Tabs;
+				//System.Windows.Data.Binding binding = new System.Windows.Data.Binding();
+				//binding.Source = tabsPanel;
+				//binding.Path = new PropertyPath("PublicSession.Tab");
+				//dockingManager.SetBinding(AvalonDock.DockingManager.DocumentsSourceProperty, binding);
+				//dockingManager.DocumentsSource = tabsPanel.PublicSession.Tabs;
+				dockingManager.DataContext = tabsPanel.PublicSession.Tabs;
+				System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateTarget();
+				System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateSource();
 			}
 			else
 			{
 				//documentPane.ItemsSource = null;
-				dockingManager.DocumentsSource = tabsPanel.PrivateSession.Tabs;
+				//System.Windows.Data.Binding binding = new System.Windows.Data.Binding();
+				//binding.Source = tabsPanel;
+				//binding.Path = new PropertyPath("PrivateSession.Tab");
+				//dockingManager.SetBinding(AvalonDock.DockingManager.DocumentsSourceProperty, binding);
+				//dockingManager.DocumentsSource = tabsPanel.PrivateSession.Tabs;
+				dockingManager.DataContext = tabsPanel.PrivateSession.Tabs;
+				System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateTarget();
+				System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateSource();
 			}
 		}
-		
 	}
 }
