@@ -4,6 +4,7 @@
                       xmlns:dock="clr-namespace:AvalonDock;assembly=AvalonDock"
                       xmlns:skyb="clr-namespace:Skybound.Gecko;assembly=Skybound.Gecko"
                       xmlns:helpers="clr-namespace:ShareTabWin.Helpers"
+                      IsFloatingAllowed="false"
                       Title="Blank Page">
 
     <dock:DocumentContent.CommandBindings>
