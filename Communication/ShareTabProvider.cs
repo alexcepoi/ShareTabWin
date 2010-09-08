@@ -10,6 +10,8 @@ namespace Communication
 	{
 		private static UserList userList = new UserList();
 		private static TabList publicTabs = new TabList ();
+		private static User broadcaster;
+		// TODO: Everything above should be embedded in a Server Status class, dontcha think?
 		public static string Password { private get; set; }
 
 		#region IShareTabSvc implementation
@@ -39,8 +41,12 @@ namespace Communication
 			return true;
 		}
 
+		// TODO:this can be called from IsFaulted and IsClosed event.
 		public void SignOut()
 		{
+			if (broadcaster == userList.Current) 
+				StopBroadcast ();
+
 			userList.ForOthers (user => user.Callback.UserHasSignedOut (userList.Current.Name));
 			userList.RemoveCurrent();
 			return;
@@ -59,6 +65,20 @@ namespace Communication
 			tab.Owner = userList.Current.Name;
 			publicTabs.Add (tab); // not really sure this is even needed? ==> when new user connects
 			userList.ForEach (user => user.Callback.ReceiveTabAdded (tab));
+		}
+
+		public bool Broadcast ()
+		{
+			if (broadcaster != null)
+				return false;
+
+			broadcaster = userList.Current;
+			return true;
+		}
+
+		public void StopBroadcast ()
+		{
+			broadcaster = null;
 		}
 	}
 }

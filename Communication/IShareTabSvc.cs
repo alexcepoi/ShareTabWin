@@ -25,5 +25,11 @@ namespace Communication
 
 		[OperationContract (IsOneWay = true)]
 		void AddTab (Infrastructure.Tab tab);
+
+		[OperationContract]
+		bool Broadcast ();
+
+		[OperationContract (IsOneWay = true)]
+		void StopBroadcast ();
 	}
 }

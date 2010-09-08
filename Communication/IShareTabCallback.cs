@@ -17,6 +17,9 @@ namespace Communication
 		void ReceiveChatMessage(Infrastructure.ChatMessage message);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveTabAdded (Infrastructure.Tab tab); 
+		void ReceiveTabAdded (Infrastructure.Tab tab);
+
+		//[OperationContract (IsOneWay = true)]
+		//void HasBegunBroadcasting ();
 	}
 }

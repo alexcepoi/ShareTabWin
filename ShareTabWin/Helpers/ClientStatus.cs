@@ -9,6 +9,8 @@ namespace ShareTabWin
 	public class ClientStatus : INotifyPropertyChanged
 	{
 		private bool _isWatching;
+		private bool _isBroadcasting;
+		private string _broadcaster;
 
 		public bool IsWatching
 		{
@@ -17,6 +19,26 @@ namespace ShareTabWin
 			{
 				_isWatching = value;
 				OnPropertyChanged (new PropertyChangedEventArgs ("IsWatching"));
+			}
+		}
+
+		public bool IsBroadcasting
+		{
+			get { return _isBroadcasting; }
+			set
+			{
+				_isBroadcasting = value;
+				OnPropertyChanged (new PropertyChangedEventArgs ("IsBroadcasting"));
+			}
+		}
+
+		public string Broadcaster
+		{
+			get { return Broadcaster; }
+			private set
+			{
+				_broadcaster = value;
+				OnPropertyChanged (new PropertyChangedEventArgs ("Broadcaster"));
 			}
 		}
 

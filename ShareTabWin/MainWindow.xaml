@@ -33,7 +33,11 @@
                         CanExecute="PushTab_CanExecute"/>
         
         <CommandBinding Command="local:Commands.WatchingToggle"
-                        Executed="WatchingToggle_Executed" />
+                        Executed="WatchingToggle_Executed" 
+                        CanExecute="DisconnectCommand_CanExecute" />
+        <CommandBinding Command="local:Commands.BroadcastToggle"
+                        Executed="BroadcastToggle_Executed"
+                        CanExecute="DisconnectCommand_CanExecute" />
         <!-- Shortcut Keys-->
         <CommandBinding Command="local:Commands.FocusAddressbarCommand"
                         Executed="FocusAddressbarCommand_Executed" />
@@ -74,7 +78,10 @@
                           IsCheckable="False"
                           IsChecked="{Binding IsWatching, Mode=TwoWay}"
                           Command="local:Commands.WatchingToggle"/>
-                <MenuItem Header="Request control" />
+                <MenuItem Header="Broadcast"
+                          IsCheckable="False"
+                          IsChecked="{Binding IsBroadcasting, Mode=TwoWay}"
+                          Command="local:Commands.BroadcastToggle"/>
             </MenuItem>
             <MenuItem Header="_Window" x:Name="windowMenu" SubmenuOpened="PopulateWindowMenu">
                 <MenuItem Header="dummy" />

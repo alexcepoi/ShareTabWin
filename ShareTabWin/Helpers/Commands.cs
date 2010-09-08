@@ -14,6 +14,7 @@ namespace ShareTabWin
 		public static RoutedCommand PushTab = new RoutedCommand ();
 		public static RoutedCommand ClonePublicTab = new RoutedCommand ();
 		public static RoutedCommand WatchingToggle = new RoutedCommand ();
+		public static RoutedCommand BroadcastToggle = new RoutedCommand ();
 
 		// Shortcut Keys
 		public static RoutedCommand FocusAddressbarCommand = new RoutedCommand();

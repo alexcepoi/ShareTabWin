@@ -193,12 +193,12 @@ namespace ShareTabWin
 			// Open a Tab with HomePage
 			tabsPanel.PrivateSession.Add (new PrivateTab (Tab.HomePage)); //add invoke if needed
 
-			// TODO: this is the good collection, but how to get it to display in the menu like we'd like?
+			/* candidate for deletion
 			foreach (var dc in dockingManager.DockableContents)
 			{
 				Trace.TraceInformation (dc.Title);
 				System.Windows.Data.Binding a = new System.Windows.Data.Binding();
-			}
+			}*/
 		}
 
 		private void PopulateWindowMenu (object sender, RoutedEventArgs e)
@@ -287,6 +287,35 @@ namespace ShareTabWin
 			{
 				dockingManager.DataContext = tabsPanel.PrivateSession;
 				dockingManager.MainDocumentPane.IsEnabled = true;
+			}
+		}
+
+		private void BroadcastToggle_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+			if (!IsConnected) return;
+			if (!ClientStatus.IsBroadcasting)
+			{
+				ClientStatus.IsBroadcasting = Connection.Broadcast ();
+				if (ClientStatus.IsBroadcasting == false)
+					Trace.TraceInformation ("Cannot broadcast because somebody already is doing that");
+				else
+				{
+					if (!ClientStatus.IsWatching)
+					{
+						WatchingToggle_Executed (null, null);
+						dockingManager.MainDocumentPane.IsEnabled = true; 
+						//ofcourse its not enough, should code functionality.
+						//ie on ctrl t, ctrl w, publictab navigate
+						// send the event to the server
+					}
+				}
+			}
+			else
+			{
+				Connection.StopBroadcast ();
+				ClientStatus.IsBroadcasting = false;
+
+				Trace.TraceInformation ("Stopped broadcasting");
 			}
 		}
 	}
