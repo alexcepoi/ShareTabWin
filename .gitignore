@@ -1,12 +1,15 @@
 # Ignore temporary files
-*~
-**Thumbs.db
+**~
+**swp
+**/Thumbs.db
 
 # Ignore user preferences
 *.suo
 **.user
 
 # Ignore builds
+AvalonDock/bin/**
+AvalonDock/obj/**
 Communication/bin/**
 Communication/obj/**
 Infrastructure/bin/**

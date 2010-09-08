@@ -498,6 +498,11 @@ namespace AvalonDock
                 INotifyCollectionChanged oldSourceNotityIntf = oldSource as INotifyCollectionChanged;
                 if (oldSourceNotityIntf != null)
                     oldSourceNotityIntf.CollectionChanged -= new NotifyCollectionChangedEventHandler(DocumentsSourceCollectionChanged);
+
+                /* FIX force avalon to reload documents when DocumentsSource changed*/
+                foreach (object newDoc in oldSource)
+                    DocumentsSourceCollectionChanged (this, new NotifyCollectionChangedEventArgs (NotifyCollectionChangedAction.Remove, newDoc));
+                /* End FIX */
             }
 
             if (newSource != null)
@@ -505,6 +510,11 @@ namespace AvalonDock
                 INotifyCollectionChanged newSourceNotityIntf = newSource as INotifyCollectionChanged;
                 if (newSourceNotityIntf != null)
                     newSourceNotityIntf.CollectionChanged += new NotifyCollectionChangedEventHandler(DocumentsSourceCollectionChanged);
+
+                /* FIX force avalon to reload documents when DocumentsSource changed*/
+                foreach (object newDoc in newSource)
+                    DocumentsSourceCollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newDoc));
+                /* End FIX */
             }
         }
 

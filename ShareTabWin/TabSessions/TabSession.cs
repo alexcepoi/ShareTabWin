@@ -8,10 +8,5 @@ namespace ShareTabWin
 	public class TabSession : ObservableCollection<Tab>
 	{
 		public string DisplayName { get; set; }
-
-		public void Refresh ()
-		{
-			OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-		}
 	}
 }

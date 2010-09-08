@@ -277,39 +277,16 @@ namespace ShareTabWin
 			if (!IsConnected) return;
 			ClientStatus.IsWatching = !ClientStatus.IsWatching;
 
-			//change the fucking bindings. aproape merge dar e cumva pe dos:
-			// când iswatching devine true uite ce se întâmplă:
-			// în tabsPanel în privatesession apare tot ce e în public session
-			// dar documentele din dockingmanager nu se schimbă nici dale dracu
-			// și nu se mai poate da înapoi. 
-
+			// disabling documentpane also disables scrollbar.. is this what we want?
 			if (ClientStatus.IsWatching == true)
 			{
-				//documentPane.ItemsSource = tabsPanel.PublicSession;
-				//System.Windows.Data.Binding binding = new System.Windows.Data.Binding();
-				//binding.Source = tabsPanel;
-				//binding.Path = new PropertyPath("PublicSession.Tab");
-				//dockingManager.SetBinding(AvalonDock.DockingManager.DocumentsSourceProperty, binding);
-				//dockingManager.DocumentsSource = tabsPanel.PublicSession;
 				dockingManager.DataContext = tabsPanel.PublicSession;
-				//tabsPanel.PrivateSession.Refresh();
-				//tabsPanel.PublicSession.Refresh();
-				//System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateTarget();
-				//System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateSource();
+				dockingManager.MainDocumentPane.IsEnabled = false;
 			}
 			else
 			{
-				//documentPane.ItemsSource = null;
-				//System.Windows.Data.Binding binding = new System.Windows.Data.Binding();
-				//binding.Source = tabsPanel;
-				//binding.Path = new PropertyPath("PrivateSession.Tab");
-				//dockingManager.SetBinding(AvalonDock.DockingManager.DocumentsSourceProperty, binding);
-				//dockingManager.DocumentsSource = tabsPanel.PrivateSession;
 				dockingManager.DataContext = tabsPanel.PrivateSession;
-				//tabsPanel.PrivateSession.Refresh();
-				//tabsPanel.PublicSession.Refresh();
-				//System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateTarget();
-				//System.Windows.Data.BindingOperations.GetBindingExpression(dockingManager, AvalonDock.DockingManager.DocumentsSourceProperty).UpdateSource();
+				dockingManager.MainDocumentPane.IsEnabled = true;
 			}
 		}
 	}
