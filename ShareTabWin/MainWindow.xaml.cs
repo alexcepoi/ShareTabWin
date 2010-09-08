@@ -273,6 +273,9 @@ namespace ShareTabWin
 			TreeViewItem item = getTreeViewItem(tabsPanel.TabsTreeView, target);
 			if (item != null)
 				item.IsSelected = true;
+
+			if (ClientStatus.IsBroadcasting)
+				;
 		}
 
 		public event ShareTabWin.WCF.Events.DisconnectedEventHandler Disconnected;

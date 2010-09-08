@@ -7,20 +7,23 @@ namespace Communication
 	/// </summary>
 	public interface IShareTabCallback
 	{
-		[OperationContract(IsOneWay = true)]
+		[OperationContract (IsOneWay = true)]
 		void UserHasSignedIn(string username);
 
-		[OperationContract(IsOneWay = true)]
+		[OperationContract (IsOneWay = true)]
 		void UserHasSignedOut(string username);
 
-		[OperationContract(IsOneWay = true)]
+		[OperationContract (IsOneWay = true)]
 		void ReceiveChatMessage(Infrastructure.ChatMessage message);
 
 		[OperationContract (IsOneWay = true)]
 		void ReceiveTabAdded (Infrastructure.Tab tab);
 
-		[OperationContract(IsOneWay = true)]
+		[OperationContract (IsOneWay = true)]
 		void ReceiveTabClosed (Infrastructure.Tab tab);
+
+		[OperationContract (IsOneWay = true)]
+		void ReceiveTabActivated (Infrastructure.Tab tab);
 
 		//[OperationContract (IsOneWay = true)]
 		//void HasBegunBroadcasting ();
