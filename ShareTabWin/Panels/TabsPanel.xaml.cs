@@ -51,18 +51,32 @@ namespace ShareTabWin
 		{
 			ConnectionCallback.Instance.TabAdded += OnTabAdded;
 			ConnectionCallback.Instance.TabClosed += OnTabClosed;
+			ConnectionCallback.Instance.TabActivated += OnTabActivated;
 		}
 
 		void OnTabAdded (object sender, TabArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
-				tab => PublicSession.Add (new PublicTab (tab))), e.Tab);
+				(tab) => 
+					PublicSession.Add (new PublicTab (tab))), e.Tab);
 		}
 
 		void OnTabClosed(object sender, TabArgs e)
 		{
-			App.Current.Dispatcher.BeginInvoke(new Action(
-				() => PublicSession.Remove((PublicSession.FindByGuid(e.Tab.Id)))));
+			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab>(
+				(tab) => 
+					PublicSession.Remove((PublicSession.FindByGuid(e.Tab.Id)))), e.Tab);
+		}
+
+		void OnTabActivated (object sender, TabArgs e)
+		{
+			System.Diagnostics.Trace.TraceInformation ("Activating public tab {0}.", e.Tab.Title);
+			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
+				(tab) =>
+					{
+						var t = PublicSession.FindByGuid (tab.Id);
+						if (t != null) t.Activate ();
+					}), e.Tab);
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

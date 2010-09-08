@@ -34,5 +34,8 @@ namespace Communication
 
 		[OperationContract (IsOneWay = true)]
 		void StopBroadcast ();
+
+		[OperationContract (IsOneWay = true)]
+		void ActivateTab (Infrastructure.Tab tab);
 	}
 }

@@ -22,10 +22,15 @@ namespace ShareTabWin
 		private Communication.ShareTabHost Host;
 		private Communication.IShareTabSvc Connection;
 
+		private Helpers.Notifications.NotificationWindow notificationWindow;
+
 		public MainWindow ()
 		{
 			InitializeComponent ();
 			dockingManager.DataContext = tabsPanel.PrivateSession;
+			notificationWindow = new Helpers.Notifications.NotificationWindow ();
+			//notificationWindow.Visibility = System.Windows.Visibility.Hidden;
+			notificationWindow.Show ();
 		}
 
 		#region Properties
@@ -192,6 +197,7 @@ namespace ShareTabWin
 
 		private void Window_Closed (object sender, System.EventArgs e)
 		{
+			notificationWindow.Close ();
 			Commands.DisconnectCommand.Execute(null, this);
 		}
 
@@ -263,10 +269,14 @@ namespace ShareTabWin
 		private void dockingManager_ActiveDocumentChanged(object sender, System.EventArgs e)
 		{
 			Tab target = dockingManager.ActiveDocument as Tab;
+
+			if (ClientStatus.IsBroadcasting && target != null)
+				Connection.ActivateTab (target.TabData);
 			
 			TreeViewItem item = getTreeViewItem(tabsPanel.TabsTreeView, target);
 			if (item != null)
 				item.IsSelected = true;
+
 		}
 
 		public event ShareTabWin.WCF.Events.DisconnectedEventHandler Disconnected;

@@ -16,12 +16,14 @@ namespace ShareTabWin
 		public event UserSignOutEventHandler UserSignOutEvent;
 		public event TabAddedEventHandler TabAdded;
 		public event TabClosedEventHandler TabClosed;
+		public event TabActivatedEventHandler TabActivated;
 		
 		protected virtual void OnChatReceive (ChatReceiveEventArgs e) { ChatReceiveEvent (this, e); }
 		protected virtual void OnUserSignIn (UserEventArgs e) { UserSignInEvent (this, e); }
 		protected virtual void OnUserSignOut (UserEventArgs e) { UserSignOutEvent (this, e); }
 		protected virtual void OnTabAdded (TabArgs e) { TabAdded (this, e); }
-		protected virtual void OnTabClosed(TabArgs e) { TabClosed (this, e); }
+		protected virtual void OnTabClosed (TabArgs e) { TabClosed (this, e); }
+		protected virtual void OnTabActivated (TabArgs e) { TabActivated (this, e); }
 
 		#endregion
 		public void UserHasSignedIn(string username)
@@ -63,6 +65,11 @@ namespace ShareTabWin
 			OnTabClosed(new TabArgs(tab));
 		}
 
+		public void ReceiveTabActivated (Infrastructure.Tab tab)
+		{
+			OnTabActivated (new TabArgs (tab));
+		}
+
 		private ConnectionCallback ()
 		{
 
@@ -91,6 +98,7 @@ namespace ShareTabWin
 	public delegate void UserSignOutEventHandler (object sender, UserEventArgs e);
 	public delegate void TabAddedEventHandler (object sender, TabArgs e);
 	public delegate void TabClosedEventHandler (object sender, TabArgs e);
+	public delegate void TabActivatedEventHandler (object sender, TabArgs e);
 	public class ChatReceiveEventArgs : EventArgs
 	{
 		public Infrastructure.ChatMessage Message { get; set; }

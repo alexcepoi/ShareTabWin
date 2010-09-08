@@ -87,5 +87,11 @@ namespace Communication
 		{
 			broadcaster = null;
 		}
+
+
+		public void ActivateTab (Tab tab)
+		{
+			userList.ForOthers (user => user.Callback.ReceiveTabActivated (tab));
+		}
 	}
 }
