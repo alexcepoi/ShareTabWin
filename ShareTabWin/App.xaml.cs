@@ -37,7 +37,7 @@ namespace ShareTabWin
 		{
 			// Extract XULrunner to output folder
 			string appPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
-			Stream xulzip = Assembly.GetExecutingAssembly ().GetManifestResourceStream ("ShareTabWin.Dependencies.XULrunner.xulrunner-1.9.1.7.en-US.win32.zip");
+			Stream xulzip = Assembly.GetExecutingAssembly ().GetManifestResourceStream ("ShareTabWin.Dependencies.XULrunner.xulrunner-1.9.1.12.en-US.win32.zip");
 			using (ZipFile zip = ZipFile.Read (xulzip))
 			{
 				foreach (ZipEntry entry in zip)

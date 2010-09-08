@@ -154,5 +154,21 @@ namespace ShareTabWin
 			CommandManager.InvalidateRequerySuggested();
 		}
 		#endregion
+
+		private void renderer_DomClick (object sender, GeckoDomEventArgs e)
+		{
+			//renderer.Document.DocumentElement.InnerHtml
+//			MessageBox.Show (e.Target.ScrollHeight + " " + e.Target.GetElementsByClassName(""));
+//			renderer.Document.DocumentElement.ScrollTop = 100;
+//			MessageBox.Show(renderer.Document.GetElementById ("here").TextContent);
+			e.Target.ScrollTop = 0;
+		}
+
+		private void renderer_DomMouseMove (object sender, GeckoDomMouseEventArgs e)
+		{
+			//if (e.CtrlKey) MessageBox.Show (e.ClientY + renderer.Document.DocumentElement.ScrollTop + "");
+			// good equation to get mouse height relative to document top
+		}
+
 	}
 }
