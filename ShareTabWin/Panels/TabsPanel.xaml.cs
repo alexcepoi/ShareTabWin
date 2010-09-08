@@ -70,9 +70,13 @@ namespace ShareTabWin
 
 		void OnTabActivated (object sender, TabArgs e)
 		{
+			System.Diagnostics.Trace.TraceInformation ("Activating public tab {0}.", e.Tab.Title);
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
 				(tab) =>
-					PublicSession.FindByGuid (tab.Id).Activate ()), e.Tab);
+					{
+						var t = PublicSession.FindByGuid (tab.Id);
+						if (t != null) t.Activate ();
+					}), e.Tab);
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

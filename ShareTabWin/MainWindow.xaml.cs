@@ -269,13 +269,14 @@ namespace ShareTabWin
 		private void dockingManager_ActiveDocumentChanged(object sender, System.EventArgs e)
 		{
 			Tab target = dockingManager.ActiveDocument as Tab;
+
+			if (ClientStatus.IsBroadcasting && target != null)
+				Connection.ActivateTab (target.TabData);
 			
 			TreeViewItem item = getTreeViewItem(tabsPanel.TabsTreeView, target);
 			if (item != null)
 				item.IsSelected = true;
 
-			if (ClientStatus.IsBroadcasting)
-				;
 		}
 
 		public event ShareTabWin.WCF.Events.DisconnectedEventHandler Disconnected;
