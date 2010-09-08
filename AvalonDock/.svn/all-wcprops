@@ -1,0 +1,341 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/62949/Version1.3/AvalonDock
+END
+FlyoutDockablePane.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/59808/Version1.3/AvalonDock/FlyoutDockablePane.cs
+END
+DockableTabPanel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/59040/Version1.3/AvalonDock/DockableTabPanel.cs
+END
+DocumentPaneResizingPanel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/58995/Version1.3/AvalonDock/DocumentPaneResizingPanel.cs
+END
+FlyoutPaneWindow.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/62939/Version1.3/AvalonDock/FlyoutPaneWindow.cs
+END
+IDockableControl.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/58995/Version1.3/AvalonDock/IDockableControl.cs
+END
+DocumentPane.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/62726/Version1.3/AvalonDock/DocumentPane.cs
+END
+DeserializationCallbackEventArgs.cs
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/58995/Version1.3/AvalonDock/DeserializationCallbackEventArgs.cs
+END
+ContextMenuElement.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/58995/Version1.3/AvalonDock/ContextMenuElement.cs
+END
+IDropSurface.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/58995/Version1.3/AvalonDock/IDropSurface.cs
+END
+ManagedContent.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/60495/Version1.3/AvalonDock/ManagedContent.cs
+END
+DocumentFloatingWindow.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/61331/Version1.3/AvalonDock/DocumentFloatingWindow.cs
+END
+DockablePaneAnchorTab.cs
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/59188/Version1.3/AvalonDock/DockablePaneAnchorTab.cs
+END
+PaneTabPanel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/59978/Version1.3/AvalonDock/PaneTabPanel.cs
+END
+DocumentContentCommands.cs
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/59315/Version1.3/AvalonDock/DocumentContentCommands.cs
+END
+DockableContent.cs
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/60070/Version1.3/AvalonDock/DockableContent.cs
+END
+OverlayWindowAnchorButton.cs
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/58995/Version1.3/AvalonDock/OverlayWindowAnchorButton.cs
+END
+DocumentPaneCommands.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/59315/Version1.3/AvalonDock/DocumentPaneCommands.cs
+END
+RoutedEventHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/58995/Version1.3/AvalonDock/RoutedEventHelper.cs
+END
+FloatingDocumentPane.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/61331/Version1.3/AvalonDock/FloatingDocumentPane.cs
+END
+AlignedImage.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/58995/Version1.3/AvalonDock/AlignedImage.cs
+END
+AvalonDock.snk
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/58995/Version1.3/AvalonDock/AvalonDock.snk
+END
+DockablePane.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/60495/Version1.3/AvalonDock/DockablePane.cs
+END
+DockingManager.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/62498/Version1.3/AvalonDock/DockingManager.cs
+END
+ManagedContentCommands.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/59315/Version1.3/AvalonDock/ManagedContentCommands.cs
+END
+OverlayWindow.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/59188/Version1.3/AvalonDock/OverlayWindow.cs
+END
+WindowInteropWrapper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/58995/Version1.3/AvalonDock/WindowInteropWrapper.cs
+END
+AvalonDock.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/60974/Version1.3/AvalonDock/AvalonDock.csproj
+END
+AvalonDockBrushes.cs
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/58995/Version1.3/AvalonDock/AvalonDockBrushes.cs
+END
+ImageEx.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/60974/Version1.3/AvalonDock/ImageEx.cs
+END
+DockableFloatingWindow.cs
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/59978/Version1.3/AvalonDock/DockableFloatingWindow.cs
+END
+InteropHelper.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/58995/Version1.3/AvalonDock/InteropHelper.cs
+END
+DocumentNavigatorWindow.cs
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/58995/Version1.3/AvalonDock/DocumentNavigatorWindow.cs
+END
+DockableContentCommands.cs
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/59315/Version1.3/AvalonDock/DockableContentCommands.cs
+END
+NavigatorWindow.cs
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/62498/Version1.3/AvalonDock/NavigatorWindow.cs
+END
+Pane.cs
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/61331/Version1.3/AvalonDock/Pane.cs
+END
+Resizer.cs
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/58995/Version1.3/AvalonDock/Resizer.cs
+END
+AvalonDock35.csproj
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/60974/Version1.3/AvalonDock/AvalonDock35.csproj
+END
+DragPaneServices.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/59188/Version1.3/AvalonDock/DragPaneServices.cs
+END
+DocumentTabPanel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/59978/Version1.3/AvalonDock/DocumentTabPanel.cs
+END
+DockablePaneCommands.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/59315/Version1.3/AvalonDock/DockablePaneCommands.cs
+END
+Converters.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/60070/Version1.3/AvalonDock/Converters.cs
+END
+ThemeFactory.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/59315/Version1.3/AvalonDock/ThemeFactory.cs
+END
+FloatingWindow.cs
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/62498/Version1.3/AvalonDock/FloatingWindow.cs
+END
+HelperFunc.cs
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/60490/Version1.3/AvalonDock/HelperFunc.cs
+END
+LogicalTreeAdapter.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/62602/Version1.3/AvalonDock/LogicalTreeAdapter.cs
+END
+FloatingDockablePane.cs
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/62939/Version1.3/AvalonDock/FloatingDockablePane.cs
+END
+RequestDocumentCloseEventArgs.cs
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/58995/Version1.3/AvalonDock/RequestDocumentCloseEventArgs.cs
+END
+GreyableImage.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/58995/Version1.3/AvalonDock/GreyableImage.cs
+END
+DockableFloatingWindowCommands.cs
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/59315/Version1.3/AvalonDock/DockableFloatingWindowCommands.cs
+END
+RoutedEventHandler.cs
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/58995/Version1.3/AvalonDock/RoutedEventHandler.cs
+END
+ManagedContentCollection.cs
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/58995/Version1.3/AvalonDock/ManagedContentCollection.cs
+END
+PaneCommands.cs
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/58995/Version1.3/AvalonDock/PaneCommands.cs
+END
+DockablePaneAnchorTabGroup.cs
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/58995/Version1.3/AvalonDock/DockablePaneAnchorTabGroup.cs
+END
+DocumentContent.cs
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/61331/Version1.3/AvalonDock/DocumentContent.cs
+END
+AvalonDockWindow.cs
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/58995/Version1.3/AvalonDock/AvalonDockWindow.cs
+END
+ResizingPanel.cs
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/60490/Version1.3/AvalonDock/ResizingPanel.cs
+END

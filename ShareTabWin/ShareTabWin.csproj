@@ -54,14 +54,6 @@
     <ApplicationIcon>ShareTab.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AvalonDock, Version=1.3.3585.0, Culture=neutral, PublicKeyToken=85a1e0ada7ec13e4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Avalon\Debug\AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="AvalonDock.Themes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Avalon\Debug\AvalonDock.Themes.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dependencies\Ionic.Zip.Reduced.dll</HintPath>
@@ -208,6 +200,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AvalonDock\AvalonDock.csproj">
+      <Project>{87E61430-4243-45F2-B74E-0A4C096CEBF3}</Project>
+      <Name>AvalonDock</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Communication\Communication.csproj">
       <Project>{F28790D0-37A0-4C79-823A-3FFC9BF86894}</Project>
       <Name>Communication</Name>
@@ -218,10 +214,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dependencies\Avalon\AvalonDock.dll" />
-    <Content Include="Dependencies\Avalon\AvalonDock.Themes.dll" />
-    <Content Include="Dependencies\Avalon\Debug\AvalonDock.dll" />
-    <Content Include="Dependencies\Avalon\Debug\AvalonDock.Themes.dll" />
     <Content Include="Dependencies\GeckoFX\bin\Skybound.Gecko.dll" />
     <Content Include="Dependencies\XULrunner\Ionic.Zip.Reduced.dll" />
     <Resource Include="Icons\arrow_left_16x16.png" />

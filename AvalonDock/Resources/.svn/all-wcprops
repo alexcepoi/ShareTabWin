@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/62949/Version1.3/AvalonDock/Resources
+END
+DocumentNavigatorWindowStyle.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/58995/Version1.3/AvalonDock/Resources/DocumentNavigatorWindowStyle.xaml
+END
+NavigatorWindowStyle.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/60974/Version1.3/AvalonDock/Resources/NavigatorWindowStyle.xaml
+END
+DocumentPaneStyles.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/60974/Version1.3/AvalonDock/Resources/DocumentPaneStyles.xaml
+END
+Common.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/60974/Version1.3/AvalonDock/Resources/Common.xaml
+END
+ManagedContentStyle.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/59405/Version1.3/AvalonDock/Resources/ManagedContentStyle.xaml
+END
+SpecNET40Styles.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/60576/Version1.3/AvalonDock/Resources/SpecNET40Styles.xaml
+END
+OverlayWindowStyle.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/60974/Version1.3/AvalonDock/Resources/OverlayWindowStyle.xaml
+END
+Brushes.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/58995/Version1.3/AvalonDock/Resources/Brushes.xaml
+END
+DockablePaneStyles.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/62949/Version1.3/AvalonDock/Resources/DockablePaneStyles.xaml
+END
+FloatingWindowStyle.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/59502/Version1.3/AvalonDock/Resources/FloatingWindowStyle.xaml
+END
+SpecFrameworkStyles.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/60576/Version1.3/AvalonDock/Resources/SpecFrameworkStyles.xaml
+END
+DockingManagerStyles.xaml
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/60974/Version1.3/AvalonDock/Resources/DockingManagerStyles.xaml
+END
