@@ -50,12 +50,19 @@ namespace ShareTabWin
 		private void TabsPanel_Loaded (object sender, System.Windows.RoutedEventArgs e)
 		{
 			ConnectionCallback.Instance.TabAdded += OnTabAdded;
+			ConnectionCallback.Instance.TabClosed += OnTabClosed;
 		}
 
-		void OnTabAdded (object sender, TabAddedArgs e)
+		void OnTabAdded (object sender, TabArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
 				tab => PublicSession.Add (new PublicTab (tab))), e.Tab);
+		}
+
+		void OnTabClosed(object sender, TabArgs e)
+		{
+			App.Current.Dispatcher.BeginInvoke(new Action(
+				() => PublicSession.Remove((PublicSession.FindByGuid(e.Tab.Id)))));
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

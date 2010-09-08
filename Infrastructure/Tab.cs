@@ -37,5 +37,8 @@ namespace Infrastructure
 			get { return m_Owner != null ? m_Owner : ""; }
 			set { m_Owner = value; }
 		}
+
+		[DataMember]
+		public System.Guid? Id = null;
 	}
 }

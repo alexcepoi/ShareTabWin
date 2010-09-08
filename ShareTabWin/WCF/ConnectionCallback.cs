@@ -15,10 +15,13 @@ namespace ShareTabWin
 		public event UserSignInEventHandler UserSignInEvent;
 		public event UserSignOutEventHandler UserSignOutEvent;
 		public event TabAddedEventHandler TabAdded;
+		public event TabClosedEventHandler TabClosed;
+		
 		protected virtual void OnChatReceive (ChatReceiveEventArgs e) { ChatReceiveEvent (this, e); }
 		protected virtual void OnUserSignIn (UserEventArgs e) { UserSignInEvent (this, e); }
 		protected virtual void OnUserSignOut (UserEventArgs e) { UserSignOutEvent (this, e); }
-		protected virtual void OnTabAdded (TabAddedArgs e) { TabAdded (this, e); }
+		protected virtual void OnTabAdded (TabArgs e) { TabAdded (this, e); }
+		protected virtual void OnTabClosed(TabArgs e) { TabClosed (this, e); }
 
 		#endregion
 		public void UserHasSignedIn(string username)
@@ -51,7 +54,13 @@ namespace ShareTabWin
 		public void ReceiveTabAdded (Infrastructure.Tab tab)
 		{
 			Trace.TraceInformation ("Tab Added by " + tab.Owner);
-			OnTabAdded (new TabAddedArgs (tab));
+			OnTabAdded (new TabArgs (tab));
+		}
+
+		public void ReceiveTabClosed(Infrastructure.Tab tab)
+		{
+			Trace.TraceInformation("Tab Closed");
+			OnTabClosed(new TabArgs(tab));
 		}
 
 		private ConnectionCallback ()
@@ -80,7 +89,8 @@ namespace ShareTabWin
 	public delegate void ChatReceiveEventHandler (object sender, ChatReceiveEventArgs e);
 	public delegate void UserSignInEventHandler (object sender, UserEventArgs e);
 	public delegate void UserSignOutEventHandler (object sender, UserEventArgs e);
-	public delegate void TabAddedEventHandler (object sender, TabAddedArgs e);
+	public delegate void TabAddedEventHandler (object sender, TabArgs e);
+	public delegate void TabClosedEventHandler (object sender, TabArgs e);
 	public class ChatReceiveEventArgs : EventArgs
 	{
 		public Infrastructure.ChatMessage Message { get; set; }
@@ -90,9 +100,9 @@ namespace ShareTabWin
 	{
 		public Infrastructure.User User { get; set; }
 	}
-	public class TabAddedArgs : EventArgs
+	public class TabArgs : EventArgs
 	{
 		public Infrastructure.Tab Tab { get; private set; }
-		public TabAddedArgs (Infrastructure.Tab tab) { Tab = tab; }
+		public TabArgs (Infrastructure.Tab tab) { Tab = tab; }
 	}
 }

@@ -152,7 +152,7 @@ namespace ShareTabWin
 		// New Tab
 		private void NewTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			
+			// TODO: When watching this shouldn't work
 			if (ClientStatus.IsBroadcasting)
 			{
 				Connection.AddTab (new Infrastructure.Tab ());
@@ -172,7 +172,11 @@ namespace ShareTabWin
 		// Close Tab
 		private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			if (dockingManager.ActiveDocument != null)
+			if (ClientStatus.IsBroadcasting)
+			{
+				Connection.CloseTab((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
+			}
+			else if (dockingManager.ActiveDocument != null)
 				App.Current.Dispatcher.BeginInvoke
 				(
 					new Action (() => dockingManager.ActiveDocument.Close())

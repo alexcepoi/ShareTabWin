@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace ShareTabWin
@@ -8,5 +9,15 @@ namespace ShareTabWin
 	public class TabSession : ObservableCollection<Tab>
 	{
 		public string DisplayName { get; set; }
+
+		public Tab FindByGuid(System.Guid? id)
+		{
+			foreach (Tab x in this)
+			{
+				if (x.TabData.Id == id)
+					return x;
+			}
+			return null;
+		}
 	}
 }

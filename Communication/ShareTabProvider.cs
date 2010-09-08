@@ -63,8 +63,15 @@ namespace Communication
 		public void AddTab (Tab tab)
 		{
 			tab.Owner = userList.Current.Name;
+			tab.Id = System.Guid.NewGuid();
 			publicTabs.Add (tab); // not really sure this is even needed? ==> when new user connects
 			userList.ForEach (user => user.Callback.ReceiveTabAdded (tab));
+		}
+
+		public void CloseTab(Tab tab)
+		{
+			publicTabs.Remove(tab);
+			userList.ForEach(user => user.Callback.ReceiveTabClosed(tab));
 		}
 
 		public bool Broadcast ()
