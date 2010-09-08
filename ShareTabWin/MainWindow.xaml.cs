@@ -152,14 +152,21 @@ namespace ShareTabWin
 		// New Tab
 		private void NewTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			Tab noob = new PrivateTab ();
+			
+			if (ClientStatus.IsBroadcasting)
+			{
+				Connection.AddTab (new Infrastructure.Tab ());
+			}
+			else
+			{
+				Tab noob = new PrivateTab ();
+				App.Current.Dispatcher.BeginInvoke
+					(
+					new Action<Tab> (tab => tabsPanel.PrivateSession.Add (tab)), noob
+					);
 
-			App.Current.Dispatcher.BeginInvoke
-				(
-				new Action<Tab>(tab => tabsPanel.PrivateSession.Add(tab)), noob
-				);
-
-			noob.Focus();
+				noob.Focus ();
+			}
 		}
 
 		// Close Tab
@@ -303,11 +310,11 @@ namespace ShareTabWin
 					if (!ClientStatus.IsWatching)
 					{
 						WatchingToggle_Executed (null, null);
-						dockingManager.MainDocumentPane.IsEnabled = true; 
 						//ofcourse its not enough, should code functionality.
 						//ie on ctrl t, ctrl w, publictab navigate
 						// send the event to the server
 					}
+					dockingManager.MainDocumentPane.IsEnabled = true; 
 				}
 			}
 			else
