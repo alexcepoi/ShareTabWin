@@ -10,8 +10,12 @@ namespace ShareTabWin.Helpers
 	{
 		protected override bool IsInputKey (Keys keyData)
 		{
-			if ((keyData & Keys.KeyCode) == Keys.Tab)
-				return true;
+			switch (keyData & Keys.KeyCode)
+			{
+				case Keys.Tab:
+				case Keys.Back:
+					return true;
+			}
 			return false;
 
 			/*
