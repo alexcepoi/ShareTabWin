@@ -330,5 +330,14 @@ namespace ShareTabWin
 				Trace.TraceInformation ("Stopped broadcasting");
 			}
 		}
+
+		private void dockingManager_DocumentClosing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+			{
+				Connection.CloseTab((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
+				e.Cancel = true;
+			}
+		}
 	}
 }
