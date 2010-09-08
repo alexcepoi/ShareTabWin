@@ -314,6 +314,7 @@ namespace ShareTabWin
 			{
 				Connection.StopBroadcast ();
 				ClientStatus.IsBroadcasting = false;
+				dockingManager.MainDocumentPane.IsEnabled = false; 
 
 				Trace.TraceInformation ("Stopped broadcasting");
 			}
