@@ -22,10 +22,15 @@ namespace ShareTabWin
 		private Communication.ShareTabHost Host;
 		private Communication.IShareTabSvc Connection;
 
+		private Helpers.Notifications.NotificationWindow notificationWindow;
+
 		public MainWindow ()
 		{
 			InitializeComponent ();
 			dockingManager.DataContext = tabsPanel.PrivateSession;
+			notificationWindow = new Helpers.Notifications.NotificationWindow ();
+			//notificationWindow.Visibility = System.Windows.Visibility.Hidden;
+			notificationWindow.Show ();
 		}
 
 		#region Properties
@@ -192,6 +197,7 @@ namespace ShareTabWin
 
 		private void Window_Closed (object sender, System.EventArgs e)
 		{
+			notificationWindow.Close ();
 			Commands.DisconnectCommand.Execute(null, this);
 		}
 
