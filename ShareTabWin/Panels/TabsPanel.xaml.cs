@@ -78,8 +78,13 @@ namespace ShareTabWin
 			App.Current.Dispatcher.BeginInvoke(new Action(
 				() =>
 					{
-						if (tab.renderer.IsHandleCreated)
-							tab.renderer.Navigate(tab.TabData.Url);
+						tab.Title = tab.TabData.Title;
+
+						/* this updates the renderer also */
+						MainWindow main = App.Current.MainWindow as MainWindow;
+						if (main.ClientStatus.IsWatching)
+							if (tab.renderer.IsHandleCreated)
+								tab.renderer.Navigate(tab.TabData.Url);
 					}
 					));
 		}

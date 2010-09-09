@@ -13,6 +13,7 @@ namespace ShareTabWin
 		{
 			this.TabData = new Infrastructure.Tab();
 			renderer.Navigated += new Skybound.Gecko.GeckoNavigatedEventHandler(renderer_Navigated);
+			renderer.DocumentTitleChanged += new EventHandler(renderer_DocumentTitleChanged);
 		}
 
 		public Tab(Infrastructure.Tab tabData): this()
@@ -39,7 +40,7 @@ namespace ShareTabWin
 			this.TabData.Url = e.Uri.AbsoluteUri;
 		}
 
-		protected override void browser_DocumentTitleChanged(object sender, EventArgs e)
+		protected virtual void renderer_DocumentTitleChanged(object sender, EventArgs e)
 		{
 			if (NavigateFirst) return;
 
@@ -66,6 +67,16 @@ namespace ShareTabWin
 		protected override void renderer_Navigated(object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
 		{
 			base.renderer_Navigated(sender, e);
+
+			MainWindow main = App.Current.MainWindow as MainWindow;
+
+			if (main.ClientStatus.IsBroadcasting)
+				main.Connection.UpdateTab(TabData);
+		}
+
+		protected override void renderer_DocumentTitleChanged(object sender, EventArgs e)
+		{
+			base.renderer_DocumentTitleChanged(sender, e);
 
 			MainWindow main = App.Current.MainWindow as MainWindow;
 
