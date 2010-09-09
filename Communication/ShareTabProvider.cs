@@ -74,6 +74,11 @@ namespace Communication
 			userList.ForEach(user => user.Callback.ReceiveTabClosed(tab));
 		}
 
+		public void UpdateTab(Tab tab)
+		{
+			userList.ForOthers(user => user.Callback.ReceiveTabUpdated(tab));
+		}
+
 		public bool Broadcast ()
 		{
 			if (broadcaster != null)

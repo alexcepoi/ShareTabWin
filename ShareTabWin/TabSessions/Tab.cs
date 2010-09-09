@@ -11,21 +11,23 @@ namespace ShareTabWin
 
 		public Tab()
 		{
-			renderer.Navigated += renderer_Navigated;
-			TabData = new Infrastructure.Tab ();
+			this.TabData = new Infrastructure.Tab();
+			renderer.Navigated += new Skybound.Gecko.GeckoNavigatedEventHandler(renderer_Navigated);
 		}
 
 		public Tab(Infrastructure.Tab tabData): this()
 		{
+			NavigateFirst = true;
+
 			this.TabData = tabData;
 			this.Title = tabData.Title;
-			NavigateFirst = true;
 		}
 
 		public Tab(string Url): this()
 		{
-			this.TabData.Url = Url;
 			NavigateFirst = true;
+
+			this.TabData.Url = Url;
 		}
 
 		protected virtual void renderer_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
@@ -55,7 +57,7 @@ namespace ShareTabWin
 		}
 	}
 
-	public class PublicTab : Tab 
+	public class PublicTab : Tab
 	{
 		public PublicTab () : base () { }
 		public PublicTab (Infrastructure.Tab tab) : base (tab) { }
@@ -64,6 +66,11 @@ namespace ShareTabWin
 		protected override void renderer_Navigated(object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
 		{
 			base.renderer_Navigated(sender, e);
+
+			MainWindow main = App.Current.MainWindow as MainWindow;
+
+			if (main.ClientStatus.IsBroadcasting)
+				main.Connection.UpdateTab(TabData);
 		}
 	}
 	public class PrivateTab : Tab
