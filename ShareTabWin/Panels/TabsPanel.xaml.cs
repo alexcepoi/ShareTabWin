@@ -53,6 +53,7 @@ namespace ShareTabWin
 			ConnectionCallback.Instance.TabClosed += OnTabClosed;
 			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
 			ConnectionCallback.Instance.TabActivated += OnTabActivated;
+			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
 		}
 
 		void OnTabAdded (object sender, TabArgs e)
@@ -98,6 +99,23 @@ namespace ShareTabWin
 						var t = PublicSession.FindByGuid (tab.Id);
 						if (t != null) t.Activate ();
 					}), e.Tab);
+		}
+
+		void OnTabScrolled (object sender, TabScrolledArgs e)
+		{
+			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
+				(tab) =>
+				{
+					var t = PublicSession.FindByGuid (tab.Id);
+					if (t != null)
+					{
+						if (e.TagId != null)
+							t.ScrollTo (e.TagId);
+						else
+							t.ScrollTo (e.DomId);
+					}
+				}), e.Tab);
+
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

@@ -9,14 +9,15 @@ namespace ShareTabWin
 		public Infrastructure.Tab TabData { get; private set; }
 		public bool NavigateFirst = false;
 
-		public Tab()
+		public Tab ()
 		{
-			this.TabData = new Infrastructure.Tab();
-//			renderer.Navigated += new Skybound.Gecko.GeckoNavigatedEventHandler(renderer_Navigated);
-//			renderer.DocumentTitleChanged += new EventHandler(renderer_DocumentTitleChanged);
+			this.TabData = new Infrastructure.Tab ();
+			//			renderer.Navigated += new Skybound.Gecko.GeckoNavigatedEventHandler(renderer_Navigated);
+			//			renderer.DocumentTitleChanged += new EventHandler(renderer_DocumentTitleChanged);
 		}
 
-		public Tab(Infrastructure.Tab tabData): this()
+		public Tab (Infrastructure.Tab tabData)
+			: this ()
 		{
 			NavigateFirst = true;
 
@@ -24,7 +25,8 @@ namespace ShareTabWin
 			this.Title = tabData.Title;
 		}
 
-		public Tab(string Url): this()
+		public Tab (string Url)
+			: this ()
 		{
 			NavigateFirst = true;
 
@@ -37,11 +39,11 @@ namespace ShareTabWin
 			// Do not update the TabData if it contains a navigation request which will be 
 			// executed on load. (not elegant?)
 			if (NavigateFirst) return;
-			
+
 			this.TabData.Url = e.Uri.AbsoluteUri;
 		}
 
-		protected override void renderer_DocumentTitleChanged(object sender, EventArgs e)
+		protected override void renderer_DocumentTitleChanged (object sender, EventArgs e)
 		{
 			if (NavigateFirst) return;
 
@@ -52,11 +54,15 @@ namespace ShareTabWin
 			Title = TabData.Title;
 		}
 
-		protected override void renderer_HandleCreated(object sender, EventArgs e)
+		protected override void renderer_HandleCreated (object sender, EventArgs e)
 		{
 			NavigateFirst = false;
-			renderer.Navigate(TabData.Url);
+			renderer.Navigate (TabData.Url);
 		}
+
+		public virtual void ScrollTo (string TagId) { }
+
+		public virtual void ScrollTo (int DomId) { }
 	}
 
 	public class PrivateTab : Tab

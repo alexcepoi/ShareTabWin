@@ -139,12 +139,12 @@ namespace ShareTabWin
 			OnTabActivated (new TabArgs (tab));
 		}
 
-		public void ReceiveTabScrolled (Infrastructure.Tab tab, int domId)
+		public void ReceiveTabScrolledToDomId (Infrastructure.Tab tab, int domId)
 		{
 			OnTabScrolled (new TabScrolledArgs (tab, domId));
 		}
 
-		public void ReceiveTabScrolled (Infrastructure.Tab tab, string tagId)
+		public void ReceiveTabScrolledToTagId (Infrastructure.Tab tab, string tagId)
 		{
 			OnTabScrolled (new TabScrolledArgs (tab, tagId));
 		} 

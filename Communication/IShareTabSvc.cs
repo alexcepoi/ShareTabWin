@@ -33,10 +33,10 @@ namespace Communication
 		void UpdateTab(Infrastructure.Tab tab);
 
 		[OperationContract (IsOneWay = true)]
-		void ScrollTab (Infrastructure.Tab tab, int domId);
+		void ScrollTabToDomId (Infrastructure.Tab tab, int domId);
 
 		[OperationContract (IsOneWay = true)]
-		void ScrollTab (Infrastructure.Tab tab, string tagId);
+		void ScrollTabToTagId (Infrastructure.Tab tab, string tagId);
 
 		[OperationContract]
 		bool Broadcast ();

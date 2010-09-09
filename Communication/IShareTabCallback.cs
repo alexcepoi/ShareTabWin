@@ -29,10 +29,10 @@ namespace Communication
 		void ReceiveTabActivated (Infrastructure.Tab tab);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveTabScrolled (Infrastructure.Tab tab, int domId);
+		void ReceiveTabScrolledToDomId (Infrastructure.Tab tab, int domId);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveTabScrolled (Infrastructure.Tab tab, string tagId);
+		void ReceiveTabScrolledToTagId (Infrastructure.Tab tab, string tagId);
 		//[OperationContract (IsOneWay = true)]
 		//void HasBegunBroadcasting ();
 	}

@@ -352,7 +352,13 @@ namespace ShareTabWin
 
 		private void documentPane_CurrentNodeChanged (object sender, CurrentNodeChangedEventArgs e)
 		{
-			//MessageBox.Show (e.Tab.Title + (e.TagId ?? e.DomId.ToString ()));
+			if (ClientStatus.IsBroadcasting)
+			{
+				if (!String.IsNullOrEmpty (e.TagId))
+					Connection.ScrollTabToTagId (e.Tab, e.TagId);
+				else
+					Connection.ScrollTabToDomId (e.Tab, e.DomId);
+			}
 		}
 	}
 }

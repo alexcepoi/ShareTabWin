@@ -98,14 +98,14 @@ namespace Communication
 			userList.ForOthers (user => user.Callback.ReceiveTabActivated (tab));
 		}
 
-		public void ScrollTab (Tab tab, int domId)
+		public void ScrollTabToDomId (Tab tab, int domId)
 		{
-			userList.ForOthers (user => user.Callback.ReceiveTabScrolled (tab, domId));
+			userList.ForOthers (user => user.Callback.ReceiveTabScrolledToDomId (tab, domId));
 		}
 
-		public void ScrollTab (Tab tab, string tagId)
+		public void ScrollTabToTagId (Tab tab, string tagId)
 		{
-			userList.ForOthers (user => user.Callback.ReceiveTabScrolled (tab, tagId));
+			userList.ForOthers (user => user.Callback.ReceiveTabScrolledToTagId (tab, tagId));
 		}
 	}
 }
