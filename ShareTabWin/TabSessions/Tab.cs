@@ -7,13 +7,11 @@ namespace ShareTabWin
 	{
 		public static string HomePage = "http://google.ro/";
 		public Infrastructure.Tab TabData { get; private set; }
-		private bool _navigationRequested = false;
+		public bool NavigateFirst = false;
 
 		public Tab()
 		{
-			renderer.Navigated += UpdateTabUrl;
-			renderer.DocumentTitleChanged += UpdateTabTitle;
-			
+			renderer.Navigated += renderer_Navigated;
 			TabData = new Infrastructure.Tab ();
 		}
 
@@ -21,39 +19,38 @@ namespace ShareTabWin
 		{
 			this.TabData = tabData;
 			this.Title = tabData.Title;
-			_navigationRequested = true;
+			NavigateFirst = true;
 		}
 
 		public Tab(string Url): this()
 		{
-
 			this.TabData.Url = Url;
-			_navigationRequested = true;
+			NavigateFirst = true;
 		}
 
-		void UpdateTabUrl (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
+		protected virtual void renderer_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
 		{
 			// Do not update the TabData if it contains a navigation request which will be 
 			// executed on load. (not elegant?)
-			if (_navigationRequested)
-			{
-				_navigationRequested = false;
-				return;
-			} 
+			if (NavigateFirst) return;
 			
 			this.TabData.Url = e.Uri.AbsoluteUri;
-			this.TabData.Content = string.Empty; // for now
 		}
 
-		void UpdateTabTitle (object sender, EventArgs e)
+		protected override void browser_DocumentTitleChanged(object sender, EventArgs e)
 		{
+			if (NavigateFirst) return;
+
 			this.TabData.Title = renderer.DocumentTitle;
 			if (TabData.Title == "" || TabData.Title == null)
 				TabData.Title = "Blank Page";
+
+			Title = TabData.Title;
 		}
 
 		protected override void renderer_HandleCreated(object sender, EventArgs e)
 		{
+			NavigateFirst = false;
 			renderer.Navigate(TabData.Url);
 		}
 	}
@@ -63,6 +60,11 @@ namespace ShareTabWin
 		public PublicTab () : base () { }
 		public PublicTab (Infrastructure.Tab tab) : base (tab) { }
 		public PublicTab (string uri) : base (uri) { }
+
+		protected override void renderer_Navigated(object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
+		{
+			base.renderer_Navigated(sender, e);
+		}
 	}
 	public class PrivateTab : Tab
 	{ 

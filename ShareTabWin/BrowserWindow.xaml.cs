@@ -118,7 +118,7 @@ namespace ShareTabWin
 			addressBar.Text = e.Uri.AbsoluteUri;
 		}
 
-		private void browser_DocumentTitleChanged(object sender, EventArgs e)
+		protected virtual void browser_DocumentTitleChanged(object sender, EventArgs e)
 		{
 			Title = renderer.DocumentTitle;
 			if (Title == "" || Title == null)
