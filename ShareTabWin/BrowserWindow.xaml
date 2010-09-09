@@ -56,7 +56,18 @@
         </StatusBar>
 
         <WindowsFormsHost >
-            <helpers:Renderer x:Name="renderer" Navigated="browser_Navigated" StatusTextChanged="browser_StatusTextChanged" ProgressChanged="browser_ProgressChanged" Navigating="browser_Navigating" DocumentCompleted="browser_DocumentCompleted" CanGoBackChanged="browser_RequeryCommands" CanGoForwardChanged="browser_RequeryCommands" HandleCreated="renderer_HandleCreated" />
+            <helpers:Renderer x:Name="renderer"
+                              Navigated="browser_Navigated"
+                              StatusTextChanged="browser_StatusTextChanged"
+                              ProgressChanged="browser_ProgressChanged"
+                              Navigating="browser_Navigating"
+                              DocumentCompleted="browser_DocumentCompleted"
+                              CanGoBackChanged="browser_RequeryCommands"
+                              CanGoForwardChanged="browser_RequeryCommands"
+                              HandleCreated="renderer_HandleCreated"
+                              DomClick="renderer_DomClick"
+                              DomMouseMove="renderer_DomMouseMove"
+                              />
         </WindowsFormsHost>
 
     </DockPanel>

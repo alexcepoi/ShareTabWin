@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="Helpers\ClientStatus.cs" />
     <Compile Include="Helpers\CustomProps.cs" />
+    <Compile Include="Helpers\GeckoHelpers.cs" />
     <Compile Include="Helpers\Hasher.cs" />
     <Compile Include="Helpers\Notifications\Notification.cs" />
     <Compile Include="Helpers\Notifications\NotificationWindow.xaml.cs">
@@ -201,7 +202,7 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Dependencies\GeckoFX\chrome\geckofx.manifest" />
-    <EmbeddedResource Include="Dependencies\XULrunner\xulrunner-1.9.1.7.en-US.win32.zip" />
+    <EmbeddedResource Include="Dependencies\XULrunner\xulrunner-1.9.1.12.en-US.win32.zip" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
