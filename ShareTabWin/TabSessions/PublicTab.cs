@@ -14,7 +14,25 @@ namespace ShareTabWin
 		public PublicTab () : base () { }
 		public PublicTab (Infrastructure.Tab tab) : base (tab) { }
 		public PublicTab (string uri) : base (uri) { }
-		
+
+		protected override void renderer_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
+		{
+			base.renderer_Navigated (sender, e);
+
+			MainWindow main = App.Current.MainWindow as MainWindow;
+
+			if (main.ClientStatus.IsBroadcasting)
+				main.Connection.UpdateTab (TabData);
+		}
+		protected override void renderer_DocumentTitleChanged (object sender, EventArgs e)
+		{
+			base.renderer_DocumentTitleChanged (sender, e);
+
+			MainWindow main = App.Current.MainWindow as MainWindow;
+
+			if (main.ClientStatus.IsBroadcasting)
+				main.Connection.UpdateTab (TabData);
+		}
 		protected override void renderer_DomMouseMove (object sender, GeckoDomMouseEventArgs e)
 		{
 			base.renderer_DomMouseMove (sender, e);
@@ -45,6 +63,7 @@ namespace ShareTabWin
 				}
 			}
 		}
+
 		public event CurrentNodeChangedEventHandler CurrentNodeChanged
 		{
 			add { AddHandler (CurrentNodeChangedEvent, value); }

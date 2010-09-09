@@ -64,8 +64,8 @@
                               DocumentCompleted="browser_DocumentCompleted"
                               CanGoBackChanged="browser_RequeryCommands"
                               CanGoForwardChanged="browser_RequeryCommands"
-                              DocumentTitleChanged="browser_DocumentTitleChanged"
                               HandleCreated="renderer_HandleCreated"
+                              DomClick="renderer_DomClick"
                               DomMouseMove="renderer_DomMouseMove"
                               />
         </WindowsFormsHost>

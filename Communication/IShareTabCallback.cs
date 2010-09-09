@@ -22,6 +22,9 @@ namespace Communication
 		[OperationContract (IsOneWay = true)]
 		void ReceiveTabClosed (Infrastructure.Tab tab);
 
+		[OperationContract(IsOneWay = true)]
+		void ReceiveTabUpdated(Infrastructure.Tab tab);
+
 		[OperationContract (IsOneWay = true)]
 		void ReceiveTabActivated (Infrastructure.Tab tab);
 

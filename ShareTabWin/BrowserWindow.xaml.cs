@@ -120,13 +120,6 @@ namespace ShareTabWin
 			addressBar.Text = e.Uri.AbsoluteUri;
 		}
 
-		private void browser_DocumentTitleChanged(object sender, EventArgs e)
-		{
-			Title = renderer.DocumentTitle;
-			if (Title == "" || Title == null)
-				Title = "Blank Page";
-		}
-
 		private void browser_DocumentCompleted(object sender, EventArgs e)
 		{
 			CommandManager.InvalidateRequerySuggested();

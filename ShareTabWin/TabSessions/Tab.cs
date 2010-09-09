@@ -7,62 +7,61 @@ namespace ShareTabWin
 	{
 		public static string HomePage = "http://google.ro/";
 		public Infrastructure.Tab TabData { get; private set; }
-		private bool _navigationRequested = false;
+		public bool NavigateFirst = false;
 
 		public Tab()
 		{
-			renderer.Navigated += UpdateTabUrl;
-			renderer.DocumentTitleChanged += UpdateTabTitle;
-			
-			TabData = new Infrastructure.Tab ();
+			this.TabData = new Infrastructure.Tab();
+			renderer.Navigated += new Skybound.Gecko.GeckoNavigatedEventHandler(renderer_Navigated);
+			renderer.DocumentTitleChanged += new EventHandler(renderer_DocumentTitleChanged);
 		}
 
 		public Tab(Infrastructure.Tab tabData): this()
 		{
+			NavigateFirst = true;
+
 			this.TabData = tabData;
 			this.Title = tabData.Title;
-			_navigationRequested = true;
 		}
 
 		public Tab(string Url): this()
 		{
+			NavigateFirst = true;
 
 			this.TabData.Url = Url;
-			_navigationRequested = true;
 		}
 
-		void UpdateTabUrl (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
+		protected virtual void renderer_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
 		{
 			// Do not update the TabData if it contains a navigation request which will be 
 			// executed on load. (not elegant?)
-			if (_navigationRequested)
-			{
-				_navigationRequested = false;
-				return;
-			} 
+			if (NavigateFirst) return;
 			
 			this.TabData.Url = e.Uri.AbsoluteUri;
-			this.TabData.Content = string.Empty; // for now
 		}
 
-		void UpdateTabTitle (object sender, EventArgs e)
+		protected virtual void renderer_DocumentTitleChanged(object sender, EventArgs e)
 		{
+			if (NavigateFirst) return;
+
 			this.TabData.Title = renderer.DocumentTitle;
 			if (TabData.Title == "" || TabData.Title == null)
 				TabData.Title = "Blank Page";
+
+			Title = TabData.Title;
 		}
 
 		protected override void renderer_HandleCreated(object sender, EventArgs e)
 		{
+			NavigateFirst = false;
 			renderer.Navigate(TabData.Url);
 		}
 	}
 
-	public class PrivateTab : Tab 
+	public class PrivateTab : Tab
 	{
 		public PrivateTab () : base () { }
 		public PrivateTab (Infrastructure.Tab tab) : base (tab) { }
 		public PrivateTab (string uri) : base (uri) { }
 	}
-
 }

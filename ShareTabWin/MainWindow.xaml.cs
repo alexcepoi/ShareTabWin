@@ -20,7 +20,7 @@ namespace ShareTabWin
 		// TODO: remove width and height from MainWindow.xaml
 		
 		private Communication.ShareTabHost Host;
-		private Communication.IShareTabSvc Connection;
+		public Communication.IShareTabSvc Connection;
 
 		private Helpers.Notifications.NotificationWindow notificationWindow;
 

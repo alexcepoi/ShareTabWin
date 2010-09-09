@@ -51,6 +51,7 @@ namespace ShareTabWin
 		{
 			ConnectionCallback.Instance.TabAdded += OnTabAdded;
 			ConnectionCallback.Instance.TabClosed += OnTabClosed;
+			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
 			ConnectionCallback.Instance.TabActivated += OnTabActivated;
 		}
 
@@ -66,6 +67,26 @@ namespace ShareTabWin
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab>(
 				(tab) => 
 					PublicSession.Remove((PublicSession.FindByGuid(e.Tab.Id)))), e.Tab);
+		}
+
+		void OnTabUpdated(object sender, TabArgs e)
+		{
+			Tab tab = PublicSession.FindByGuid(e.Tab.Id);
+			tab.TabData.Title = e.Tab.Title;
+			tab.TabData.Url = e.Tab.Url;
+
+			App.Current.Dispatcher.BeginInvoke(new Action(
+				() =>
+					{
+						tab.Title = tab.TabData.Title;
+
+						/* this updates the renderer also */
+						MainWindow main = App.Current.MainWindow as MainWindow;
+						if (main.ClientStatus.IsWatching)
+							if (tab.renderer.IsHandleCreated)
+								tab.renderer.Navigate(tab.TabData.Url);
+					}
+					));
 		}
 
 		void OnTabActivated (object sender, TabArgs e)
