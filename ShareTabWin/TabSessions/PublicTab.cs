@@ -87,9 +87,15 @@ namespace ShareTabWin
 			int x = document.ScrollLeft + (int)(element.BoundingClientRect.Left) + (element.ClientWidth / 2);
 			int y = document.ScrollTop + (int) (element.BoundingClientRect.Top) + (element.ClientHeight / 2);
 
+			// x, y should end up being as close to the middle of the viewport as possible
+			// this just sets x, y at upper left corner. how do we compensate?
+			x -= renderer.ClientSize.Width / 2;
+			y -= renderer.ClientSize.Height / 2;
+
 			document.ScrollLeft = x;
 			document.ScrollTop = y;
 			System.Diagnostics.Trace.TraceInformation ("Scrolled to {0}, {1}", x, y);
+
 		}
 		public event CurrentNodeChangedEventHandler CurrentNodeChanged
 		{

@@ -41,6 +41,7 @@ namespace ShareTabWin
 			if (NavigateFirst) return;
 
 			this.TabData.Url = e.Uri.AbsoluteUri;
+			System.Diagnostics.Trace.TraceInformation ("client size is {0}x{1}", renderer.ClientSize.Width, renderer.ClientSize.Height);
 		}
 
 		protected override void renderer_DocumentTitleChanged (object sender, EventArgs e)
