@@ -61,11 +61,11 @@
                               StatusTextChanged="browser_StatusTextChanged"
                               ProgressChanged="browser_ProgressChanged"
                               Navigating="browser_Navigating"
+                              DocumentTitleChanged="renderer_DocumentTitleChanged"
                               DocumentCompleted="browser_DocumentCompleted"
                               CanGoBackChanged="browser_RequeryCommands"
                               CanGoForwardChanged="browser_RequeryCommands"
                               HandleCreated="renderer_HandleCreated"
-                              DomClick="renderer_DomClick"
                               DomMouseMove="renderer_DomMouseMove"
                               />
         </WindowsFormsHost>

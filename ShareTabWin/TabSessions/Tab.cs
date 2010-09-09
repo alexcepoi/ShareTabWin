@@ -12,8 +12,8 @@ namespace ShareTabWin
 		public Tab()
 		{
 			this.TabData = new Infrastructure.Tab();
-			renderer.Navigated += new Skybound.Gecko.GeckoNavigatedEventHandler(renderer_Navigated);
-			renderer.DocumentTitleChanged += new EventHandler(renderer_DocumentTitleChanged);
+//			renderer.Navigated += new Skybound.Gecko.GeckoNavigatedEventHandler(renderer_Navigated);
+//			renderer.DocumentTitleChanged += new EventHandler(renderer_DocumentTitleChanged);
 		}
 
 		public Tab(Infrastructure.Tab tabData): this()
@@ -31,8 +31,9 @@ namespace ShareTabWin
 			this.TabData.Url = Url;
 		}
 
-		protected virtual void renderer_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
+		protected override void browser_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
 		{
+			base.browser_Navigated (sender, e);
 			// Do not update the TabData if it contains a navigation request which will be 
 			// executed on load. (not elegant?)
 			if (NavigateFirst) return;
@@ -40,7 +41,7 @@ namespace ShareTabWin
 			this.TabData.Url = e.Uri.AbsoluteUri;
 		}
 
-		protected virtual void renderer_DocumentTitleChanged(object sender, EventArgs e)
+		protected override void renderer_DocumentTitleChanged(object sender, EventArgs e)
 		{
 			if (NavigateFirst) return;
 

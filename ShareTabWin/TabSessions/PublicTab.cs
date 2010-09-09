@@ -15,9 +15,9 @@ namespace ShareTabWin
 		public PublicTab (Infrastructure.Tab tab) : base (tab) { }
 		public PublicTab (string uri) : base (uri) { }
 
-		protected override void renderer_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
+		protected override void browser_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
 		{
-			base.renderer_Navigated (sender, e);
+			base.browser_Navigated (sender, e);
 
 			MainWindow main = App.Current.MainWindow as MainWindow;
 

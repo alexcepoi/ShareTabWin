@@ -115,7 +115,7 @@ namespace ShareTabWin
 			progress.Value = 0;
 		}
 
-		private void browser_Navigated(object sender, GeckoNavigatedEventArgs e)
+		protected virtual void browser_Navigated(object sender, GeckoNavigatedEventArgs e)
 		{
 			addressBar.Text = e.Uri.AbsoluteUri;
 		}
@@ -163,6 +163,11 @@ namespace ShareTabWin
 		{
 			//if (e.CtrlKey) MessageBox.Show (e.ClientY + renderer.Document.DocumentElement.ScrollTop + "");
 			// good equation to get mouse height relative to document top
+
+		}
+
+		protected virtual void renderer_DocumentTitleChanged (object sender, EventArgs e)
+		{
 
 		}
 
