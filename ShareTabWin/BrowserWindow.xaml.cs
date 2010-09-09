@@ -156,15 +156,15 @@ namespace ShareTabWin
 			CommandManager.InvalidateRequerySuggested();
 		}
 		#endregion
-
+/*
 		private void renderer_DomClick (object sender, GeckoDomEventArgs e)
 		{
 			//renderer.Document.DocumentElement.InnerHtml
 //			MessageBox.Show (e.Target.ScrollHeight + " " + e.Target.GetElementsByClassName(""));
 //			renderer.Document.DocumentElement.ScrollTop = 100;
 //			MessageBox.Show(renderer.Document.GetElementById ("here").TextContent);
-			e.Target.ScrollTop = 0;
-		}
+//			e.Target.ScrollTop = 0;
+		}*/
 
 		protected virtual void renderer_DomMouseMove (object sender, GeckoDomMouseEventArgs e)
 		{

@@ -8,12 +8,12 @@ using System.Windows;
 
 namespace ShareTabWin
 {
-	public class PrivateTab : Tab
+	public class PublicTab : Tab
 	{
 		private GeckoNode currentNode;
-		public PrivateTab () : base () { }
-		public PrivateTab (Infrastructure.Tab tab) : base (tab) { }
-		public PrivateTab (string uri) : base (uri) { }
+		public PublicTab () : base () { }
+		public PublicTab (Infrastructure.Tab tab) : base (tab) { }
+		public PublicTab (string uri) : base (uri) { }
 		
 		protected override void renderer_DomMouseMove (object sender, GeckoDomMouseEventArgs e)
 		{
@@ -21,24 +21,59 @@ namespace ShareTabWin
 			if (!e.Target.Equals (currentNode))
 			{
 				currentNode = e.Target;
-				if (currentNode is GeckoElement && (currentNode as GeckoElement).Id != string.Empty)
-					System.Diagnostics.Trace.TraceInformation ((currentNode as GeckoElement).Id);
-				else
+				if (currentNode != null)
 				{
-					int id = renderer.Document.DocumentElement.GetDomId (e.Target);
-					if (id == 0) throw new InvalidOperationException ("GetDomId returned a 0, this should never happen!");
-					System.Diagnostics.Trace.TraceInformation (id.ToString ());
+					CurrentNodeChangedEventArgs args = null;
+					string tagId = null;
+
+					if (currentNode is GeckoElement)
+						tagId = (currentNode as GeckoElement).Id;
+
+					if (string.IsNullOrEmpty (tagId))
+					{
+						int domId = renderer.Document.DocumentElement.GetDomId (currentNode);
+						if (domId != 0) //throw new InvalidOperationException ("GetDomId returned a 0, this should never happen!");
+							args = new CurrentNodeChangedEventArgs (TabData, domId);
+					}
+					else
+					{
+						args = new CurrentNodeChangedEventArgs (TabData, tagId); 
+					}
+
+					if (args != null)
+						RaiseEvent (args);
 				}
 			}
 		}
-		public event RoutedEventHandler CurrentNodeChanged
+		public event CurrentNodeChangedEventHandler CurrentNodeChanged
 		{
 			add { AddHandler (CurrentNodeChangedEvent, value); }
 			remove { RemoveHandler (CurrentNodeChangedEvent, value); }
 		}
 		public static readonly RoutedEvent CurrentNodeChangedEvent =
 			EventManager.RegisterRoutedEvent ("CurrentNodeChanged", RoutingStrategy.Bubble,
-			typeof (RoutedEventHandler), typeof (PrivateTab));
+			typeof (CurrentNodeChangedEventHandler), typeof (PublicTab));
 
+	}
+
+	public delegate void CurrentNodeChangedEventHandler (object sender, CurrentNodeChangedEventArgs e);
+	public class CurrentNodeChangedEventArgs : RoutedEventArgs
+	{
+		public Infrastructure.Tab Tab { get; private set; }
+		public string TagId { get; private set; }
+		public int DomId { get; private set; }
+		private CurrentNodeChangedEventArgs (Infrastructure.Tab tab) : base (PublicTab.CurrentNodeChangedEvent)
+		{
+			Tab = tab;
+		}
+		public CurrentNodeChangedEventArgs (Infrastructure.Tab tab, string tagId) : this (tab)
+		{
+			TagId = tagId;
+		}
+
+		public CurrentNodeChangedEventArgs (Infrastructure.Tab tab, int domId) : this (tab)
+		{
+			DomId = domId;
+		}
 	}
 }

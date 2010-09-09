@@ -58,11 +58,11 @@ namespace ShareTabWin
 		}
 	}
 
-	public class PublicTab : Tab 
+	public class PrivateTab : Tab 
 	{
-		public PublicTab () : base () { }
-		public PublicTab (Infrastructure.Tab tab) : base (tab) { }
-		public PublicTab (string uri) : base (uri) { }
+		public PrivateTab () : base () { }
+		public PrivateTab (Infrastructure.Tab tab) : base (tab) { }
+		public PrivateTab (string uri) : base (uri) { }
 	}
 
 }

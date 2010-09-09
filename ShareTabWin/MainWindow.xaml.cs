@@ -349,5 +349,10 @@ namespace ShareTabWin
 				e.Cancel = true;
 			}
 		}
+
+		private void documentPane_CurrentNodeChanged (object sender, CurrentNodeChangedEventArgs e)
+		{
+			//MessageBox.Show (e.Tab.Title + (e.TagId ?? e.DomId.ToString ()));
+		}
 	}
 }
