@@ -20,7 +20,6 @@ namespace ShareTabWin
 			InitializeComponent();
 		}
 
-		private GeckoNode currentNode;
 		protected virtual void renderer_HandleCreated(object sender, EventArgs e) {}
 
 		#region Navigation Commands
@@ -167,17 +166,11 @@ namespace ShareTabWin
 			e.Target.ScrollTop = 0;
 		}
 
-		private void renderer_DomMouseMove (object sender, GeckoDomMouseEventArgs e)
+		protected virtual void renderer_DomMouseMove (object sender, GeckoDomMouseEventArgs e)
 		{
 			//if (e.CtrlKey) MessageBox.Show (e.ClientY + renderer.Document.DocumentElement.ScrollTop + "");
 			// good equation to get mouse height relative to document top
-			if (!e.Target.Equals( currentNode))
-			{
-				int id = renderer.Document.DocumentElement.GetDomId (e.Target);
-				if (id == 0) throw new InvalidOperationException("GetDomId returned a 0, this should never happen!");
-				Trace.TraceInformation (id.ToString ());
-				currentNode = e.Target;
-			}
+
 		}
 
 	}

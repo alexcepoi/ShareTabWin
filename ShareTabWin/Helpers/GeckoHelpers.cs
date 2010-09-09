@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using Skybound.Gecko;
 
 namespace ShareTabWin.Helpers
@@ -12,7 +12,7 @@ namespace ShareTabWin.Helpers
 			foreach (var iter in root.TraverseDom ())
 			{
 				i++;
-				if (node.Equals ((GeckoNode) iter))
+				if (node.Equals (iter))
 					return i;
 			}
 			return 0;
@@ -25,11 +25,11 @@ namespace ShareTabWin.Helpers
 			{
 				i++;
 				if (id == i)
-					return (GeckoNode) iter;
+					return iter;
 			}
 			return null;
 		}
-		public static IEnumerable TraverseDom (this GeckoNode node)
+		public static IEnumerable<GeckoNode> TraverseDom (this GeckoNode node)
 		{
 			yield return node; // is this right? i think so.
 			foreach (var i in node.ChildNodes)
