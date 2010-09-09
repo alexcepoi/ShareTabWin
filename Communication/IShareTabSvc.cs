@@ -32,6 +32,12 @@ namespace Communication
 		[OperationContract(IsOneWay = true)]
 		void UpdateTab(Infrastructure.Tab tab);
 
+		[OperationContract (IsOneWay = true)]
+		void ScrollTab (Infrastructure.Tab tab, int domId);
+
+		[OperationContract (IsOneWay = true)]
+		void ScrollTab (Infrastructure.Tab tab, string tagId);
+
 		[OperationContract]
 		bool Broadcast ();
 

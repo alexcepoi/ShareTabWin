@@ -93,10 +93,19 @@ namespace Communication
 			broadcaster = null;
 		}
 
-
 		public void ActivateTab (Tab tab)
 		{
 			userList.ForOthers (user => user.Callback.ReceiveTabActivated (tab));
+		}
+
+		public void ScrollTab (Tab tab, int domId)
+		{
+			userList.ForOthers (user => user.Callback.ReceiveTabScrolled (tab, domId));
+		}
+
+		public void ScrollTab (Tab tab, string tagId)
+		{
+			userList.ForOthers (user => user.Callback.ReceiveTabScrolled (tab, tagId));
 		}
 	}
 }

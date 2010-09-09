@@ -279,7 +279,7 @@ namespace ShareTabWin
 
 		}
 
-		public event ShareTabWin.WCF.Events.DisconnectedEventHandler Disconnected;
+		public event DisconnectedEventHandler Disconnected;
 		protected void OnDisconnected (RoutedEventArgs e) { Disconnected (this, e); }
 
 		private void PushTab_Executed(object sender, ExecutedRoutedEventArgs e)
