@@ -92,6 +92,7 @@
     </Compile>
     <Compile Include="Helpers\ClientStatus.cs" />
     <Compile Include="Helpers\CustomProps.cs" />
+    <Compile Include="Helpers\GeckoHelpers.cs" />
     <Compile Include="Helpers\Hasher.cs" />
     <Compile Include="Helpers\Notifications\Notification.cs" />
     <Compile Include="Helpers\Notifications\NotificationWindow.xaml.cs">

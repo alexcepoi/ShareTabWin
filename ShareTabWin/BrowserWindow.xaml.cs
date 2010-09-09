@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using Skybound.Gecko;
 using System.Collections;
+using ShareTabWin.Helpers;
 
 namespace ShareTabWin
 {
@@ -172,32 +173,12 @@ namespace ShareTabWin
 			// good equation to get mouse height relative to document top
 			if (!e.Target.Equals( currentNode))
 			{
-				int id = GetDomId (e.Target, renderer.Document.DocumentElement);
+				int id = renderer.Document.DocumentElement.GetDomId (e.Target);
 				if (id == 0) throw new InvalidOperationException("GetDomId returned a 0, this should never happen!");
+				Trace.TraceInformation (id.ToString ());
 				currentNode = e.Target;
 			}
 		}
-		public static int GetDomId (GeckoNode node, GeckoNode iterator)
-		{
-			int i = 0;
-			//if (node.Equals ((GeckoNode) iterator)) return i; // n-am reușit să bag în mod elegant pasul ăsta in iterator...
-			foreach (var iter in TraverseDom (iterator))
-			{
-				i++;
-				if (node.Equals ((GeckoNode) iter))
-					return i;
-			}
-			return 0;
-		}
-		public static IEnumerable TraverseDom (GeckoNode node)
-		{
-			yield return node; // is this right? i think so.
-			foreach (var i in node.ChildNodes)
-			{
-				//yield return i; moved out of foreach
-				foreach (var j in TraverseDom (i))
-					yield return j;
-			}
-		}
+
 	}
 }
