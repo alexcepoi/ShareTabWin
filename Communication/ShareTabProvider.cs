@@ -107,5 +107,10 @@ namespace Communication
 		{
 			userList.ForOthers (user => user.Callback.ReceiveTabScrolledToTagId (tab, tagId));
 		}
+
+		public void SetTabSelection (Tab tab, Selection selection)
+		{
+			userList.ForOthers (user => user.Callback.ReceiveSetTabSelection (tab, selection));
+		}
 	}
 }

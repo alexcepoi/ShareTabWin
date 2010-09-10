@@ -37,6 +37,7 @@ namespace ShareTabWin
 		public event TabUpdatedEventHandler TabUpdated;
 		public event TabActivatedEventHandler TabActivated;
 		public event TabScrolledEventHandler TabScrolled;
+		public event TabSelectionSetEventHandler TabSelectionSet;
 
 		protected virtual void OnChatReceive (ChatReceiveEventArgs e)
 		{
@@ -84,9 +85,14 @@ namespace ShareTabWin
 		{
 			var handler = TabScrolled;
 			if (handler != null)
-				TabScrolled (this, e); 
+				handler (this, e); 
 		}
-
+		protected virtual void OnTabSelectionSet (TabSelectionSetEventArgs e)
+		{
+			var handler = TabSelectionSet;
+			if (handler != null)
+				handler (this, e);
+		}
 		#endregion
 		#region Callback implementation
 		
@@ -148,6 +154,11 @@ namespace ShareTabWin
 		{
 			OnTabScrolled (new TabScrolledArgs (tab, tagId));
 		} 
-	#endregion
+		public void ReceiveSetTabSelection (Infrastructure.Tab tab, Infrastructure.Selection selection)
+		{
+			OnTabSelectionSet (new TabSelectionSetEventArgs (tab, selection));
+		}
+
+		#endregion
 	}
 }

@@ -104,7 +104,9 @@
                 </dock:DockablePane>
 
                 <!-- Documents -->
-                <dock:DocumentPane x:Name="documentPane" local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged" />
+                <dock:DocumentPane x:Name="documentPane" 
+                                   local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged"
+                                   local:PublicTab.SelectionChanged="documentPane_SelectionChanged"/>
             </dock:ResizingPanel>
         </dock:DockingManager>
     </DockPanel>

@@ -54,6 +54,7 @@ namespace ShareTabWin
 			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
 			ConnectionCallback.Instance.TabActivated += OnTabActivated;
 			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
+			ConnectionCallback.Instance.TabSelectionSet += OnTabSelectionSet;
 		}
 
 		void OnTabAdded (object sender, TabArgs e)
@@ -72,9 +73,12 @@ namespace ShareTabWin
 
 		void OnTabUpdated(object sender, TabArgs e)
 		{
-			Tab tab = PublicSession.FindByGuid(e.Tab.Id);
-			tab.TabData.Title = e.Tab.Title;
-			tab.TabData.Url = e.Tab.Url;
+			Tab tab = PublicSession.FindByGuid(e.Tab.Id); //sometines return null
+			if (tab != null)
+			{
+				tab.TabData.Title = e.Tab.Title;
+				tab.TabData.Url = e.Tab.Url;
+			}
 
 			App.Current.Dispatcher.BeginInvoke(new Action(
 				() =>
@@ -116,6 +120,18 @@ namespace ShareTabWin
 					}
 				}), e.Tab);
 
+		}
+
+
+		void OnTabSelectionSet (object sender, TabSelectionSetEventArgs e)
+		{
+			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab, Infrastructure.Selection> (
+				(tab, selection) =>
+				{
+					var t = PublicSession.FindByGuid (tab.Id);
+					if (t != null)
+						t.SetSelection (selection);
+				}), e.Tab, e.Selection);
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

@@ -15,6 +15,7 @@ namespace ShareTabWin
 	public delegate void TabUpdatedEventHandler (object sender, TabArgs e);
 	public delegate void TabActivatedEventHandler (object sender, TabArgs e);
 	public delegate void TabScrolledEventHandler (object sender, TabScrolledArgs e);
+	public delegate void TabSelectionSetEventHandler (object sender, TabSelectionSetEventArgs e);
 
 	public class ChatReceiveEventArgs : EventArgs
 	{
@@ -37,5 +38,14 @@ namespace ShareTabWin
 
 		public TabScrolledArgs (Infrastructure.Tab tab, int domId) : base (tab) { DomId = domId; }
 		public TabScrolledArgs (Infrastructure.Tab tab, string tagId) : base (tab) { TagId = tagId; }
+	}
+	public class TabSelectionSetEventArgs : TabArgs
+	{
+		public Infrastructure.Selection Selection { get; private set; }
+		public TabSelectionSetEventArgs (Infrastructure.Tab tab, Infrastructure.Selection selection)
+			: base (tab)
+		{
+			Selection = selection;
+		}
 	}
 }

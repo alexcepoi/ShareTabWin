@@ -64,6 +64,7 @@ namespace ShareTabWin
 		public virtual void ScrollTo (string TagId) { }
 
 		public virtual void ScrollTo (int DomId) { }
+		public virtual void SetSelection (Infrastructure.Selection selection) { }
 	}
 
 	public class PrivateTab : Tab

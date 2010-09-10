@@ -2,10 +2,7 @@
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Controls;
-
-
 using System;
-
 
 namespace ShareTabWin
 {
@@ -359,6 +356,12 @@ namespace ShareTabWin
 				else
 					Connection.ScrollTabToDomId (e.Tab, e.DomId);
 			}
+		}
+
+		private void documentPane_SelectionChanged (object sender, SelectionChangedEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+				Connection.SetTabSelection (e.Tab, e.Selection);
 		}
 	}
 }

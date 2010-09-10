@@ -110,7 +110,6 @@ namespace ShareTabWin
 		private void browser_Navigating(object sender, GeckoNavigatingEventArgs e)
 		{
 			CommandManager.InvalidateRequerySuggested();
-
 			progress.Visibility = Visibility.Visible;
 			progress.Value = 0;
 		}
@@ -165,6 +164,8 @@ namespace ShareTabWin
 			// good equation to get mouse height relative to document top
 
 		}
+
+		protected virtual void renderer_DomMouseUp (object sender, GeckoDomMouseEventArgs e) { }
 
 		protected virtual void renderer_DocumentTitleChanged (object sender, EventArgs e)
 		{
