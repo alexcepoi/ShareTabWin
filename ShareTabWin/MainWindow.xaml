@@ -72,7 +72,8 @@
                 <MenuItem Header="_Paste" Command="Paste" />
                 <MenuItem Header="_Delete" Command="Delete" />
                 <Separator />
-                <MenuItem Header="Sketch" Command="local:Commands.SketchToggle" IsCheckable="True" />
+                <MenuItem Header="Sketch" Command="local:Commands.SketchToggle" IsCheckable="False" x:Name="sketchToggle" />
+                <MenuItem Header="Clear Sketch" Command="local:Commands.ClearSketch" />
             </MenuItem>
             <MenuItem Header="_Session" >
                 <MenuItem.DataContext>

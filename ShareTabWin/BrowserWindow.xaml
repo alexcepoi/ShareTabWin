@@ -4,6 +4,7 @@
                       xmlns:dock="clr-namespace:AvalonDock;assembly=AvalonDock"
                       xmlns:skyb="clr-namespace:Skybound.Gecko;assembly=Skybound.Gecko"
                       xmlns:helpers="clr-namespace:ShareTabWin.Helpers"
+                      xmlns:local="clr-namespace:ShareTabWin"
                       IsFloatingAllowed="false"
                       Title="Blank Page">
 
@@ -13,6 +14,7 @@
         <CommandBinding Command="Refresh" Executed="Refresh_Executed" />
         <CommandBinding Command="BrowseStop" Executed="Stop_Executed" CanExecute="Stop_CanExecute" />
         <CommandBinding Command="BrowseHome" Executed="Home_Executed" />
+        <CommandBinding Command="local:Commands.ClearSketch" Executed="ClearSketch" />
     </dock:DocumentContent.CommandBindings>
 
     <DockPanel>

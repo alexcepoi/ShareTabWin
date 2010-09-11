@@ -182,5 +182,10 @@ namespace ShareTabWin
 		{
 		}
 
+		protected virtual void ClearSketch (object sender, ExecutedRoutedEventArgs e)
+		{
+			doodleCanvas.Strokes.Clear ();
+		}
+
 	}
 }

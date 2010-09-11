@@ -379,6 +379,7 @@ namespace ShareTabWin
 			if (tab != null)
 			{
 				tab.TogglePopup ();
+				sketchToggle.IsChecked = !sketchToggle.IsChecked;
 			}
 		}
 
