@@ -69,6 +69,7 @@ namespace ShareTabWin
 		{
 			doodle.IsOpen = !doodle.IsOpen;
 		}
+		public virtual void UpdateSketch (System.Windows.Ink.StrokeCollection strokes) { }
 	}
 
 	public class PrivateTab : Tab

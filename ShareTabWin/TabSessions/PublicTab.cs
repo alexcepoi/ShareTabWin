@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Skybound.Gecko;
-using ShareTabWin.Helpers;
 using System.Windows;
+using System.Windows.Ink;
+using ShareTabWin.Helpers;
+using Skybound.Gecko;
 
 namespace ShareTabWin
 {
@@ -63,6 +61,13 @@ namespace ShareTabWin
 				}
 			}
 		}
+		protected override void sketch_StrokesChanged (object sender, System.Windows.Ink.StrokeCollectionChangedEventArgs e)
+		{
+			base.sketch_StrokesChanged (sender, e);
+			var ms = new System.IO.MemoryStream ();
+			doodleCanvas.Strokes.Save (ms);
+			RaiseEvent (new SketchChangedEventArgs (TabData, ms.GetBuffer ()));
+		}
 
 		public override void ScrollTo(int domId)
 		{
@@ -106,24 +111,43 @@ namespace ShareTabWin
 			System.Diagnostics.Trace.TraceInformation ("Scrolled to {0}, {1}", x, y);
 
 		}
+
+		public override void UpdateSketch (StrokeCollection strokes)
+		{
+			base.UpdateSketch (strokes);
+			doodleCanvas.Strokes.Clear ();
+			doodleCanvas.Strokes.Add (strokes);
+			if (!doodle.IsOpen)
+				doodle.IsOpen = true;
+		}
 		public event CurrentNodeChangedEventHandler CurrentNodeChanged
 		{
 			add { AddHandler (CurrentNodeChangedEvent, value); }
 			remove { RemoveHandler (CurrentNodeChangedEvent, value); }
 		}
+		public event SketchChangedEventHandler SketchChanged
+		{
+			add { AddHandler (SketchChangedEvent, value); }
+			remove { RemoveHandler (SketchChangedEvent, value); }
+		}
 		public static readonly RoutedEvent CurrentNodeChangedEvent =
 			EventManager.RegisterRoutedEvent ("CurrentNodeChanged", RoutingStrategy.Bubble,
 			typeof (CurrentNodeChangedEventHandler), typeof (PublicTab));
+		public static readonly RoutedEvent SketchChangedEvent =
+			EventManager.RegisterRoutedEvent ("SketchChanged", RoutingStrategy.Bubble,
+			typeof (SketchChangedEventHandler), typeof (PublicTab));
 
 	}
 
 	public delegate void CurrentNodeChangedEventHandler (object sender, CurrentNodeChangedEventArgs e);
+	public delegate void SketchChangedEventHandler (object sender, SketchChangedEventArgs e);
 	public class CurrentNodeChangedEventArgs : RoutedEventArgs
 	{
 		public Infrastructure.Tab Tab { get; private set; }
 		public string TagId { get; private set; }
 		public int DomId { get; private set; }
-		private CurrentNodeChangedEventArgs (Infrastructure.Tab tab) : base (PublicTab.CurrentNodeChangedEvent)
+		private CurrentNodeChangedEventArgs (Infrastructure.Tab tab) 
+			: base (PublicTab.CurrentNodeChangedEvent)
 		{
 			Tab = tab;
 		}
@@ -135,6 +159,18 @@ namespace ShareTabWin
 		public CurrentNodeChangedEventArgs (Infrastructure.Tab tab, int domId) : this (tab)
 		{
 			DomId = domId;
+		}
+	}
+
+	public class SketchChangedEventArgs : RoutedEventArgs
+	{
+		public Infrastructure.Tab Tab { get; private set; }
+		public byte[] Strokes { get; private set; }
+		public SketchChangedEventArgs (Infrastructure.Tab tab, byte[] strokes)
+			: base (PublicTab.SketchChangedEvent)
+		{
+			Tab = tab;
+			Strokes = strokes;
 		}
 	}
 }

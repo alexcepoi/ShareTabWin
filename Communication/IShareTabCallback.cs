@@ -33,6 +33,9 @@ namespace Communication
 
 		[OperationContract (IsOneWay = true)]
 		void ReceiveTabScrolledToTagId (Infrastructure.Tab tab, string tagId);
+
+		[OperationContract (IsOneWay = true)]
+		void ReceiveSketchUpdate (Infrastructure.Tab tab, byte [] strokes);
 		//[OperationContract (IsOneWay = true)]
 		//void HasBegunBroadcasting ();
 	}

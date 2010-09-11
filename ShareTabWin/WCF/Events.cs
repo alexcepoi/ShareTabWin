@@ -6,15 +6,16 @@ using System.Windows;
 
 namespace ShareTabWin
 {
-	public delegate void DisconnectedEventHandler (object sender, RoutedEventArgs e);
-	public delegate void ChatReceiveEventHandler (object sender, ChatReceiveEventArgs e);
-	public delegate void UserSignInEventHandler (object sender, UserEventArgs e);
-	public delegate void UserSignOutEventHandler (object sender, UserEventArgs e);
-	public delegate void TabAddedEventHandler (object sender, TabArgs e);
-	public delegate void TabClosedEventHandler (object sender, TabArgs e);
-	public delegate void TabUpdatedEventHandler (object sender, TabArgs e);
-	public delegate void TabActivatedEventHandler (object sender, TabArgs e);
-	public delegate void TabScrolledEventHandler (object sender, TabScrolledArgs e);
+	public delegate void DisconnectedEventHandler	(object sender, RoutedEventArgs e);
+	public delegate void ChatReceiveEventHandler	(object sender, ChatReceiveEventArgs e);
+	public delegate void UserSignInEventHandler		(object sender, UserEventArgs e);
+	public delegate void UserSignOutEventHandler	(object sender, UserEventArgs e);
+	public delegate void TabAddedEventHandler		(object sender, TabArgs e);
+	public delegate void TabClosedEventHandler		(object sender, TabArgs e);
+	public delegate void TabUpdatedEventHandler		(object sender, TabArgs e);
+	public delegate void TabActivatedEventHandler	(object sender, TabArgs e);
+	public delegate void TabScrolledEventHandler	(object sender, TabScrolledArgs e);
+	public delegate void SketchUpdatedEventHandler	(object sender, SketchArgs e);
 
 	public class ChatReceiveEventArgs : EventArgs
 	{
@@ -37,5 +38,14 @@ namespace ShareTabWin
 
 		public TabScrolledArgs (Infrastructure.Tab tab, int domId) : base (tab) { DomId = domId; }
 		public TabScrolledArgs (Infrastructure.Tab tab, string tagId) : base (tab) { TagId = tagId; }
+	}
+	public class SketchArgs : TabArgs
+	{
+		public System.Windows.Ink.StrokeCollection Strokes { get; private set; }
+		public SketchArgs (Infrastructure.Tab tab, byte[] strokes)
+			: base (tab)
+		{
+			Strokes = new System.Windows.Ink.StrokeCollection (new System.IO.MemoryStream (strokes));
+		}
 	}
 }

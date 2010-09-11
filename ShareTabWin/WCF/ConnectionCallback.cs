@@ -37,6 +37,7 @@ namespace ShareTabWin
 		public event TabUpdatedEventHandler TabUpdated;
 		public event TabActivatedEventHandler TabActivated;
 		public event TabScrolledEventHandler TabScrolled;
+		public event SketchUpdatedEventHandler SketchUpdated;
 
 		protected virtual void OnChatReceive (ChatReceiveEventArgs e)
 		{
@@ -84,7 +85,13 @@ namespace ShareTabWin
 		{
 			var handler = TabScrolled;
 			if (handler != null)
-				TabScrolled (this, e); 
+				handler (this, e); 
+		}
+		protected virtual void OnSketchUpdated (SketchArgs e)
+		{
+			var handler = SketchUpdated;
+			if (handler != null)
+				handler (this, e);
 		}
 
 		#endregion
@@ -148,6 +155,12 @@ namespace ShareTabWin
 		{
 			OnTabScrolled (new TabScrolledArgs (tab, tagId));
 		} 
-	#endregion
+
+		public void ReceiveSketchUpdate (Infrastructure.Tab tab, byte[] strokes)
+		{
+			OnSketchUpdated (new SketchArgs (tab, strokes));
+		}
+
+		#endregion
 	}
 }

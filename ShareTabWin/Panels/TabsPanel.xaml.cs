@@ -61,6 +61,7 @@ namespace ShareTabWin
 			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
 			ConnectionCallback.Instance.TabActivated += OnTabActivated;
 			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
+			ConnectionCallback.Instance.SketchUpdated += OnSketchUpdated;
 		}
 
 		void OnTabAdded (object sender, TabArgs e)
@@ -131,6 +132,17 @@ namespace ShareTabWin
 					}
 				}), e.Tab);
 
+		}
+
+		void OnSketchUpdated (object sender, SketchArgs e)
+		{
+			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab, System.Windows.Ink.StrokeCollection> (
+				(tab, strokes) =>
+				{
+					var t = PublicSession.FindByGuid (tab.Id);
+					if (t != null)
+						t.UpdateSketch (strokes);
+				}), e.Tab, e.Strokes);
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

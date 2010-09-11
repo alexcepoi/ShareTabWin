@@ -111,5 +111,11 @@ namespace Communication
 		{
 			userList.ForOthers (user => user.Callback.ReceiveTabScrolledToTagId (tab, tagId));
 		}
+
+		public void UpdateSketch (Tab tab, byte[] strokes)
+		{
+			// TODO: save tab serverside too for new users.
+			userList.ForOthers (user => user.Callback.ReceiveSketchUpdate (tab, strokes));
+		}
 	}
 }

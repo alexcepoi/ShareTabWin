@@ -382,5 +382,11 @@ namespace ShareTabWin
 			}
 		}
 
+		private void documentPane_SketchChanged (object sender, SketchChangedEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+				Connection.UpdateSketch (e.Tab, e.Strokes);
+		}
+
 	}
 }

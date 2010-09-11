@@ -58,7 +58,8 @@
             <Popup x:Name="doodle" AllowsTransparency="True" StaysOpen="True" Placement="Relative">
                 <InkCanvas x:Name="doodleCanvas" Background="#33FF0000"
                    Width="{Binding ElementName=renderer, Path=Size.Width}"
-                   Height="{Binding ElementName=renderer, Path=Size.Height}"/>
+                   Height="{Binding ElementName=renderer, Path=Size.Height}"
+                   StrokesReplaced="sketch_StrokesReplaced" />
             </Popup>
         <WindowsFormsHost>
             <helpers:Renderer x:Name="renderer"

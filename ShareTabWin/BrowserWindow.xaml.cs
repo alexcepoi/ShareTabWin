@@ -18,6 +18,7 @@ namespace ShareTabWin
 		public BrowserWindow()
 		{
 			InitializeComponent();
+			doodleCanvas.Strokes.StrokesChanged += sketch_StrokesChanged;
 		}
 
 		protected virtual void renderer_HandleCreated(object sender, EventArgs e) {}
@@ -169,6 +170,16 @@ namespace ShareTabWin
 		protected virtual void renderer_DocumentTitleChanged (object sender, EventArgs e)
 		{
 
+		}
+
+		protected virtual void sketch_StrokesReplaced (object sender, InkCanvasStrokesReplacedEventArgs e)
+		{
+			e.PreviousStrokes.StrokesChanged -= sketch_StrokesChanged;
+			e.NewStrokes.StrokesChanged += sketch_StrokesChanged;
+		}
+
+		protected virtual void sketch_StrokesChanged (object sender, System.Windows.Ink.StrokeCollectionChangedEventArgs e)
+		{
 		}
 
 	}
