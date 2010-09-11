@@ -234,7 +234,6 @@
     <Resource Include="Icons\reload_12x14.png" />
     <Resource Include="Icons\x_14x14.png" />
     <Resource Include="ShareTab.ico" />
-    <SplashScreen Include="Icons\splash.png" />
     <Resource Include="Dependencies\GeckoFX\bin\Skybound.Gecko.xml" />
     <Content Include="Dependencies\GeckoFX\chrome\geckofx.jar" />
     <Resource Include="Dependencies\GeckoFX\Readme.txt" />

@@ -55,6 +55,19 @@ namespace ShareTabWin
 			EventManager.RegisterClassHandler (typeof (TextBox),
 				TextBox.PreviewMouseLeftButtonDownEvent,
 				new MouseButtonEventHandler (SelectivelyIgnoreMouseButton));
+
+			App.Current.DispatcherUnhandledException += new System.Windows.Threading.DispatcherUnhandledExceptionEventHandler(Current_DispatcherUnhandledException);
+		}
+
+		void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+		{
+			System.Exception ex = e.Exception;
+			if (ex.InnerException != null) ex = ex.InnerException;
+
+			MessageBox.Show(string.Format("{0}: {1}\n\n{2}", ex.Source, ex.Message, ex.StackTrace),
+				"Exception Caught", MessageBoxButton.OK, MessageBoxImage.Error);
+
+			System.Environment.Exit(-1);
 		}
 
 		/// <summary>
