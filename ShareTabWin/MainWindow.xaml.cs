@@ -29,6 +29,8 @@ namespace ShareTabWin
 			InitializeComponent ();
 			dockingManager.DataContext = tabsPanel.PrivateSession;
 			notificationWindow = new Helpers.Notifications.NotificationWindow ();
+			//sketchWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.Manual;
+			//sketchWindow.ShowInTaskbar = false;
 			//notificationWindow.Visibility = System.Windows.Visibility.Hidden;
 			notificationWindow.Show ();
 		}
@@ -359,5 +361,26 @@ namespace ShareTabWin
 					Connection.ScrollTabToDomId (e.Tab, e.DomId);
 			}
 		}
+
+		private void SketchToggle_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+/*			if (sketchWindow.IsVisible)
+				sketchWindow.IsOpen = false;
+			else
+			{
+				sketchWindow.Left = 100;
+				sketchWindow.Top = 100;
+				sketchWindow.Owner = this;
+				sketchWindow.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+				sketchWindow.IsOpen = true;
+				.Activate ();*/
+
+			var tab = dockingManager.ActiveDocument as Tab;
+			if (tab != null)
+			{
+				tab.TogglePopup ();
+			}
+		}
+
 	}
 }

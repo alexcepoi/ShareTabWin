@@ -15,6 +15,7 @@ namespace ShareTabWin
 		public static RoutedCommand ClonePublicTab = new RoutedCommand ();
 		public static RoutedCommand WatchingToggle = new RoutedCommand ();
 		public static RoutedCommand BroadcastToggle = new RoutedCommand ();
+		public static RoutedCommand SketchToggle = new RoutedCommand ();
 
 		// Shortcut Keys
 		public static RoutedCommand FocusAddressbarCommand = new RoutedCommand();
@@ -29,6 +30,8 @@ namespace ShareTabWin
 			ExitCommand.InputGestures.Add(new KeyGesture(Key.Q, ModifierKeys.Control));
 			PushTab.InputGestures.Add (new KeyGesture (Key.P, ModifierKeys.Control));
 			WatchingToggle.InputGestures.Add (new KeyGesture (Key.F, ModifierKeys.Control | ModifierKeys.Shift));
+			SketchToggle.InputGestures.Add (new KeyGesture (Key.K, ModifierKeys.Control));
+			new KeyGesture (Key.K, ModifierKeys.Control);
 
 			// Shortcut Keys
 			FocusAddressbarCommand.InputGestures.Add(new KeyGesture(Key.L, ModifierKeys.Control));

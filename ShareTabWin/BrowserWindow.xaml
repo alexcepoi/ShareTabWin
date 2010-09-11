@@ -54,8 +54,13 @@
 
             <StatusBarItem x:Name="status" />
         </StatusBar>
-
-        <WindowsFormsHost >
+        <Grid>
+            <Popup x:Name="doodle" AllowsTransparency="True" StaysOpen="True" Placement="Relative">
+                <InkCanvas x:Name="doodleCanvas" Background="#33FF0000"
+                   Width="{Binding ElementName=renderer, Path=Size.Width}"
+                   Height="{Binding ElementName=renderer, Path=Size.Height}"/>
+            </Popup>
+        <WindowsFormsHost>
             <helpers:Renderer x:Name="renderer"
                               Navigated="browser_Navigated"
                               StatusTextChanged="browser_StatusTextChanged"
@@ -68,7 +73,10 @@
                               HandleCreated="renderer_HandleCreated"
                               DomMouseMove="renderer_DomMouseMove"
                               />
-        </WindowsFormsHost>
+
+                <!--SizeChanged="renderer_SizeChanged" -->
+            </WindowsFormsHost>
+        </Grid>
 
     </DockPanel>
 </dock:DocumentContent>

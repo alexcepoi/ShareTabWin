@@ -64,6 +64,11 @@ namespace ShareTabWin
 		public virtual void ScrollTo (string TagId) { }
 
 		public virtual void ScrollTo (int DomId) { }
+
+		public virtual void TogglePopup ()
+		{
+			doodle.IsOpen = !doodle.IsOpen;
+		}
 	}
 
 	public class PrivateTab : Tab
