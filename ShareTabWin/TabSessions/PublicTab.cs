@@ -64,19 +64,28 @@ namespace ShareTabWin
 			}
 		}
 
-		public override void ScrollTo (int domId)
+		public override void ScrollTo(int domId)
 		{
-			base.ScrollTo (domId);
-			GeckoElement element = renderer.Document.DocumentElement.GetByDomId (domId) as GeckoElement;
-			if (element != null) System.Diagnostics.Trace.TraceInformation ("IT DOESN'T ALWAYS FAIL!!!");
-			ScrollTo (element);
+			base.ScrollTo(domId);
+
+			if (renderer.Document != null)
+			{
+				GeckoElement element = renderer.Document.DocumentElement.GetByDomId(domId) as GeckoElement;
+				if (element == null) System.Diagnostics.Trace.TraceInformation("GetByDomId failed =>");
+				ScrollTo(element);
+			}
 		}
 
 		public override void ScrollTo (string tagId)
 		{
 			base.ScrollTo (tagId);
-			GeckoElement element = renderer.Document.GetElementById (tagId);
-			ScrollTo (element);
+
+			if (renderer.Document != null)
+			{
+				GeckoElement element = renderer.Document.GetElementById(tagId);
+				if (element == null) System.Diagnostics.Trace.TraceInformation("GetByTagId failed =>");
+				ScrollTo(element);
+			}
 		}
 
 		private void ScrollTo (GeckoElement element)

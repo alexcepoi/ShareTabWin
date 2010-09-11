@@ -96,7 +96,7 @@
                              DocumentClosing="dockingManager_DocumentClosing">
             <dock:ResizingPanel Orientation="Horizontal">
                 <!-- Docked -->
-                <dock:DockablePane dock:ResizingPanel.ResizeWidth="350"   >
+                <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
                     <local:TabsPanel x:Name="tabsPanel" Selector.IsSelected="True" />
                     <local:UsersPanel x:Name="usersPanel" />
                     <local:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />

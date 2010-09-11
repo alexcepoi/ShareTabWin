@@ -262,7 +262,6 @@ namespace ShareTabWin
 					if (child.DataContext == target)
 						return child;
 			}
-			
 			return null;
 		}
 

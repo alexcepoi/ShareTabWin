@@ -40,11 +40,18 @@ namespace ShareTabWin
 
 		private void TabsTreeView_Selected(object sender, System.Windows.RoutedEventArgs e)
 		{
-			TabsTreeView.Tag = e.OriginalSource;
+			//TabsTreeView.Tag = e.OriginalSource;
 			
 			TreeViewItem item = e.OriginalSource as TreeViewItem;
 			if (item.DataContext is Tab)
-				(item.DataContext as Tab).Activate();
+				if (item.DataContext is PrivateTab)
+					(item.DataContext as Tab).Activate();
+				else
+				{
+					MainWindow main = App.Current.MainWindow as MainWindow;
+					if (main.ClientStatus.IsBroadcasting)
+						(item.DataContext as Tab).Activate();
+				}
 		}
 
 		private void TabsPanel_Loaded (object sender, System.Windows.RoutedEventArgs e)
@@ -73,6 +80,8 @@ namespace ShareTabWin
 		void OnTabUpdated(object sender, TabArgs e)
 		{
 			Tab tab = PublicSession.FindByGuid(e.Tab.Id);
+			if (tab == null) { System.Windows.MessageBox.Show("nullref OnTabUpdated"); Environment.Exit(-1); }
+			
 			tab.TabData.Title = e.Tab.Title;
 			tab.TabData.Url = e.Tab.Url;
 
@@ -93,12 +102,17 @@ namespace ShareTabWin
 		void OnTabActivated (object sender, TabArgs e)
 		{
 			System.Diagnostics.Trace.TraceInformation ("Activating public tab {0}.", e.Tab.Title);
-			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
-				(tab) =>
+			Tab tab = PublicSession.FindByGuid(e.Tab.Id);
+			if (tab == null) return;
+
+			App.Current.Dispatcher.BeginInvoke (new Action(
+				() =>
 					{
-						var t = PublicSession.FindByGuid (tab.Id);
-						if (t != null) t.Activate ();
-					}), e.Tab);
+						/* this updates the renderer also */
+						MainWindow main = App.Current.MainWindow as MainWindow;
+						if (main.ClientStatus.IsWatching)
+							tab.Activate();
+					}));
 		}
 
 		void OnTabScrolled (object sender, TabScrolledArgs e)

@@ -76,6 +76,10 @@ namespace Communication
 
 		public void UpdateTab(Tab tab)
 		{
+			Tab target = publicTabs.Find(x => x.Id == tab.Id);
+			target.Title = tab.Title;
+			target.Url = tab.Url;
+
 			userList.ForOthers(user => user.Callback.ReceiveTabUpdated(tab));
 		}
 
