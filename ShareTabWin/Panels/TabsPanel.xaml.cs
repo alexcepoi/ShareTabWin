@@ -41,16 +41,15 @@ namespace ShareTabWin
 		private void TabsTreeView_Selected(object sender, System.Windows.RoutedEventArgs e)
 		{
 			//TabsTreeView.Tag = e.OriginalSource;
-			
+			MainWindow main = App.Current.MainWindow as MainWindow;
 			TreeViewItem item = e.OriginalSource as TreeViewItem;
 			if (item.DataContext is Tab)
 				if (item.DataContext is PrivateTab)
-					(item.DataContext as Tab).Activate();
+					main.dockingManager.ActiveDocument = item.DataContext as Tab;
 				else
 				{
-					MainWindow main = App.Current.MainWindow as MainWindow;
 					if (main.ClientStatus.IsBroadcasting)
-						(item.DataContext as Tab).Activate();
+						main.dockingManager.ActiveDocument = item.DataContext as Tab;
 				}
 		}
 
