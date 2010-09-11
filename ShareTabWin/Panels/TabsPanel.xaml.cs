@@ -84,6 +84,7 @@ namespace ShareTabWin
 			
 			tab.TabData.Title = e.Tab.Title;
 			tab.TabData.Url = e.Tab.Url;
+			tab.NavigateFirst = true;
 
 			App.Current.Dispatcher.BeginInvoke(new Action(
 				() =>
