@@ -16,7 +16,7 @@ namespace ShareTabWin.Helpers
 				main.Disconnected += UsersController_Disconnected;
 		}
 
-		void UsersController_Disconnected (object sender, System.Windows.RoutedEventArgs e)
+		void UsersController_Disconnected (object sender, System.EventArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action (() => _users.Clear ()));
 		}

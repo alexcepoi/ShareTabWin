@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace ShareTabWin
 {
-	public delegate void DisconnectedEventHandler (object sender, RoutedEventArgs e);
+	public delegate void DisconnectedEventHandler (object sender, EventArgs e);
 	public delegate void ChatReceiveEventHandler (object sender, ChatReceiveEventArgs e);
 	public delegate void UserSignInEventHandler (object sender, UserEventArgs e);
 	public delegate void UserSignOutEventHandler (object sender, UserEventArgs e);

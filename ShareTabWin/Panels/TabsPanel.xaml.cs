@@ -117,7 +117,7 @@ namespace ShareTabWin
 						/* this updates the renderer also */
 						MainWindow main = App.Current.MainWindow as MainWindow;
 						if (main != null && main.ClientStatus.IsWatching)
-							tab.Activate();
+							main.dockingManager.ActiveDocument = tab;
 					}));
 		}
 
@@ -145,7 +145,6 @@ namespace ShareTabWin
 
 		private void ClonePublicTab_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
-			System.Diagnostics.Trace.TraceInformation ("ClonePublicTab_Executed");
 			App.Current.Dispatcher.BeginInvoke (new Action<Tab> (
 				tab => PrivateSession.Add (new PrivateTab (tab.TabData))),
 				TabsTreeView.SelectedItem);

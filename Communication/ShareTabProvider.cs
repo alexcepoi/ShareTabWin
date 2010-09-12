@@ -8,12 +8,14 @@ namespace Communication
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
 	public class ShareTabProvider : IShareTabSvc
 	{
+
 		private static UserList userList = new UserList();
 		private static TabList publicTabs = new TabList ();
 		private static User broadcaster;
 		// TODO: Everything above should be embedded in a Server Status class, dontcha think?
 		public static string Password { private get; set; }
 
+		private string _sessionId;
 		#region IShareTabSvc implementation
 
 		//TODO: make it return an Enum or an Exception instead of bool. Enum should do it.
@@ -23,10 +25,10 @@ namespace Communication
 				return false;
 
 			var callback = OperationContext.Current.GetCallbackChannel<IShareTabCallback>();
-			string sessionid = OperationContext.Current.Channel.SessionId;
+			_sessionId = OperationContext.Current.Channel.SessionId;
 			try
 			{
-				userList.Add (new ServerSideUser (sessionid, username, callback));
+				userList.Add (new ServerSideUser (_sessionId, username, callback));
 			}
 			catch (ArgumentException)
 			{
@@ -38,18 +40,28 @@ namespace Communication
 			userList.ForOthers (user => user.Callback.UserHasSignedIn (username));
 			// Fetch public tabs list
 			publicTabs.ForEach(tab => callback.ReceiveTabAdded(tab));
+
+			// Handle client disconnects
+			//OperationContext.Current.Channel.Faulted += Channel_Faulted;
+			OperationContext.Current.Channel.Closing += Channel_Closing;
+//			OperationContext.Current.Channel.Closed += new EventHandler (Channel_Closed);
 			return true;
 		}
 
-		// TODO:this can be called from IsFaulted and IsClosed event.
-		public void SignOut()
+		void Channel_Closing (object sender, EventArgs e)
 		{
-			if (broadcaster == userList.Current) 
+			var current = userList.GetBySessionId (_sessionId);
+			if (broadcaster == current)
 				StopBroadcast ();
 
-			userList.ForOthers (user => user.Callback.UserHasSignedOut (userList.Current.Name));
-			userList.RemoveCurrent();
-			return;
+			userList.Remove (current);
+			userList.ForEach (user => user.Callback.UserHasSignedOut (current.Name));
+		}
+
+		[Obsolete]
+		public void SignOut()
+		{
+
 		}
 
 		public void SendChatMessage (string content)

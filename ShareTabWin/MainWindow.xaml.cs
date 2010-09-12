@@ -29,9 +29,10 @@ namespace ShareTabWin
 			InitializeComponent ();
 			dockingManager.DataContext = tabsPanel.PrivateSession;
 			notificationWindow = new Helpers.Notifications.NotificationWindow ();
-			//notificationWindow.Visibility = System.Windows.Visibility.Hidden;
 			notificationWindow.Show ();
+			Disconnected += MainWindow_Disconnected;
 		}
+
 
 		#region Properties
 		public bool IsHosting
@@ -73,7 +74,10 @@ namespace ShareTabWin
 
 			var response = connectDlg.ShowDialog();
 			if (response == true)
+			{
 				Connection = connectDlg.Connection;
+				((System.ServiceModel.ICommunicationObject) Connection).Faulted += con_Faulted;
+			}
 			
 		}
 
@@ -83,15 +87,14 @@ namespace ShareTabWin
 		}
 
 		// Disconnect
-		private void DisconnectCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		private void DisconnectCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			OnDisconnected (new RoutedEventArgs ());
 			if (ClientStatus.IsWatching)
 				WatchingToggle_Executed (null, null);
 			Connection.SignOut();
-			Connection = null;
-
+			((System.ServiceModel.ICommunicationObject) Connection).Faulted -= con_Faulted;
 			tabsPanel.PublicSession.Clear();
+			OnDisconnected (new EventArgs ());
 		}
 
 		private void DisconnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -141,6 +144,66 @@ namespace ShareTabWin
 		{
 			Close ();
 		}
+
+		private void PushTab_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+			Connection.AddTab ((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
+		}
+
+		private void PushTab_CanExecute (object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = IsConnected && tabsPanel.TabsTreeView.SelectedItem is PrivateTab;
+		}
+
+		private void WatchingToggle_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+			// can't toggle if not connected
+			if (!IsConnected) return;
+			ClientStatus.IsWatching = !ClientStatus.IsWatching;
+
+			// disabling documentpane also disables scrollbar.. is this what we want?
+			if (ClientStatus.IsWatching == true)
+			{
+				dockingManager.DataContext = tabsPanel.PublicSession;
+				dockingManager.MainDocumentPane.IsEnabled = false;
+			}
+			else
+			{
+				dockingManager.DataContext = tabsPanel.PrivateSession;
+				dockingManager.MainDocumentPane.IsEnabled = true;
+			}
+		}
+
+		private void BroadcastToggle_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+			if (!IsConnected) return;
+			if (!ClientStatus.IsBroadcasting)
+			{
+				ClientStatus.IsBroadcasting = Connection.Broadcast ();
+				if (ClientStatus.IsBroadcasting == false)
+					Trace.TraceInformation ("Cannot broadcast because somebody already is doing that");
+				else
+				{
+					if (!ClientStatus.IsWatching)
+					{
+						WatchingToggle_Executed (null, null);
+						//ofcourse its not enough, should code functionality.
+						//ie on ctrl t, ctrl w, publictab navigate
+						// send the event to the server
+					}
+					dockingManager.MainDocumentPane.IsEnabled = true;
+				}
+			}
+			else
+			{
+				Connection.StopBroadcast ();
+				ClientStatus.IsBroadcasting = false;
+				dockingManager.MainDocumentPane.IsEnabled = false;
+
+				Trace.TraceInformation ("Stopped broadcasting");
+			}
+		}
+
 		#endregion
 
 		#region Keyboard Shortcuts
@@ -189,6 +252,7 @@ namespace ShareTabWin
 		}
 		#endregion
 
+		#region Event handlers
 		private void chatPanel_ChatSendEvent (object sender, ChatSendEventArgs e)
 		{
 			if (IsConnected)
@@ -218,6 +282,51 @@ namespace ShareTabWin
 			}*/
 		}
 
+		private void dockingManager_ActiveDocumentChanged (object sender, System.EventArgs e)
+		{
+			Tab target = dockingManager.ActiveDocument as Tab;
+
+			if (ClientStatus.IsBroadcasting && target != null)
+				Connection.ActivateTab (target.TabData);
+
+			TreeViewItem item = getTreeViewItem (tabsPanel.TabsTreeView, target);
+			if (item != null)
+				item.IsSelected = true;
+
+		}
+
+		private void dockingManager_DocumentClosing (object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+			{
+				Connection.CloseTab ((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
+				e.Cancel = true;
+			}
+		}
+
+		private void documentPane_CurrentNodeChanged (object sender, CurrentNodeChangedEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+			{
+				if (!String.IsNullOrEmpty (e.TagId))
+					Connection.ScrollTabToTagId (e.Tab, e.TagId);
+				else
+					Connection.ScrollTabToDomId (e.Tab, e.DomId);
+			}
+		}
+
+		void MainWindow_Disconnected (object sender, EventArgs e)
+		{
+			Connection = null;
+		}
+
+		void con_Faulted (object sender, EventArgs e)
+		{
+			MessageBox.Show ("You have been disconnected.");
+			OnDisconnected (e);
+		}
+		#endregion
+
 		private void PopulateWindowMenu (object sender, RoutedEventArgs e)
 		{
 			windowMenu.Items.Clear ();
@@ -246,6 +355,7 @@ namespace ShareTabWin
 				pane.Show ();
 		}
 
+		// TODO: make a helper static method or something, dont pollute mainwindow!
 		// TODO: source should be of type TreeView/TreeViewItem
 		// DFS through TreeView the TreeViewItem which has Tab target
 		private TreeViewItem getTreeViewItem (dynamic source, Tab target)
@@ -265,99 +375,9 @@ namespace ShareTabWin
 			return null;
 		}
 
-		private void dockingManager_ActiveDocumentChanged(object sender, System.EventArgs e)
-		{
-			Tab target = dockingManager.ActiveDocument as Tab;
-
-			if (ClientStatus.IsBroadcasting && target != null)
-				Connection.ActivateTab (target.TabData);
-			
-			TreeViewItem item = getTreeViewItem(tabsPanel.TabsTreeView, target);
-			if (item != null)
-				item.IsSelected = true;
-
-		}
 
 		public event DisconnectedEventHandler Disconnected;
-		protected void OnDisconnected (RoutedEventArgs e) { Disconnected (this, e); }
+		protected void OnDisconnected (EventArgs e) { Disconnected (this, e); }
 
-		private void PushTab_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			Connection.AddTab((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
-		}
-
-		private void PushTab_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = IsConnected && tabsPanel.TabsTreeView.SelectedItem is PrivateTab;
-		}
-
-		private void WatchingToggle_Executed (object sender, ExecutedRoutedEventArgs e)
-		{
-			// can't toggle if not connected
-			if (!IsConnected) return;
-			ClientStatus.IsWatching = !ClientStatus.IsWatching;
-
-			// disabling documentpane also disables scrollbar.. is this what we want?
-			if (ClientStatus.IsWatching == true)
-			{
-				dockingManager.DataContext = tabsPanel.PublicSession;
-				dockingManager.MainDocumentPane.IsEnabled = false;
-			}
-			else
-			{
-				dockingManager.DataContext = tabsPanel.PrivateSession;
-				dockingManager.MainDocumentPane.IsEnabled = true;
-			}
-		}
-
-		private void BroadcastToggle_Executed (object sender, ExecutedRoutedEventArgs e)
-		{
-			if (!IsConnected) return;
-			if (!ClientStatus.IsBroadcasting)
-			{
-				ClientStatus.IsBroadcasting = Connection.Broadcast ();
-				if (ClientStatus.IsBroadcasting == false)
-					Trace.TraceInformation ("Cannot broadcast because somebody already is doing that");
-				else
-				{
-					if (!ClientStatus.IsWatching)
-					{
-						WatchingToggle_Executed (null, null);
-						//ofcourse its not enough, should code functionality.
-						//ie on ctrl t, ctrl w, publictab navigate
-						// send the event to the server
-					}
-					dockingManager.MainDocumentPane.IsEnabled = true; 
-				}
-			}
-			else
-			{
-				Connection.StopBroadcast ();
-				ClientStatus.IsBroadcasting = false;
-				dockingManager.MainDocumentPane.IsEnabled = false; 
-
-				Trace.TraceInformation ("Stopped broadcasting");
-			}
-		}
-
-		private void dockingManager_DocumentClosing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			if (ClientStatus.IsBroadcasting)
-			{
-				Connection.CloseTab((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
-				e.Cancel = true;
-			}
-		}
-
-		private void documentPane_CurrentNodeChanged (object sender, CurrentNodeChangedEventArgs e)
-		{
-			if (ClientStatus.IsBroadcasting)
-			{
-				if (!String.IsNullOrEmpty (e.TagId))
-					Connection.ScrollTabToTagId (e.Tab, e.TagId);
-				else
-					Connection.ScrollTabToDomId (e.Tab, e.DomId);
-			}
-		}
 	}
 }
