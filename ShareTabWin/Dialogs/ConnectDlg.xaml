@@ -7,6 +7,13 @@
         Title="Connect to a server" ResizeMode="CanResizeWithGrip"
         FocusManager.FocusedElement="{Binding ElementName=hostname}"
         WindowStartupLocation="CenterOwner" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ValidationTemplates.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <StackPanel Margin="5" >
         <GroupBox Header="Server" >
             <Grid>
@@ -23,7 +30,7 @@
                 <Label Grid.Column="0" Grid.Row="1" Content="Port" Target="{Binding ElementName=port}"/>
                 <Label Grid.Column="0" Grid.Row="2" Content="Passkey" Target="{Binding ElementName=passkey}"/>
                 <TextBox Grid.Column="1" Grid.Row="0" Name="hostname" Text="{Binding Hostname, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Name="port" ToolTip="{Binding ElementName=port, Path=(Validation.Errors).CurrentItem.ErrorContent}">
+                <TextBox Grid.Column="1" Grid.Row="1" Name="port" Validation.ErrorTemplate="{StaticResource errorTemplate}">
                     <Binding Path="Port" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <helpers:PortValidationRule />
@@ -39,8 +46,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2*" MinWidth="150"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Nickname" Target="{Binding ElementName=nickname}" />
-                <TextBox Grid.Column="1" Name="nickname" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Grid.Column="0" Content="Nickname" Target="{Binding ElementName=nickname}"/>
+                <TextBox Grid.Column="1" Name="nickname" Text="{Binding Nickname, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </GroupBox>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">

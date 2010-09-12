@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatMessage.cs" />
+    <Compile Include="SignInResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tab.cs" />
     <Compile Include="User.cs" />

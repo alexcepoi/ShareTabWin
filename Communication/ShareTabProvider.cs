@@ -30,10 +30,10 @@ namespace Communication
 			Status.Users.ForEach (user => user.Callback.UserHasSignedOut (current.Name));
 		}
 		//TODO: make it return a Fault instead of bool..
-		public bool SignIn(string username, string password)
+		public SignInResponse SignIn(string username, string password)
 		{
 			if (password != Status.Password)
-				return false;
+				return SignInResponse.WrongPassword;
 
 			var callback = OperationContext.Current.GetCallbackChannel<IShareTabCallback>();
 			_sessionId = OperationContext.Current.Channel.SessionId;
@@ -43,7 +43,7 @@ namespace Communication
 			}
 			catch (ArgumentException)
 			{
-				return false;
+				return SignInResponse.UsernameTaken;
 			}
 			// Notify current user of everybody
 			Status.Users.ForEach (user => callback.UserHasSignedIn (user.Name));
@@ -54,7 +54,7 @@ namespace Communication
 
 			// Handle client disconnects
 			OperationContext.Current.Channel.Closing += Channel_Closing;
-			return true;
+			return SignInResponse.OK;
 		}
 
 		[Obsolete]
