@@ -8,18 +8,23 @@ namespace Communication
 	[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, UseSynchronizationContext = false)]
 	public class ShareTabProvider : IShareTabSvc
 	{
-
-		/*private static UserList userList = new UserList();
-		private static TabList publicTabs = new TabList ();
-		private static User broadcaster;
-		 
-		public static string Password { private get; set; }*/
+		/// <summary>
+		/// The provider's ServiceStatus containing all the data associated with the current session.
+		/// </summary>
 		private static ServiceStatus Status;
+		/// <summary>
+		/// Resets the provider's service <see cref="ServiceStatus">Status</see> and sets the password.
+		/// </summary>
+		/// <param name="password">SHA-1 hash of the service password.</param>
 		public static void InitializeStatus (string password) { Status = new ServiceStatus (password); }
 
 		private string _sessionId;
 		#region IShareTabSvc implementation
-
+		/// <summary>
+		/// Event handler that takes care of users who disconnect either gracefully or by faulting.
+		/// Most of the UserList helper methods fail in the faulted case because <code>OperatingContext.Current</code>
+		/// is null, so things must be done in a different manner than usual.
+		/// </summary>
 		void Channel_Closing (object sender, EventArgs e)
 		{
 			var current = Status.Users.GetBySessionId (_sessionId);
