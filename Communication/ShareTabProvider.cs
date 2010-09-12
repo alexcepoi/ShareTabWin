@@ -122,6 +122,12 @@ namespace Communication
 			Status.Users.ForOthers (user => user.Callback.ReceiveTabScrolledToTagId (tab, tagId));
 		}
 
+		public void ScrapbookUpdate (string html)
+		{
+			Status.Tabs.Scrapbook.Content = html;
+			Status.Users.ForEach(user => user.Callback.ReceiveScrapbookUpdate(html));
+		}
+
 		#endregion
 	}
 }

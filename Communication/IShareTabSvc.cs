@@ -46,5 +46,8 @@ namespace Communication
 
 		[OperationContract (IsOneWay = true)]
 		void ActivateTab (Infrastructure.Tab tab);
+
+		[OperationContract(IsOneWay = true)]
+		void ScrapbookUpdate(string html);
 	}
 }

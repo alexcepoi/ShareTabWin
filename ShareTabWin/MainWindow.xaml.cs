@@ -209,6 +209,10 @@ namespace ShareTabWin
 		// Focus Addressbar
 		private void FocusAddressbarCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
+			// --- TESTING GROUND
+			ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
+			// ---
+
 			//documentPane.ItemsSource = tabsPanel.PrivateSession;
 			BrowserWindow browserWindow = dockingManager.ActiveDocument as BrowserWindow;
 			if (browserWindow != null)
@@ -314,6 +318,19 @@ namespace ShareTabWin
 			}
 		}
 
+
+		private void documentPane_ScrapbookSend(object sender, ScrapbookSendEventArgs e)
+		{
+			if (IsConnected)
+			{
+				ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
+				//Skybound.Gecko.GeckoNode temp = scrap.renderer.Document.DocumentElement.CloneNode(true);
+				// INSERT LOGIC HERE
+				Connection.ScrapbookUpdate("pula");
+			}
+		}
+
+
 		void MainWindow_Disconnected (object sender, EventArgs e)
 		{
 			Connection = null;
@@ -377,6 +394,5 @@ namespace ShareTabWin
 
 		public event DisconnectedEventHandler Disconnected;
 		protected void OnDisconnected (EventArgs e) { Disconnected (this, e); }
-
 	}
 }

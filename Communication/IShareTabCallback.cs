@@ -35,5 +35,8 @@ namespace Communication
 		void ReceiveTabScrolledToTagId (Infrastructure.Tab tab, string tagId);
 		//[OperationContract (IsOneWay = true)]
 		//void HasBegunBroadcasting ();
+
+		[OperationContract(IsOneWay = true)]
+		void ReceiveScrapbookUpdate(string html);
 	}
 }

@@ -37,6 +37,7 @@ namespace ShareTabWin
 		public event TabUpdatedEventHandler TabUpdated;
 		public event TabActivatedEventHandler TabActivated;
 		public event TabScrolledEventHandler TabScrolled;
+		public event ScrapbookUpdateEventHandler ScrapbookUpdate;
 
 		protected virtual void OnChatReceive (ChatReceiveEventArgs e)
 		{
@@ -85,6 +86,13 @@ namespace ShareTabWin
 			var handler = TabScrolled;
 			if (handler != null)
 				TabScrolled (this, e); 
+		}
+
+		protected virtual void OnScrapbookUpdate(ScrapbookUpdateArgs e)
+		{
+			var handler = ScrapbookUpdate;
+			if (handler != null)
+				ScrapbookUpdate(this, e);
 		}
 
 		#endregion
@@ -147,7 +155,12 @@ namespace ShareTabWin
 		public void ReceiveTabScrolledToTagId (Infrastructure.Tab tab, string tagId)
 		{
 			OnTabScrolled (new TabScrolledArgs (tab, tagId));
-		} 
+		}
+
+		public void ReceiveScrapbookUpdate(string html)
+		{
+			OnScrapbookUpdate(new ScrapbookUpdateArgs(html));
+		}
 	#endregion
 	}
 }

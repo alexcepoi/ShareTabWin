@@ -117,6 +117,7 @@
     <Compile Include="Panels\ChatPanel.xaml.cs">
       <DependentUpon>ChatPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabSessions\PrivateTab.cs" />
     <Compile Include="TabSessions\PublicTab.cs" />
     <Compile Include="TabSessions\Tab.cs" />
     <Compile Include="TabSessions\TabSession.cs" />

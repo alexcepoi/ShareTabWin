@@ -59,13 +59,14 @@ namespace ShareTabWin
 				}
 		}
 
-		private void TabsPanel_Loaded (object sender, System.Windows.RoutedEventArgs e)
+		private void TabsPanel_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
 			ConnectionCallback.Instance.TabAdded += OnTabAdded;
 			ConnectionCallback.Instance.TabClosed += OnTabClosed;
 			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
 			ConnectionCallback.Instance.TabActivated += OnTabActivated;
 			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
+			ConnectionCallback.Instance.ScrapbookUpdate += OnScrapbookUpdate;
 		}
 
 		void OnTabAdded (object sender, TabArgs e)
@@ -139,7 +140,11 @@ namespace ShareTabWin
 							t.ScrollTo (e.DomId);
 					}
 				}), e.Tab);
+		}
 
+		void OnScrapbookUpdate(object sender, ScrapbookUpdateArgs e)
+		{
+			PublicSession.FindByGuid(null).TabData.Content = e.Html;
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

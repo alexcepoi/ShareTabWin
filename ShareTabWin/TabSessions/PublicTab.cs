@@ -140,7 +140,15 @@ namespace ShareTabWin
 
 	public class ScrapbookTab : PublicTab
 	{
-		//public ScrapbookTab () : base () { }
 		public ScrapbookTab (Infrastructure.Tab tab) : base (tab) { }
+
+		protected override void renderer_DocumentTitleChanged(object sender, EventArgs e) {}
+		protected override void renderer_HandleCreated(object sender, EventArgs e)
+		{
+			renderer.Document.DocumentElement.InnerHtml = TabData.Content;
+		}
+		protected override void browser_Navigated(object sender, GeckoNavigatedEventArgs e)
+		{
+		}
 	}
 }

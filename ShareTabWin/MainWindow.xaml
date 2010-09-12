@@ -104,7 +104,8 @@
                 </dock:DockablePane>
 
                 <!-- Documents -->
-                <dock:DocumentPane x:Name="documentPane" local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged" />
+                <dock:DocumentPane x:Name="documentPane" local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged"
+                                   local:Tab.ScrapbookSend="documentPane_ScrapbookSend" />
             </dock:ResizingPanel>
         </dock:DockingManager>
     </DockPanel>

@@ -167,9 +167,7 @@ namespace ShareTabWin
 		}
 
 		protected virtual void renderer_DocumentTitleChanged (object sender, EventArgs e)
-		{
-
-		}
+		{}
 
 	}
 }
