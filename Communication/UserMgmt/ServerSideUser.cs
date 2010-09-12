@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Communication
 {
-	public class ServerSideUser : Infrastructure.User
+	class ServerSideUser : Infrastructure.User
 	{
 		public string Name { get; private set; }
 		public string SessionId { get; private set; }

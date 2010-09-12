@@ -4,7 +4,7 @@ using System.ServiceModel;
 
 namespace Communication
 {
-	public class UserList
+	class UserList
 	{
 		private List<ServerSideUser> _userlist = new List<ServerSideUser> ();
 

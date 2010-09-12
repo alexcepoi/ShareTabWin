@@ -18,7 +18,7 @@ namespace Communication
 			: base (typeof (ShareTabProvider), 
 			new Uri (String.Format ("net.tcp://localhost:{0}/", port)))
 		{
-			ShareTabProvider.Password = password;
+			ShareTabProvider.InitializeStatus (password);
 			var binding = new NetTcpBinding(SecurityMode.None, false);
 			this.AddServiceEndpoint(typeof(IShareTabSvc), binding, "/ShareTab");
 			ServiceThrottlingBehavior behavior = new ServiceThrottlingBehavior()
