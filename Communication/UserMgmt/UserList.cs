@@ -14,6 +14,10 @@ namespace Communication
 				throw new ArgumentException ("Nickname is already taken");
 			_userlist.Add (user); 
 		}
+		public void Clear ()
+		{
+			_userlist.Clear ();
+		}
 		public ServerSideUser GetByCallback (IShareTabCallback callback)
 		{
 			return _userlist.Find (user => user.Callback == callback);

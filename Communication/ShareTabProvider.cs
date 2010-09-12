@@ -11,8 +11,9 @@ namespace Communication
 		private static UserList userList = new UserList();
 		private static TabList publicTabs = new TabList ();
 		private static User broadcaster;
-		// TODO: Everything above should be embedded in a Server Status class, dontcha think?
 		public static string Password { private get; set; }
+		public static void ResetSession () { userList.Clear (); publicTabs.Clear (); broadcaster = null; }
+		// TODO: Everything above should be embedded in a Server Status class, dontcha think?
 
 		#region IShareTabSvc implementation
 
@@ -37,7 +38,8 @@ namespace Communication
 			// Notify everybody else
 			userList.ForOthers (user => user.Callback.UserHasSignedIn (username));
 			// Fetch public tabs list
-			publicTabs.ForEach(tab => callback.ReceiveTabAdded(tab));
+			publicTabs.ForEach (tab => callback.ReceiveTabAdded(tab.TabData));
+			publicTabs.ForEach (tab => { if (tab.Strokes != null) callback.ReceiveSketchUpdate (tab.TabData, tab.Strokes); }); 
 			return true;
 		}
 
@@ -63,22 +65,27 @@ namespace Communication
 		public void AddTab (Tab tab)
 		{
 			tab.Owner = userList.Current.Name;
-			tab.Id = System.Guid.NewGuid();
-			publicTabs.Add (tab); // not really sure this is even needed? ==> when new user connects
-			userList.ForEach (user => user.Callback.ReceiveTabAdded (tab));
+			tab.Id = System.Guid.NewGuid ();
+
+			ServerSideTab sTab = new ServerSideTab ()
+			{
+				TabData = tab
+			};
+			publicTabs.Add (sTab); // not really sure this is even needed? ==> when new user connects
+			userList.ForEach (user => user.Callback.ReceiveTabAdded (sTab.TabData));
 		}
 
 		public void CloseTab(Tab tab)
 		{
-			publicTabs.Remove(tab);
+			publicTabs.Remove (publicTabs.Find (x => x.TabData.Id == tab.Id));
 			userList.ForEach(user => user.Callback.ReceiveTabClosed(tab));
 		}
 
 		public void UpdateTab(Tab tab)
 		{
-			Tab target = publicTabs.Find(x => x.Id == tab.Id);
-			target.Title = tab.Title;
-			target.Url = tab.Url;
+			ServerSideTab target = publicTabs.Find(x => x.TabData.Id == tab.Id);
+			target.TabData.Title = tab.Title;
+			target.TabData.Url = tab.Url;
 
 			userList.ForOthers(user => user.Callback.ReceiveTabUpdated(tab));
 		}
@@ -114,7 +121,8 @@ namespace Communication
 
 		public void UpdateSketch (Tab tab, byte[] strokes)
 		{
-			// TODO: save tab serverside too for new users.
+			ServerSideTab sTab = publicTabs.Find (x => x.TabData.Id == tab.Id);
+			sTab.Strokes = strokes;
 			userList.ForOthers (user => user.Callback.ReceiveSketchUpdate (tab, strokes));
 		}
 	}
