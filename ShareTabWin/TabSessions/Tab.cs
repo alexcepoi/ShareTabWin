@@ -12,8 +12,8 @@ namespace ShareTabWin
 		public Tab ()
 		{
 			this.TabData = new Infrastructure.Tab ();
-			//			renderer.Navigated += new Skybound.Gecko.GeckoNavigatedEventHandler(renderer_Navigated);
-			//			renderer.DocumentTitleChanged += new EventHandler(renderer_DocumentTitleChanged);
+			MinWidth = 150;
+			MaxWidth = 150;
 		}
 
 		public Tab (Infrastructure.Tab tabData)
