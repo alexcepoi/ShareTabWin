@@ -24,7 +24,6 @@ namespace ShareTabWin
 				OnChatSendEvent (new ChatSendEventArgs (chatInput.Text));
 				chatInput.Clear ();
 			}
-				
 		}
 
 		public void ChatReceive (object sender, ChatReceiveEventArgs e)
