@@ -44,11 +44,14 @@ namespace ShareTabWin
 			MainWindow main = App.Current.MainWindow as MainWindow;
 			TreeViewItem item = e.OriginalSource as TreeViewItem;
 			if (item.DataContext is Tab)
-				if (item.DataContext is PrivateTab)
-					main.dockingManager.ActiveDocument = item.DataContext as Tab;
+				if (main.ClientStatus.IsBroadcasting)
+				{
+					if (item.DataContext is PublicTab)
+						main.dockingManager.ActiveDocument = item.DataContext as Tab;
+				}
 				else
 				{
-					if (main.ClientStatus.IsBroadcasting)
+					if (item.DataContext is PrivateTab)
 						main.dockingManager.ActiveDocument = item.DataContext as Tab;
 				}
 		}
