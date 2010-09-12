@@ -12,8 +12,21 @@ namespace ShareTabWin
 		public Tab ()
 		{
 			this.TabData = new Infrastructure.Tab ();
-			MinWidth = 150;
-			MaxWidth = 150;
+			MinWidth = MaxWidth = 150;
+
+			renderer.ShowContextMenu += new Skybound.Gecko.GeckoContextMenuEventHandler(renderer_ShowContextMenu);
+		}
+
+		void renderer_ShowContextMenu(object sender, Skybound.Gecko.GeckoContextMenuEventArgs e)
+		{
+			System.Windows.Forms.MenuItem item = new System.Windows.Forms.MenuItem("Send to Scrapbook");
+			item.Click += new SelectionEventHandler
+			e.ContextMenu.MenuItems.Add(item);
+		}
+
+		void item_Click(object sender, SelectionEventArgs e)
+		{
+			MessageBox.Show("pula");
 		}
 
 		public Tab (Infrastructure.Tab tabData)
