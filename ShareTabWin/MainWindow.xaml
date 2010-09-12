@@ -6,7 +6,9 @@
         Title="ShareTab" Width="1200" Height="700"
         Icon="/ShareTabWin;component/ShareTab.ico"
         Loaded="Window_Loaded"
-        Closed="Window_Closed">
+        Closed="Window_Closed"
+        LocationChanged="Window_LocationChanged"
+        Deactivated="Window_Deactivated">
     <Window.CommandBindings>
         <!-- Menu Commands -->
         <CommandBinding Command="local:Commands.ConnectCommand"

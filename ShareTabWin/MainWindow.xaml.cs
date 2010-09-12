@@ -402,5 +402,16 @@ namespace ShareTabWin
 				Connection.UpdateSketch (e.Tab, e.Strokes);
 		}
 
+		private void Window_LocationChanged (object sender, EventArgs e)
+		{
+			Commands.SketchToggle.Execute (null, this);
+			Commands.SketchToggle.Execute (null, this);
+		}
+
+		private void Window_Deactivated (object sender, EventArgs e)
+		{
+			if (sketchToggle.IsChecked)
+				Commands.SketchToggle.Execute (null, this);
+		}
 	}
 }
