@@ -7,15 +7,39 @@ using ShareTabWin.Helpers;
 namespace ShareTabWin
 {
 	/// <summary>
-	/// Interaction logic for StartHostingDlg.xaml
+	/// Interaction logic for the Start Hosting dialog box.
 	/// </summary>
 	public partial class StartHostingDlg : Window
 	{
+		/// <summary>
+		/// Gets or sets the parameters required to begin hosting.
+		/// </summary>
+		/// <value>The parameters required to begin hosting.</value>
 		public StartHostingParams StartHostingParameters { get; set; }
+		/// <summary>
+		/// Gets the Host object opened by the dialog on a succesful run
+		/// </summary>
+		/// <value>The Host object opened by the dialog.</value>
 		public ShareTabHost Host { get; private set; }
+		/// <summary>
+		/// Gets the Connection to the Host object opened by the dialog on a succesful run.
+		/// </summary>
+		/// <value>The connection to the newly opened host</value>
 		public IShareTabSvc Connection { get; private set; }
+		
+		/// <summary>
+		/// Application configuration file
+		/// </summary>
 		private Configuration config;
+		/// <summary>
+		/// Application Settings section of the Application Configuration file
+		/// </summary>
 		AppSettingsSection appSettings;
+
+		/// <summary>
+		/// Builds the dialog and initializes the parameters to the most
+		/// recently used values.
+		/// </summary>
 		public StartHostingDlg ()
 		{
 			StartHostingParameters = new StartHostingParams ();
@@ -33,6 +57,10 @@ namespace ShareTabWin
 			InitializeComponent ();
 		}
 
+		/// <summary>
+		/// Opens the ShareTab host and a connection to it
+		/// and updates the most recently used parameters.
+		/// </summary>
 		private void Host_Click (object sender, RoutedEventArgs e)
 		{
 			if (!this.IsValid ())

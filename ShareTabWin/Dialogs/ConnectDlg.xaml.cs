@@ -8,31 +8,52 @@ using System.Windows.Controls;
 namespace ShareTabWin
 {
 	/// <summary>
-	/// Interaction logic for ConnectDlg.xaml
+	/// Interaction logic for the Connect dialog box
 	/// </summary>
 	public partial class ConnectDlg : Window
 	{
+		/// <summary>
+		/// Gets or sets the parameters required to open a connection to
+		/// a ShareTab server.
+		/// </summary>
 		public ConnectParams ConnectParameters { get; set; }
+		/// <summary>
+		/// Gets  the connection opened by the dialog box on 
+		/// a succesful run.
+		/// </summary>
 		public IShareTabSvc Connection { get; private set; }
+		/// <summary>
+		/// The default template of a textbox on the current system.
+		/// </summary>
+		private ControlTemplate _defaultTextboxTemplate;
+		/// <summary>
+		/// Application configuration file
+		/// </summary>
 		private Configuration config;
+		/// <summary>
+		/// Application Settings section of the Application Configuration file
+		/// </summary>
 		AppSettingsSection appSettings;
 
-		private ControlTemplate _defaultTextboxTemplate;
-		public ConnectDlg()
+		/// <summary>
+		/// Builds the dialog and initializes the parameters to the most
+		/// recently used values.
+		/// </summary>
+		public ConnectDlg ()
 		{
 			InitializeComponent ();
-			ConnectParameters = new ConnectParams();
-			config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-			appSettings = (AppSettingsSection)config.GetSection("appSettings");
-			List<string> keys = new List<string>(appSettings.Settings.AllKeys);
+			ConnectParameters = new ConnectParams ();
+			config = ConfigurationManager.OpenExeConfiguration (ConfigurationUserLevel.None);
+			appSettings = (AppSettingsSection) config.GetSection ("appSettings");
+			List<string> keys = new List<string> (appSettings.Settings.AllKeys);
 
-			if (keys.Contains("lastHostname"))
+			if (keys.Contains ("lastHostname"))
 				ConnectParameters.Hostname = appSettings.Settings["lastHostname"].Value;
 
-			if (keys.Contains("lastPort"))
-				ConnectParameters.Port = int.Parse(appSettings.Settings["lastPort"].Value);
+			if (keys.Contains ("lastPort"))
+				ConnectParameters.Port = int.Parse (appSettings.Settings["lastPort"].Value);
 
-			if (keys.Contains("lastNickname"))
+			if (keys.Contains ("lastNickname"))
 				ConnectParameters.Nickname = appSettings.Settings["lastNickname"].Value;
 
 			DataContext = ConnectParameters;
@@ -40,7 +61,9 @@ namespace ShareTabWin
 			_defaultTextboxTemplate = nickname.Template;
 		}
 
-		// Reset faux error styles
+		/// <summary>
+		/// Resets the faux error styles on the fields artificially invalidated.
+		/// </summary>
 		void ConnectParameters_PropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
@@ -62,16 +85,20 @@ namespace ShareTabWin
 			}
 		}
 
-		private void Connect_Click(object sender, RoutedEventArgs e)
+		/// <summary>
+		/// Opens a connection to the ShareTab server and updates the
+		/// recently used parameters.
+		/// </summary>
+		private void Connect_Click (object sender, RoutedEventArgs e)
 		{
-			if (!this.IsValid())
+			if (!this.IsValid ())
 			{
 				return;
 			}
 			try
 			{
-				Connection = ShareTabChannelFactory.GetConnection(
-					(IConnectParams)ConnectParameters, ConnectionCallback.Instance);
+				Connection = ShareTabChannelFactory.GetConnection (
+					(IConnectParams) ConnectParameters, ConnectionCallback.Instance);
 
 				switch (Connection.SignIn (ConnectParameters.Nickname, ConnectParameters.Passkey.GetSHA ()))
 				{
@@ -93,19 +120,18 @@ namespace ShareTabWin
 
 			catch (System.ServiceModel.CommunicationException ex)
 			{
-				MessageBox.Show(ex.Message, "Connection error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+				MessageBox.Show (ex.Message, "Connection error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
 				DialogResult = false;
 			}
 
+			appSettings.Settings.Clear ();
+			appSettings.Settings.Add ("lastHostname", ConnectParameters.Hostname);
+			appSettings.Settings.Add ("lastPort", ConnectParameters.Port.ToString ());
+			appSettings.Settings.Add ("lastNickname", ConnectParameters.Nickname);
+			config.Save (ConfigurationSaveMode.Modified);
+			ConfigurationManager.RefreshSection ("appSettings");
 
-			appSettings.Settings.Clear();
-			appSettings.Settings.Add("lastHostname", ConnectParameters.Hostname);
-			appSettings.Settings.Add("lastPort", ConnectParameters.Port.ToString());
-			appSettings.Settings.Add("lastNickname", ConnectParameters.Nickname);
-			config.Save(ConfigurationSaveMode.Modified);
-			ConfigurationManager.RefreshSection("appSettings");
 
-			
 		}
 	}
 }

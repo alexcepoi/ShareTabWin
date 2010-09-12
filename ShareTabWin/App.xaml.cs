@@ -31,8 +31,6 @@ namespace ShareTabWin
 		/// </description></item>
 		/// </list>
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		private void Application_Startup (object sender, StartupEventArgs e)
 		{
 			// Extract XULrunner to output folder
