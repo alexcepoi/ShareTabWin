@@ -71,8 +71,12 @@ namespace ShareTabWin
 		void OnTabAdded (object sender, TabArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
-				(tab) => 
-					PublicSession.Add (new PublicTab (tab))), e.Tab);
+				(tab) =>
+					{
+						if (tab.Id == null)
+							PublicSession.Add(new ScrapbookTab(tab));
+						else PublicSession.Add (new PublicTab (tab));
+					}), e.Tab);
 		}
 
 		void OnTabClosed(object sender, TabArgs e)
@@ -146,8 +150,11 @@ namespace ShareTabWin
 		private void ClonePublicTab_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Tab> (
-				tab => PrivateSession.Add (new PrivateTab (tab.TabData))),
-				TabsTreeView.SelectedItem);
+				(tab) =>
+					{
+						if (tab.TabData.Id != null)
+							PrivateSession.Add(new PrivateTab(tab.TabData));
+					}), TabsTreeView.SelectedItem);
 		}
 
 		private void TreeViewItem_MouseRightButtonDown(object sender, MouseEventArgs e)

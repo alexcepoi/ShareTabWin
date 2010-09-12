@@ -137,4 +137,10 @@ namespace ShareTabWin
 			DomId = domId;
 		}
 	}
+
+	public class ScrapbookTab : PublicTab
+	{
+		//public ScrapbookTab () : base () { }
+		public ScrapbookTab (Infrastructure.Tab tab) : base (tab) { }
+	}
 }

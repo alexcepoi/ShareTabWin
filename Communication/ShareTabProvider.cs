@@ -77,6 +77,9 @@ namespace Communication
 
 		public void CloseTab(Tab tab)
 		{
+			// Scrapbook cannot be closed
+			if (tab.Id == null) return;
+
 			Status.Tabs.Remove(tab);
 			Status.Users.ForEach(user => user.Callback.ReceiveTabClosed(tab));
 		}

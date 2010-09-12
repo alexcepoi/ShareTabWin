@@ -33,7 +33,6 @@ namespace ShareTabWin
 			Disconnected += MainWindow_Disconnected;
 		}
 
-
 		#region Properties
 		public bool IsHosting
 		{
