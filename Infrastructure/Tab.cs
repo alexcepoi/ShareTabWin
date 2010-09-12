@@ -2,6 +2,9 @@
 
 namespace Infrastructure
 {
+	/// <summary>
+	/// Common representation of a tab
+	/// </summary>
 	[DataContract]
 	public class Tab
 	{
@@ -10,6 +13,9 @@ namespace Infrastructure
 		private string m_Content;
 		private string m_Owner;
 
+		/// <summary>
+		/// Gets or sets the Universal Resource Identifier of the tab or defaults to about:blank.
+		/// </summary>
 		[DataMember]
 		public string Url
 		{
@@ -17,6 +23,9 @@ namespace Infrastructure
 			set { m_Url = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the title of the tab or defaults to "Blank Page"
+		/// </summary>
 		[DataMember]
 		public string Title
 		{
@@ -24,6 +33,9 @@ namespace Infrastructure
 			set { m_Title = value; }
 		}
 
+		/// <summary>
+		/// Unused for the moment.
+		/// </summary>
 		[DataMember]
 		public string Content
 		{
@@ -31,6 +43,10 @@ namespace Infrastructure
 			set { m_Content = value; }
 		}
 
+		/// <summary>
+		/// Gets or sets the name of the user who owns the tab.
+		/// </summary>
+		/// <value>The name of the user who uploaded the tab to the server</value>
 		[DataMember]
 		public string Owner
 		{
@@ -38,6 +54,9 @@ namespace Infrastructure
 			set { m_Owner = value; }
 		}
 
+		/// <summary>
+		/// Globally Unique Identifier of the tab required for identification.
+		/// </summary>
 		[DataMember]
 		public System.Guid? Id = null;
 	}

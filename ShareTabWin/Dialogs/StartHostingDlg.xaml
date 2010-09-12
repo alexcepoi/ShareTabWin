@@ -7,6 +7,13 @@
         Title="Start hosting a ShareTab session" ResizeMode="CanResizeWithGrip"
         FocusManager.FocusedElement="{Binding ElementName=port}"
         WindowStartupLocation="CenterOwner" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ValidationTemplates.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <StackPanel Margin="5" >
         <GroupBox Header="Settings" >
             <Grid>
@@ -20,7 +27,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Content="Port" Target="{Binding ElementName=port}"/>
                 <Label Grid.Column="0" Grid.Row="1" Content="Passkey" Target="{Binding ElementName=passkey}"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Name="port" ToolTip="{Binding ElementName=port, Path=(Validation.Errors).CurrentItem.ErrorContent}">
+                <TextBox Grid.Column="1" Grid.Row="0" Name="port" Validation.ErrorTemplate="{StaticResource errorTemplate}">
                     <Binding Path="Port" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <helpers:PortValidationRule />

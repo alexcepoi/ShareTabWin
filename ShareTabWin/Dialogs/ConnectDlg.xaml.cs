@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Collections.Generic;
 using Communication;
 using ShareTabWin.Helpers;
+using System.Windows.Controls;
 
 namespace ShareTabWin
 {
@@ -15,8 +16,11 @@ namespace ShareTabWin
 		public IShareTabSvc Connection { get; private set; }
 		private Configuration config;
 		AppSettingsSection appSettings;
+
+		private ControlTemplate _defaultTextboxTemplate;
 		public ConnectDlg()
 		{
+			InitializeComponent ();
 			ConnectParameters = new ConnectParams();
 			config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 			appSettings = (AppSettingsSection)config.GetSection("appSettings");
@@ -32,7 +36,30 @@ namespace ShareTabWin
 				ConnectParameters.Nickname = appSettings.Settings["lastNickname"].Value;
 
 			DataContext = ConnectParameters;
-			InitializeComponent();
+			ConnectParameters.PropertyChanged += ConnectParameters_PropertyChanged;
+			_defaultTextboxTemplate = nickname.Template;
+		}
+
+		// Reset faux error styles
+		void ConnectParameters_PropertyChanged (object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case "Nickname":
+					if (nickname.Template != _defaultTextboxTemplate)
+					{
+						nickname.ToolTip = null;
+						nickname.Template = _defaultTextboxTemplate;
+					}
+					break;
+				case "Passkey":
+					if (passkey.Template != _defaultTextboxTemplate)
+					{
+						passkey.ToolTip = null;
+						passkey.Template = _defaultTextboxTemplate;
+					}
+					break;
+			}
 		}
 
 		private void Connect_Click(object sender, RoutedEventArgs e)
@@ -46,7 +73,22 @@ namespace ShareTabWin
 				Connection = ShareTabChannelFactory.GetConnection(
 					(IConnectParams)ConnectParameters, ConnectionCallback.Instance);
 
-				DialogResult = Connection.SignIn(ConnectParameters.Nickname, ConnectParameters.Passkey.GetSHA ());
+				switch (Connection.SignIn (ConnectParameters.Nickname, ConnectParameters.Passkey.GetSHA ()))
+				{
+					case Infrastructure.SignInResponse.OK:
+						DialogResult = true;
+						break;
+					case Infrastructure.SignInResponse.UsernameTaken:
+						nickname.ToolTip = new Label ().Content = "Username already in use";
+						nickname.Template = Resources["fauxErrorTemplate"] as ControlTemplate;
+						break;
+					case Infrastructure.SignInResponse.WrongPassword:
+						passkey.ToolTip = new Label ().Content = "Wrong password.";
+						passkey.Template = Resources["fauxErrorTemplate"] as ControlTemplate;
+						break;
+					default:
+						throw new System.ArgumentException ("ShareTab server returned an invalid response to the Sign In request.");
+				}
 			}
 
 			catch (System.ServiceModel.CommunicationException ex)

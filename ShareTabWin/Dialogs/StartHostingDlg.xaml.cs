@@ -48,7 +48,7 @@ namespace ShareTabWin
 					System.Diagnostics.Trace.TraceInformation ("Now listening on {0}", addr.AbsoluteUri);
 				Connection = ShareTabChannelFactory.GetConnection (
 					(IConnectParams) StartHostingParameters, ConnectionCallback.Instance);
-				DialogResult = Connection.SignIn (StartHostingParameters.Nickname, StartHostingParameters.Passkey.GetSHA ());
+				DialogResult = Connection.SignIn (StartHostingParameters.Nickname, StartHostingParameters.Passkey.GetSHA ()) == Infrastructure.SignInResponse.OK;
 			}
 
 			catch (System.TimeoutException ex)

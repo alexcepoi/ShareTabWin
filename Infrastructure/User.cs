@@ -6,9 +6,8 @@
 	/// </summary>
 	public interface User
 	{
-		/// <summary>
-		/// The nickname of the user.
-		/// </summary>
+		/// <summary>Gets the nickname of the user.</summary>
+		/// <value>The nickname of the user</value>
 		string Name { get; }
 	}
 }
