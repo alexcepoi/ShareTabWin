@@ -42,6 +42,9 @@ namespace ShareTabWin
 		{
 			//TabsTreeView.Tag = e.OriginalSource;
 			MainWindow main = App.Current.MainWindow as MainWindow;
+			if (main == null)
+				return;
+
 			TreeViewItem item = e.OriginalSource as TreeViewItem;
 			if (item.DataContext is Tab)
 				if (main.ClientStatus.IsBroadcasting)
@@ -95,7 +98,7 @@ namespace ShareTabWin
 
 						/* this updates the renderer also */
 						MainWindow main = App.Current.MainWindow as MainWindow;
-						if (main.ClientStatus.IsWatching)
+						if (main != null && main.ClientStatus.IsWatching)
 							if (tab.renderer.IsHandleCreated)
 								tab.renderer.Navigate(tab.TabData.Url);
 					}
@@ -113,7 +116,7 @@ namespace ShareTabWin
 					{
 						/* this updates the renderer also */
 						MainWindow main = App.Current.MainWindow as MainWindow;
-						if (main.ClientStatus.IsWatching)
+						if (main != null && main.ClientStatus.IsWatching)
 							tab.Activate();
 					}));
 		}

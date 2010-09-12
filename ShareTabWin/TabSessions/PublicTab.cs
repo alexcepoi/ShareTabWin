@@ -21,7 +21,7 @@ namespace ShareTabWin
 
 			MainWindow main = App.Current.MainWindow as MainWindow;
 
-			if (main.ClientStatus.IsBroadcasting)
+			if (main != null && main.ClientStatus.IsBroadcasting)
 				main.Connection.UpdateTab (TabData);
 		}
 		protected override void renderer_DocumentTitleChanged (object sender, EventArgs e)
@@ -30,7 +30,7 @@ namespace ShareTabWin
 
 			MainWindow main = App.Current.MainWindow as MainWindow;
 
-			if (main.ClientStatus.IsBroadcasting)
+			if (main != null && main.ClientStatus.IsBroadcasting)
 				main.Connection.UpdateTab (TabData);
 		}
 		protected override void renderer_DomMouseMove (object sender, GeckoDomMouseEventArgs e)
