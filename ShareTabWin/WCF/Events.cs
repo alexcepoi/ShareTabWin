@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace ShareTabWin
 {
-	public delegate void DisconnectedEventHandler	(object sender, RoutedEventArgs e);
+	public delegate void DisconnectedEventHandler	(object sender, EventArgs e);
 	public delegate void ChatReceiveEventHandler	(object sender, ChatReceiveEventArgs e);
 	public delegate void UserSignInEventHandler		(object sender, UserEventArgs e);
 	public delegate void UserSignOutEventHandler	(object sender, UserEventArgs e);
@@ -36,8 +36,8 @@ namespace ShareTabWin
 		public int DomId { get; private set; }
 		public string TagId { get; private set; }
 
-		public TabScrolledArgs (Infrastructure.Tab tab, int domId) : base (tab) { DomId = domId; }
-		public TabScrolledArgs (Infrastructure.Tab tab, string tagId) : base (tab) { TagId = tagId; }
+		public TabScrolledArgs (Infrastructure.Tab tab, int domId) : base (tab)		{ DomId = domId; }
+		public TabScrolledArgs (Infrastructure.Tab tab, string tagId) : base (tab)	{ TagId = tagId; }
 	}
 	public class SketchArgs : TabArgs
 	{

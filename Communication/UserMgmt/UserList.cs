@@ -4,7 +4,7 @@ using System.ServiceModel;
 
 namespace Communication
 {
-	public class UserList
+	class UserList
 	{
 		private List<ServerSideUser> _userlist = new List<ServerSideUser> ();
 
@@ -26,6 +26,7 @@ namespace Communication
 		{
 			return _userlist.Find (user => user.SessionId == sessionid);
 		}
+		// doesn't work if client has faulted
 		public ServerSideUser Current
 		{
 			get
@@ -33,7 +34,7 @@ namespace Communication
 				return GetBySessionId (OperationContext.Current.Channel.SessionId);
 			}
 		}
-		public void RemoveCurrent () { _userlist.Remove (Current); }
+		public void Remove (ServerSideUser user) { _userlist.Remove (user); }
 		public int Count { get { return _userlist.Count; } }
 		public void ForEach (Action<ServerSideUser> action)
 		{
@@ -42,6 +43,8 @@ namespace Communication
 				action (user);
 			});
 		}
+
+		// doesn't work if client has faulted
 		public void ForOthers (Action<ServerSideUser> action)
 		{
 			_userlist.ForEach (delegate (ServerSideUser user)

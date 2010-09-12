@@ -42,6 +42,9 @@ namespace ShareTabWin
 		{
 			//TabsTreeView.Tag = e.OriginalSource;
 			MainWindow main = App.Current.MainWindow as MainWindow;
+			if (main == null)
+				return;
+
 			TreeViewItem item = e.OriginalSource as TreeViewItem;
 			if (item.DataContext is Tab)
 				if (main.ClientStatus.IsBroadcasting)
@@ -96,7 +99,7 @@ namespace ShareTabWin
 
 						/* this updates the renderer also */
 						MainWindow main = App.Current.MainWindow as MainWindow;
-						if (main.ClientStatus.IsWatching)
+						if (main != null && main.ClientStatus.IsWatching)
 							if (tab.renderer.IsHandleCreated)
 								tab.renderer.Navigate(tab.TabData.Url);
 					}
@@ -114,8 +117,8 @@ namespace ShareTabWin
 					{
 						/* this updates the renderer also */
 						MainWindow main = App.Current.MainWindow as MainWindow;
-						if (main.ClientStatus.IsWatching)
-							tab.Activate();
+						if (main != null && main.ClientStatus.IsWatching)
+							main.dockingManager.ActiveDocument = tab;
 					}));
 		}
 
@@ -154,7 +157,6 @@ namespace ShareTabWin
 
 		private void ClonePublicTab_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
-			System.Diagnostics.Trace.TraceInformation ("ClonePublicTab_Executed");
 			App.Current.Dispatcher.BeginInvoke (new Action<Tab> (
 				tab => PrivateSession.Add (new PrivateTab (tab.TabData))),
 				TabsTreeView.SelectedItem);
