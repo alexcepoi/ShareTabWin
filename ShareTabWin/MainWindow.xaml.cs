@@ -242,7 +242,9 @@ namespace ShareTabWin
 		{
 			if (ClientStatus.IsBroadcasting)
 			{
-				Connection.CloseTab((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
+				Tab target = tabsPanel.TabsTreeView.SelectedItem as Tab;
+				if (target != null)
+					Connection.CloseTab(target.TabData);
 			}
 			else if (dockingManager.ActiveDocument != null)
 			{
