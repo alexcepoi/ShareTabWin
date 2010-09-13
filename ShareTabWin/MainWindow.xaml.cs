@@ -323,10 +323,18 @@ namespace ShareTabWin
 		{
 			if (IsConnected)
 			{
+				// partea asta nu ar trebui făcută așa. Fă in scrapbook tab o proprietate Body de tipul GeckoElement
+				// care sa se initializeze cu renderer.Document.Body astfel incat sa existe chiar si cand rendereru nu e format.
+				// te descurci tu
 				ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
-				//Skybound.Gecko.GeckoNode temp = scrap.renderer.Document.DocumentElement.CloneNode(true);
+				Skybound.Gecko.GeckoNode temp = scrap.renderer.Document.Body.CloneNode (true);
 				// INSERT LOGIC HERE
-				Connection.ScrapbookUpdate("pula");
+				temp.AppendChild(e.Selection.GetRangeAt (0).CloneContents ());
+
+				// all u need
+				string x = (temp as Skybound.Gecko.GeckoElement).InnerHtml;
+				Connection.ScrapbookUpdate (x);
+				// on the other side just set Scrapbook.renderer.Document.Body.InnerHtml = x; LIKE A CHARM
 			}
 		}
 
