@@ -18,23 +18,16 @@ namespace ShareTabWin
 		// (i.e. IsEnabled = false) when IsConnected = false. Still thinking about implementation.
 		//
 		// TODO: remove width and height from MainWindow.xaml
-		
+
+		#region Properties
 		private Communication.ShareTabHost Host;
 		public Communication.IShareTabSvc Connection;
 
 		private Helpers.Notifications.NotificationWindow notificationWindow;
+		
+		public event DisconnectedEventHandler Disconnected;
+		protected void OnDisconnected(EventArgs e) { Disconnected(this, e); }
 
-		public MainWindow ()
-		{
-			InitializeComponent ();
-			dockingManager.DataContext = tabsPanel.PrivateSession;
-			notificationWindow = new Helpers.Notifications.NotificationWindow ();
-			notificationWindow.Show ();
-			Disconnected += MainWindow_Disconnected;
-		}
-
-
-		#region Properties
 		public bool IsHosting
 		{
 			get
@@ -44,7 +37,7 @@ namespace ShareTabWin
 					if (Host.State == System.ServiceModel.CommunicationState.Opened)
 						return true;
 				}
-				catch (System.NullReferenceException) { }
+				catch (System.NullReferenceException) {}
 
 				return false;
 			}
@@ -53,20 +46,31 @@ namespace ShareTabWin
 		public bool IsConnected
 		{
 			get
-			{
-				return Connection != null;
-			}
+			{ return Connection != null; }
 		}
 
-		public ClientStatus ClientStatus 
+		public ClientStatus ClientStatus
 		{
 			get { return _clientStatus; }
 			set { _clientStatus = value; }
 		}
 		#endregion
 
+		public MainWindow ()
+		{
+			InitializeComponent ();
+			
+			dockingManager.DataContext = tabsPanel.PrivateSession;
+			notificationWindow = new Helpers.Notifications.NotificationWindow ();
+			notificationWindow.Show ();
+			
+			Disconnected += MainWindow_Disconnected;
+		}
+
 		#region Commands
-		// Connect
+		/// <summary>
+		/// Command executed when clicking on "Connect" MenuItem
+		/// </summary>
 		private void ConnectCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			ConnectDlg connectDlg = new ConnectDlg();
@@ -81,12 +85,17 @@ namespace ShareTabWin
 			
 		}
 
+		/// <summary>
+		/// Determines if the "Connect" MenuItem command can be executed
+		/// </summary>
 		private void ConnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = !IsConnected;
 		}
 
-		// Disconnect
+		/// <summary>
+		/// Command executed when clicking on "Disconnect" MenuItem
+		/// </summary>
 		private void DisconnectCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			if (ClientStatus.IsWatching)
@@ -97,12 +106,17 @@ namespace ShareTabWin
 			OnDisconnected (new EventArgs ());
 		}
 
+		/// <summary>
+		/// Determines if the "Disconnect" MenuItem command can be executed
+		/// </summary>
 		private void DisconnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsConnected;
 		}
 
-		// Start Hosting
+		/// <summary>
+		/// Command executed when clicking on "Start Hosting" MenuItem
+		/// </summary>
 		private void StartHostingCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			StartHostingDlg startHostingDlg = new StartHostingDlg ();
@@ -115,13 +129,18 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Determines if the "Start Hosting" MenuItem command can be executed
+		/// </summary>
 		private void StartHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = !IsHosting;
 
 		}
 
-		// Stop Hosting
+		/// <summary>
+		/// Command executed when clicking on the "Stop Hosting" MenuItem
+		/// </summary>
 		private void StopHostingCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			Host.Close();
@@ -129,32 +148,49 @@ namespace ShareTabWin
 			Trace.TraceInformation("Stopped listening: host is now {0}", Host.State);
 		}
 
+		/// <summary>
+		/// Determines if the "Stop Hosting" MenuItem Command can be executed
+		/// </summary>
 		private void StopHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsHosting;
 		}
 
-		// About
+		/// <summary>
+		/// Command executed when clicking on the "About" MenuItem
+		/// </summary>
 		private void About_Click(object sender, RoutedEventArgs e)
 		{
 			Trace.TraceInformation("About clicked!");
 		}
 
+		/// <summary>
+		/// Command executed when clicking on the "Exit" MenuItem Command
+		/// </summary>
 		private void ExitCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			Close ();
 		}
 
+		/// <summary>
+		/// Pushes a tab to Server
+		/// </summary>
 		private void PushTab_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			Connection.AddTab ((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
 		}
 
+		/// <summary>
+		/// Determines if a tab can be pushed to Server
+		/// </summary>
 		private void PushTab_CanExecute (object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsConnected && tabsPanel.TabsTreeView.SelectedItem is PrivateTab;
 		}
 
+		/// <summary>
+		/// Command executed on toggling "Watch" MenuItem Command
+		/// </summary>
 		private void WatchingToggle_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			// can't toggle if not connected
@@ -174,6 +210,9 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Command executed on toggling "Broadcast" MenuItem Command
+		/// </summary>
 		private void BroadcastToggle_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			if (!IsConnected) return;
@@ -394,11 +433,7 @@ namespace ShareTabWin
 			}
 			return null;
 		}
-
-
-		public event DisconnectedEventHandler Disconnected;
-		protected void OnDisconnected (EventArgs e) { Disconnected (this, e); }
-
+		
 		private void SketchToggle_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 /*			if (sketchWindow.IsVisible)
