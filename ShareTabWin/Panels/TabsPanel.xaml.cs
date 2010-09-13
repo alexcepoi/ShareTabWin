@@ -145,6 +145,7 @@ namespace ShareTabWin
 		void OnScrapbookUpdate(object sender, ScrapbookUpdateArgs e)
 		{
 			PublicSession.FindByGuid(null).TabData.Content = e.Html;
+			PublicSession.FindByGuid(null).renderer.Document.Body.InnerHtml = e.Html;
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

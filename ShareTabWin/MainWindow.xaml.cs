@@ -210,7 +210,9 @@ namespace ShareTabWin
 		private void FocusAddressbarCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			// --- TESTING GROUND
-			ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
+			//ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
+			//tabsPanel.PublicSession.FindByGuid(null).renderer.Document.Body.InnerHtml =
+			//	tabsPanel.PublicSession.FindByGuid(null).TabData.Content;
 			// ---
 
 			//documentPane.ItemsSource = tabsPanel.PrivateSession;
