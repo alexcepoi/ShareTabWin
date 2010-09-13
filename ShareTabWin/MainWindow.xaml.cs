@@ -223,13 +223,13 @@ namespace ShareTabWin
 			}
 			else
 			{
-				Tab noob = new PrivateTab ();
-				App.Current.Dispatcher.BeginInvoke
+				TabNext = new PrivateTab ();
+				System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
 					(
-					new Action<Tab> (tab => tabsPanel.PrivateSession.Add (tab)), noob
+					new Action<Tab> (tab => tabsPanel.PrivateSession.Add (tab)), TabNext
 					);
 
-				noob.Focus ();
+				op.Completed +=new EventHandler(op_Completed);
 			}
 		}
 
@@ -238,13 +238,37 @@ namespace ShareTabWin
 		{
 			if (ClientStatus.IsBroadcasting)
 			{
-				Connection.CloseTab((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
+				Tab target = tabsPanel.TabsTreeView.SelectedItem as Tab;
+				if (target != null)
+					Connection.CloseTab(target.TabData);
 			}
 			else if (dockingManager.ActiveDocument != null)
-				App.Current.Dispatcher.BeginInvoke
+			{
+				int index = dockingManager.Documents.IndexOf(dockingManager.ActiveDocument as Tab);
+				if (index == 0)
+					if (dockingManager.Documents.Count > 1)
+						TabNext = dockingManager.Documents[1] as Tab;
+					else
+						TabNext = null;
+				else
+					TabNext = dockingManager.Documents[index - 1] as Tab;
+
+				System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
 				(
-					new Action (() => dockingManager.ActiveDocument.Close())
+					new Action(() => dockingManager.ActiveDocument.Close())
 				);
+
+				op.Completed += new EventHandler(op_Completed);
+			}
+		}
+
+
+		// TabFocus on NewTab and CloseTab
+		private Tab TabNext { get; set; }
+
+		private void op_Completed(object sender, EventArgs e)
+		{
+			dockingManager.ActiveDocument = TabNext;
 		}
 		#endregion
 
