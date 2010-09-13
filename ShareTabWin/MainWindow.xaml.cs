@@ -325,10 +325,32 @@ namespace ShareTabWin
 		{
 			if (IsConnected)
 			{
+				// partea asta nu ar trebui făcută așa. Fă in scrapbook tab o proprietate Body de tipul GeckoElement
+				// care sa se initializeze cu renderer.Document.Body astfel incat sa existe chiar si cand rendereru nu e format.
+				// te descurci tu
+				var engine = new Skybound.Gecko.GeckoWebBrowser ();
+				var wfhost = new System.Windows.Forms.Integration.WindowsFormsHost ();
+				wfhost.Child = engine;
+				wfhost.Width = 0; wfhost.Height = 0;
+				root.Children.Add (wfhost);
+
+				engine.Navigate ("about:blank");
 				ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
-				//Skybound.Gecko.GeckoNode temp = scrap.renderer.Document.DocumentElement.CloneNode(true);
-				// INSERT LOGIC HERE
-				Connection.ScrapbookUpdate("pula");
+
+				if (scrap != null)
+					engine.Document.DocumentElement.InnerHtml = scrap.TabData.Content;
+				if (engine.Document.Body == null)
+					engine.Document.DocumentElement.AppendChild(engine.Document.CreateElement("body"));	//SERVER SHOULD ALWAYS INITIALIZE SCRAP TABDATA
+																								// THIS SHOULD NEVER BE NEEDED LATER
+
+				var div = engine.Document.CreateElement ("div");
+				div.SetAttribute ("style", "background-color: gray; margin: 10px;"); //move to CSS
+				div.AppendChild (e.Selection.GetRangeAt (0).CloneContents ());
+				engine.Document.Body.AppendChild (div);
+				string x = engine.Document.DocumentElement.InnerHtml;
+				Connection.ScrapbookUpdate (x);
+				root.Children.Remove (wfhost);
+				// on the other side just set Scrapbook.TabData = x; LIKE A CHARM
 			}
 		}
 

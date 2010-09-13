@@ -140,9 +140,7 @@ namespace ShareTabWin
 
 	public class ScrapbookTab : PublicTab
 	{
-		public ScrapbookTab (Infrastructure.Tab tab) : base (tab) 
-		{ 
-		}
+		public ScrapbookTab (Infrastructure.Tab tab) : base (tab) { }
 
 		protected override void OnIsActiveDocumentChanged (DependencyPropertyChangedEventArgs e)
 		{
