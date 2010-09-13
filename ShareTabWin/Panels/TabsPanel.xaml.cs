@@ -70,9 +70,16 @@ namespace ShareTabWin
 
 		void OnTabAdded (object sender, TabArgs e)
 		{
-			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
-				(tab) => 
-					PublicSession.Add (new PublicTab (tab))), e.Tab);
+			System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
+				(
+				new Action(() =>
+					{
+						TabNext = new PublicTab(e.Tab);
+						PublicSession.Add(TabNext);
+					})
+				);
+
+			op.Completed += new EventHandler(op_Completed);
 		}
 
 		void OnTabClosed(object sender, TabArgs e)
@@ -80,6 +87,22 @@ namespace ShareTabWin
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab>(
 				(tab) => 
 					PublicSession.Remove((PublicSession.FindByGuid(e.Tab.Id)))), e.Tab);
+		}
+
+		// TabAdded and TabClosed Focus
+		private PublicTab TabNext { get; set; }
+
+		private void op_Completed(object sender, EventArgs e)
+		{
+			MainWindow main = App.Current.MainWindow as MainWindow;
+
+			if (main.ClientStatus.IsWatching)
+			{
+				App.Current.Dispatcher.BeginInvoke
+					(
+					new Action(() => main.dockingManager.ActiveDocument = TabNext)
+					);
+			}
 		}
 
 		void OnTabUpdated(object sender, TabArgs e)
