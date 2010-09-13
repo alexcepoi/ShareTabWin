@@ -140,6 +140,7 @@ namespace ShareTabWin
 
 	public class ScrapbookTab : PublicTab
 	{
+
 		public ScrapbookTab (Infrastructure.Tab tab) : base (tab) { }
 
 		protected override void renderer_DocumentTitleChanged(object sender, EventArgs e) {}

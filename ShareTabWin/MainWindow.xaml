@@ -49,7 +49,7 @@
                         Executed="CloseTabCommand_Executed" />
     </Window.CommandBindings>
 
-    <DockPanel>
+    <DockPanel x:Name="root">
         <Menu Height="23" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="C_onnect..." Command="local:Commands.ConnectCommand" />
