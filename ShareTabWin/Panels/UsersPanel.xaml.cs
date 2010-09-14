@@ -1,7 +1,7 @@
 ﻿namespace ShareTabWin
 {
 	/// <summary>
-	/// Interaction logic for Tabs.xaml
+	/// Managed window that displays a list of online users.
 	/// </summary>
 	public partial class UsersPanel : AvalonDock.DockableContent
 	{

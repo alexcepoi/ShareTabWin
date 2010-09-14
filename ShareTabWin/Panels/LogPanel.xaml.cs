@@ -1,7 +1,7 @@
 ﻿namespace ShareTabWin
 {
 	/// <summary>
-	/// Interaction logic for Tabs.xaml
+	/// Managed window that displays the current trace log in a text box.
 	/// </summary>
 	public partial class LogPanel : AvalonDock.DockableContent
 	{

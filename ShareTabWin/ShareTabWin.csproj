@@ -32,6 +32,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -91,6 +93,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Dialogs\AboutDialog.xaml.cs">
+      <DependentUpon>AboutDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\StartHostingDlg.xaml.cs">
       <DependentUpon>StartHostingDlg.xaml</DependentUpon>
     </Compile>
@@ -139,6 +144,10 @@
     <Compile Include="WCF\Events.cs" />
     <Compile Include="WCF\StartHostingParams.cs" />
     <Page Include="BrowserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AboutDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,6 +244,7 @@
   <ItemGroup>
     <Content Include="Dependencies\GeckoFX\bin\Skybound.Gecko.dll" />
     <Content Include="Dependencies\XULrunner\Ionic.Zip.Reduced.dll" />
+    <Resource Include="Dialogs\about.png" />
     <Resource Include="Icons\arrow_left_16x16.png" />
     <Resource Include="Icons\arrow_right_16x16.png" />
     <Resource Include="Icons\home_16x16.png" />

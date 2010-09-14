@@ -4,11 +4,15 @@ using System.Windows.Input;
 namespace ShareTabWin
 {
 	/// <summary>
-	/// Interaction logic for Tabs.xaml
+	/// Managed window displaying a tree of public and private tabs.
 	/// </summary>
 	public partial class TabsPanel : AvalonDock.DockableContent
 	{
 		#region Properties
+		/// <summary>
+		/// Gets or sets the public TabSession
+		/// </summary>
+		/// <value>The public TabSession</value>
 		public TabSession PublicSession
 		{
 			get
@@ -20,6 +24,10 @@ namespace ShareTabWin
 				m_PublicSession = value;
 			}
 		}
+		/// <summary>
+		/// Gets or sets the private TabSession
+		/// </summary>
+		/// <value>The private TabSession</value>
 		public TabSession PrivateSession
 		{
 			get
@@ -44,9 +52,12 @@ namespace ShareTabWin
 			ConnectionCallback.Instance.SketchUpdated += OnSketchUpdated;
 		}
 
-		private void TabsTreeView_Selected(object sender, System.Windows.RoutedEventArgs e)
+		/// <summary>
+		/// When a tab is selected in the treeview, activate the tab in the docking manager
+		/// if that action is appropriate.
+		/// </summary>
+		private void TabsTreeView_Selected (object sender, System.Windows.RoutedEventArgs e)
 		{
-			//TabsTreeView.Tag = e.OriginalSource;
 			MainWindow main = App.Current.MainWindow as MainWindow;
 			if (main == null)
 				return;
@@ -65,6 +76,10 @@ namespace ShareTabWin
 				}
 		}
 
+		/// <summary>
+		/// Handles the callback TabAdded event, adds the received tab to the
+		/// public session.
+		/// </summary>
 		void OnTabAdded (object sender, TabArgs e)
 		{
 			System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
@@ -79,11 +94,15 @@ namespace ShareTabWin
 			op.Completed += new EventHandler (op_Completed);
 		}
 
+		/// <summary>
+		/// Handles the callback TabClosed event, removes the closed tab from the 
+		/// public session
+		/// </summary>
 		void OnTabClosed(object sender, TabArgs e)
 		{
 			System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
 				(
-				new Action(() => 
+				new Action (() => 
 					{
 						MainWindow main = App.Current.MainWindow as MainWindow;
 
@@ -110,6 +129,9 @@ namespace ShareTabWin
 		// TabAdded and TabClosed Focus
 		private PublicTab TabNext { get; set; }
 
+		/// <summary>
+		/// Sets the correct tab as active after closing a tab
+		/// </summary>
 		private void op_Completed(object sender, EventArgs e)
 		{
 			MainWindow main = App.Current.MainWindow as MainWindow;
@@ -123,6 +145,9 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Handles the callback TabUpdated event, updates the tab's data
+		/// </summary>
 		void OnTabUpdated(object sender, TabArgs e)
 		{
 			Tab tab = PublicSession.FindByGuid(e.Tab.Id);
@@ -146,6 +171,9 @@ namespace ShareTabWin
 					));
 		}
 
+		/// <summary>
+		/// Handles the callback TabActivated event, activates the tab
+		/// </summary>
 		void OnTabActivated (object sender, TabArgs e)
 		{
 			System.Diagnostics.Trace.TraceInformation ("Activating public tab {0}.", e.Tab.Title);
@@ -162,6 +190,9 @@ namespace ShareTabWin
 					}));
 		}
 
+		/// <summary>
+		/// Handles the callback TabScrolled event, scrolls the tab
+		/// </summary>
 		void OnTabScrolled (object sender, TabScrolledArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
@@ -190,11 +221,17 @@ namespace ShareTabWin
 				}), e.Tab, e.Strokes);
 		}
 
+		/// <summary>
+		/// Sets e.CanExecute to true if the selected tab is a public tab.
+		/// </summary>
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = (TabsTreeView.SelectedItem is PublicTab);
 		}
 
+		/// <summary>
+		/// Adds a copy of the selected public tab as a private tab for enjoying at leisure.
+		/// </summary>
 		private void ClonePublicTab_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Tab> (

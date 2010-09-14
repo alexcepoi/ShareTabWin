@@ -9,6 +9,10 @@ using System.Threading;
 
 namespace ShareTabWin
 {
+	/// <summary>
+	/// Trace listener that exposes the current Trace log as a property 
+	/// you can bound to in the UI
+	/// </summary>
 	public class MyTraceListener : TraceListener, INotifyPropertyChanged
 	{
 		private readonly StringBuilder builder;
@@ -18,6 +22,10 @@ namespace ShareTabWin
 			this.builder = new StringBuilder ();
 		}
 
+		/// <summary>
+		/// Gets the contents of the trace log.
+		/// </summary>
+		/// <value>The contents of the trace log.</value>
 		public string Trace
 		{
 			get { return this.builder.ToString (); }

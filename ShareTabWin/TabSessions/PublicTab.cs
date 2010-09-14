@@ -6,6 +6,10 @@ using Skybound.Gecko;
 
 namespace ShareTabWin
 {
+	/// <summary>
+	/// Describes a Public tab, which is a ShareTab browser tab that syncs with
+	/// the ShareTab server and all its connected users.
+	/// </summary>
 	public class PublicTab : Tab
 	{
 		private GeckoNode currentNode;
@@ -13,7 +17,11 @@ namespace ShareTabWin
 		public PublicTab (Infrastructure.Tab tab) : base (tab) { }
 		public PublicTab (string uri) : base (uri) { }
 
-		protected override void browser_Navigated (object sender, Skybound.Gecko.GeckoNavigatedEventArgs e)
+		/// <summary>
+		/// If the client is broadcasting, notifies the server of the update when the
+		/// renderer has navigated somewhere else (such as when clicking on a link).
+		/// </summary>
+		protected override void browser_Navigated (object sender, GeckoNavigatedEventArgs e)
 		{
 			base.browser_Navigated (sender, e);
 
@@ -22,6 +30,11 @@ namespace ShareTabWin
 			if (main != null && main.ClientStatus.IsBroadcasting)
 				main.Connection.UpdateTab (TabData);
 		}
+
+		/// <summary>
+		/// If the client is broadcasting, notifies the server of the update when
+		/// the title of the current page has changed.
+		/// </summary>
 		protected override void renderer_DocumentTitleChanged (object sender, EventArgs e)
 		{
 			base.renderer_DocumentTitleChanged (sender, e);
@@ -31,6 +44,12 @@ namespace ShareTabWin
 			if (main != null && main.ClientStatus.IsBroadcasting)
 				main.Connection.UpdateTab (TabData);
 		}
+
+		/// <summary>
+		/// When the user moves his mouse over the renderer, if the DOM element under the cursor
+		/// changes, notifies the server of the identity of the new element under the mouse
+		/// so that the clients can scroll there.
+		/// </summary>
 		protected override void renderer_DomMouseMove (object sender, GeckoDomMouseEventArgs e)
 		{
 			base.renderer_DomMouseMove (sender, e);
@@ -69,6 +88,10 @@ namespace ShareTabWin
 			RaiseEvent (new SketchChangedEventArgs (TabData, ms.GetBuffer ()));
 		}
 
+		/// <summary>
+		/// Scrolls the renderer's content to a DOM element represented by a DomId.
+		/// </summary>
+		/// <param name="domId">The DomId of the element.</param>
 		public override void ScrollTo(int domId)
 		{
 			base.ScrollTo(domId);
@@ -81,6 +104,10 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Scrolls the renderer's content to a DOM element represented by an id attribute.
+		/// </summary>
+		/// <param name="tagId">The value of the element's id attribute.</param>
 		public override void ScrollTo (string tagId)
 		{
 			base.ScrollTo (tagId);
@@ -93,6 +120,10 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Scrolls the renderer's content so that a GeckoElement is in the center.
+		/// </summary>
+		/// <param name="element">The GeckoElement to bring to the center.</param>
 		private void ScrollTo (GeckoElement element)
 		{
 			if (element == null) return;
@@ -120,6 +151,9 @@ namespace ShareTabWin
 			if (!doodle.IsOpen && App.Current.MainWindow != null && App.Current.MainWindow.IsActive)
 				Commands.SketchToggle.Execute (null, this);
 		}
+		/// <summary>
+		/// Triggers when the DOM node under the mouse changes.
+		/// </summary>
 		public event CurrentNodeChangedEventHandler CurrentNodeChanged
 		{
 			add { AddHandler (CurrentNodeChangedEvent, value); }
