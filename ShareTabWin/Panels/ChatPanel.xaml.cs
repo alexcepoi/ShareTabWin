@@ -34,11 +34,6 @@ namespace ShareTabWin
 		public ChatPanel ()
 		{
 			InitializeComponent ();
-		}
-
-		private void ChatPanel_Loaded (object sender, System.Windows.RoutedEventArgs e)
-		{
-
 			ConnectionCallback.Instance.ChatReceiveEvent += new ChatReceiveEventHandler (ChatReceive);
 		}
 	}

@@ -9,12 +9,8 @@
 		
 		public UsersPanel()
 		{
-			_controller = new Helpers.UsersController ();
 			InitializeComponent();
-		}
-
-		private void UsersPanel_Loaded (object sender, System.Windows.RoutedEventArgs e)
-		{
+			_controller = new Helpers.UsersController ();
 			_controller.Initialize (Resources["userlist"] as Helpers.UserList);
 		}
 	}

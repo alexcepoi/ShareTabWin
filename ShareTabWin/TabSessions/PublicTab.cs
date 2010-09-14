@@ -118,7 +118,7 @@ namespace ShareTabWin
 			doodleCanvas.Strokes.Clear ();
 			doodleCanvas.Strokes.Add (strokes);
 			if (!doodle.IsOpen)
-				doodle.IsOpen = true;
+				Commands.SketchToggle.Execute (null, this);
 		}
 		public event CurrentNodeChangedEventHandler CurrentNodeChanged
 		{

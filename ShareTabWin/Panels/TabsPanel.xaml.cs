@@ -36,6 +36,12 @@ namespace ShareTabWin
 		public TabsPanel()
 		{
 			InitializeComponent();
+			ConnectionCallback.Instance.TabAdded += OnTabAdded;
+			ConnectionCallback.Instance.TabClosed += OnTabClosed;
+			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
+			ConnectionCallback.Instance.TabActivated += OnTabActivated;
+			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
+			ConnectionCallback.Instance.SketchUpdated += OnSketchUpdated;
 		}
 
 		private void TabsTreeView_Selected(object sender, System.Windows.RoutedEventArgs e)
@@ -54,39 +60,73 @@ namespace ShareTabWin
 				}
 				else
 				{
-					if (item.DataContext is PrivateTab)
+					if (!main.ClientStatus.IsWatching && item.DataContext is PrivateTab)
 						main.dockingManager.ActiveDocument = item.DataContext as Tab;
 				}
 		}
 
-		private void TabsPanel_Loaded (object sender, System.Windows.RoutedEventArgs e)
-		{
-			ConnectionCallback.Instance.TabAdded += OnTabAdded;
-			ConnectionCallback.Instance.TabClosed += OnTabClosed;
-			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
-			ConnectionCallback.Instance.TabActivated += OnTabActivated;
-			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
-			ConnectionCallback.Instance.SketchUpdated += OnSketchUpdated;
-		}
-
 		void OnTabAdded (object sender, TabArgs e)
 		{
-			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab> (
-				(tab) => 
-					PublicSession.Add (new PublicTab (tab))), e.Tab);
+			System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
+				(
+				new Action(() =>
+					{
+						TabNext = new PublicTab(e.Tab);
+						PublicSession.Add(TabNext);
+					})
+				);
+
+			op.Completed += new EventHandler (op_Completed);
 		}
 
 		void OnTabClosed(object sender, TabArgs e)
 		{
-			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab>(
-				(tab) => 
-					PublicSession.Remove((PublicSession.FindByGuid(e.Tab.Id)))), e.Tab);
+			System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
+				(
+				new Action(() => 
+					{
+						MainWindow main = App.Current.MainWindow as MainWindow;
+
+						if (main.ClientStatus.IsWatching)
+						{
+							int index = main.dockingManager.Documents.IndexOf(main.dockingManager.ActiveDocument as PublicTab);
+							if (index == 0)
+								if (main.dockingManager.Documents.Count > 1)
+									TabNext = main.dockingManager.Documents[1] as PublicTab;
+								else
+									TabNext = null;
+							else if (index != -1)
+								TabNext = main.dockingManager.Documents[index - 1] as PublicTab;
+						}
+						else TabNext = null;
+
+						PublicSession.Remove ((PublicSession.FindByGuid(e.Tab.Id)));
+					})
+				);
+
+			op.Completed += new EventHandler (op_Completed);
+		}
+
+		// TabAdded and TabClosed Focus
+		private PublicTab TabNext { get; set; }
+
+		private void op_Completed(object sender, EventArgs e)
+		{
+			MainWindow main = App.Current.MainWindow as MainWindow;
+
+			if (main.ClientStatus.IsWatching)
+			{
+				App.Current.Dispatcher.BeginInvoke
+					(
+					new Action(() => main.dockingManager.ActiveDocument = TabNext)
+					);
+			}
 		}
 
 		void OnTabUpdated(object sender, TabArgs e)
 		{
 			Tab tab = PublicSession.FindByGuid(e.Tab.Id);
-			if (tab == null) { System.Windows.MessageBox.Show("nullref OnTabUpdated"); Environment.Exit(-1); }
+			if (tab == null) return;
 			
 			tab.TabData.Title = e.Tab.Title;
 			tab.TabData.Url = e.Tab.Url;

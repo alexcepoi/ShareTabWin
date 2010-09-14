@@ -18,23 +18,16 @@ namespace ShareTabWin
 		// (i.e. IsEnabled = false) when IsConnected = false. Still thinking about implementation.
 		//
 		// TODO: remove width and height from MainWindow.xaml
-		
+
+		#region Properties
 		private Communication.ShareTabHost Host;
 		public Communication.IShareTabSvc Connection;
 
 		private Helpers.Notifications.NotificationWindow notificationWindow;
+		
+		public event DisconnectedEventHandler Disconnected;
+		protected void OnDisconnected(EventArgs e) { Disconnected(this, e); }
 
-		public MainWindow ()
-		{
-			InitializeComponent ();
-			dockingManager.DataContext = tabsPanel.PrivateSession;
-			notificationWindow = new Helpers.Notifications.NotificationWindow ();
-			notificationWindow.Show ();
-			Disconnected += MainWindow_Disconnected;
-		}
-
-
-		#region Properties
 		public bool IsHosting
 		{
 			get
@@ -44,7 +37,7 @@ namespace ShareTabWin
 					if (Host.State == System.ServiceModel.CommunicationState.Opened)
 						return true;
 				}
-				catch (System.NullReferenceException) { }
+				catch (System.NullReferenceException) {}
 
 				return false;
 			}
@@ -53,20 +46,31 @@ namespace ShareTabWin
 		public bool IsConnected
 		{
 			get
-			{
-				return Connection != null;
-			}
+			{ return Connection != null; }
 		}
 
-		public ClientStatus ClientStatus 
+		public ClientStatus ClientStatus
 		{
 			get { return _clientStatus; }
 			set { _clientStatus = value; }
 		}
 		#endregion
 
+		public MainWindow ()
+		{
+			InitializeComponent ();
+			
+			dockingManager.DataContext = tabsPanel.PrivateSession;
+			notificationWindow = new Helpers.Notifications.NotificationWindow ();
+			notificationWindow.Show ();
+			
+			Disconnected += MainWindow_Disconnected;
+		}
+
 		#region Commands
-		// Connect
+		/// <summary>
+		/// Command executed when clicking on "Connect" MenuItem
+		/// </summary>
 		private void ConnectCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			ConnectDlg connectDlg = new ConnectDlg();
@@ -81,12 +85,17 @@ namespace ShareTabWin
 			
 		}
 
+		/// <summary>
+		/// Determines if the "Connect" MenuItem command can be executed
+		/// </summary>
 		private void ConnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = !IsConnected;
 		}
 
-		// Disconnect
+		/// <summary>
+		/// Command executed when clicking on "Disconnect" MenuItem
+		/// </summary>
 		private void DisconnectCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			if (ClientStatus.IsWatching)
@@ -97,12 +106,17 @@ namespace ShareTabWin
 			OnDisconnected (new EventArgs ());
 		}
 
+		/// <summary>
+		/// Determines if the "Disconnect" MenuItem command can be executed
+		/// </summary>
 		private void DisconnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsConnected;
 		}
 
-		// Start Hosting
+		/// <summary>
+		/// Command executed when clicking on "Start Hosting" MenuItem
+		/// </summary>
 		private void StartHostingCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			StartHostingDlg startHostingDlg = new StartHostingDlg ();
@@ -115,13 +129,18 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Determines if the "Start Hosting" MenuItem command can be executed
+		/// </summary>
 		private void StartHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = !IsHosting;
 
 		}
 
-		// Stop Hosting
+		/// <summary>
+		/// Command executed when clicking on the "Stop Hosting" MenuItem
+		/// </summary>
 		private void StopHostingCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			Host.Close();
@@ -129,32 +148,49 @@ namespace ShareTabWin
 			Trace.TraceInformation("Stopped listening: host is now {0}", Host.State);
 		}
 
+		/// <summary>
+		/// Determines if the "Stop Hosting" MenuItem Command can be executed
+		/// </summary>
 		private void StopHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsHosting;
 		}
 
-		// About
+		/// <summary>
+		/// Command executed when clicking on the "About" MenuItem
+		/// </summary>
 		private void About_Click(object sender, RoutedEventArgs e)
 		{
 			Trace.TraceInformation("About clicked!");
 		}
 
+		/// <summary>
+		/// Command executed when clicking on the "Exit" MenuItem Command
+		/// </summary>
 		private void ExitCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			Close ();
 		}
 
+		/// <summary>
+		/// Pushes a tab to Server
+		/// </summary>
 		private void PushTab_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			Connection.AddTab ((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
 		}
 
+		/// <summary>
+		/// Determines if a tab can be pushed to Server
+		/// </summary>
 		private void PushTab_CanExecute (object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsConnected && tabsPanel.TabsTreeView.SelectedItem is PrivateTab;
 		}
 
+		/// <summary>
+		/// Command executed on toggling "Watch" MenuItem Command
+		/// </summary>
 		private void WatchingToggle_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			// can't toggle if not connected
@@ -174,6 +210,9 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Command executed on toggling "Broadcast" MenuItem Command
+		/// </summary>
 		private void BroadcastToggle_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			if (!IsConnected) return;
@@ -203,7 +242,9 @@ namespace ShareTabWin
 		#endregion
 
 		#region Keyboard Shortcuts
-		// Focus Addressbar
+		/// <summary>
+		/// Focus on current tab's addressbar
+		/// </summary>
 		private void FocusAddressbarCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			//documentPane.ItemsSource = tabsPanel.PrivateSession;
@@ -213,7 +254,9 @@ namespace ShareTabWin
 					browserWindow.addressBar.Focus();
 		}
 
-		// New Tab
+		/// <summary>
+		/// Create a new tab
+		/// </summary>
 		private void NewTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			// TODO: When watching this shouldn't work
@@ -223,61 +266,92 @@ namespace ShareTabWin
 			}
 			else
 			{
-				Tab noob = new PrivateTab ();
-				App.Current.Dispatcher.BeginInvoke
+				TabNext = new PrivateTab ();
+				System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
 					(
-					new Action<Tab> (tab => tabsPanel.PrivateSession.Add (tab)), noob
+					new Action<Tab> (tab => tabsPanel.PrivateSession.Add (tab)), TabNext
 					);
 
-				noob.Focus ();
+				op.Completed +=new EventHandler(op_Completed);
 			}
 		}
 
-		// Close Tab
+		/// <summary>
+		/// Close current tab
+		/// </summary>
 		private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			if (ClientStatus.IsBroadcasting)
 			{
-				Connection.CloseTab((tabsPanel.TabsTreeView.SelectedItem as Tab).TabData);
+				Tab target = tabsPanel.TabsTreeView.SelectedItem as Tab;
+				if (target != null)
+					Connection.CloseTab(target.TabData);
 			}
 			else if (dockingManager.ActiveDocument != null)
-				App.Current.Dispatcher.BeginInvoke
+			{
+				int index = dockingManager.Documents.IndexOf(dockingManager.ActiveDocument as Tab);
+				if (index == 0)
+					if (dockingManager.Documents.Count > 1)
+						TabNext = dockingManager.Documents[1] as Tab;
+					else
+						TabNext = null;
+				else
+					TabNext = dockingManager.Documents[index - 1] as Tab;
+
+				System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
 				(
-					new Action (() => dockingManager.ActiveDocument.Close())
+					new Action(() => dockingManager.ActiveDocument.Close())
 				);
+
+				op.Completed += new EventHandler(op_Completed);
+			}
+		}
+
+		/// <summary>
+		/// Returns tab that must be activated after creating/closing another tab
+		/// </summary>
+		private Tab TabNext { get; set; }
+
+		/// <summary>
+		/// After creating/closing a tab, this activates the new/another tab
+		/// </summary>
+		private void op_Completed(object sender, EventArgs e)
+		{
+			dockingManager.ActiveDocument = TabNext;
 		}
 		#endregion
 
 		#region Event handlers
+		/// <summary>
+		/// Sends message to server
+		/// </summary>
 		private void chatPanel_ChatSendEvent (object sender, ChatSendEventArgs e)
 		{
 			if (IsConnected)
 				Connection.SendChatMessage (e.Content);
 		}
 
+		/// <summary>
+		/// Handler invoked when window is closed
+		/// </summary>
 		private void Window_Closed (object sender, System.EventArgs e)
 		{
 			notificationWindow.Close ();
 			Commands.DisconnectCommand.Execute(null, this);
 		}
 
+		/// <summary>
+		/// Handler invoked when window is loaded
+		/// </summary>
 		private void Window_Loaded (object sender, RoutedEventArgs e)
 		{
-			// Binding set in XAML
-			//dockingManager.DocumentsSource = tabsPanel.PrivateSession;
-			//documentPane.ItemsSource = tabsPanel.PrivateSession;
-			
 			// Open a Tab with HomePage
-			tabsPanel.PrivateSession.Add (new PrivateTab (Tab.HomePage)); //add invoke if needed
-
-			/* candidate for deletion
-			foreach (var dc in dockingManager.DockableContents)
-			{
-				Trace.TraceInformation (dc.Title);
-				System.Windows.Data.Binding a = new System.Windows.Data.Binding();
-			}*/
+			tabsPanel.PrivateSession.Add (new PrivateTab (Tab.HomePage));
 		}
 
+		/// <summary>
+		/// Handler invoked when tab is changed (in AvalonDock)
+		/// </summary>
 		private void dockingManager_ActiveDocumentChanged (object sender, System.EventArgs e)
 		{
 			Tab target = dockingManager.ActiveDocument as Tab;
@@ -291,6 +365,9 @@ namespace ShareTabWin
 
 		}
 
+		/// <summary>
+		/// Handler invoked when tab is closing (in AvalonDock)
+		/// </summary>
 		private void dockingManager_DocumentClosing (object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			if (ClientStatus.IsBroadcasting)
@@ -300,6 +377,9 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Handler invoked when users scrolls a webpage
+		/// </summary>
 		private void documentPane_CurrentNodeChanged (object sender, CurrentNodeChangedEventArgs e)
 		{
 			if (ClientStatus.IsBroadcasting)
@@ -311,18 +391,26 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Handler invoked when disconnected from server
+		/// </summary>
 		void MainWindow_Disconnected (object sender, EventArgs e)
 		{
 			Connection = null;
 		}
 
+		/// <summary>
+		/// Handler invoked when on connection timeout
+		/// </summary>
 		void con_Faulted (object sender, EventArgs e)
 		{
 			MessageBox.Show ("You have been disconnected.");
 			OnDisconnected (e);
 		}
-		#endregion
 
+		/// <summary>
+		/// Generates the Window Menu
+		/// </summary>
 		private void PopulateWindowMenu (object sender, RoutedEventArgs e)
 		{
 			windowMenu.Items.Clear ();
@@ -337,7 +425,10 @@ namespace ShareTabWin
 				windowMenu.Items.Add (item);
 			}
 		}
-
+		
+		/// <summary>
+		/// Enables/Disables Window Panes
+		/// </summary>
 		protected void WindowMenuItemClick (object sender, RoutedEventArgs e)
 		{
 			AvalonDock.DockableContent pane;
@@ -350,10 +441,15 @@ namespace ShareTabWin
 			else
 				pane.Show ();
 		}
+		#endregion
 
 		// TODO: make a helper static method or something, dont pollute mainwindow!
-		// TODO: source should be of type TreeView/TreeViewItem
-		// DFS through TreeView the TreeViewItem which has Tab target
+		/// <summary>
+		/// DFS through TreeView the TreeViewItem which has Tab target
+		/// </summary>
+		/// <param name="source">TreeView/TreeViewItem in which to search for Tab</param>
+		/// <param name="target">Target Tab</param>
+		/// <returns>TreeViewItem which contains Tab</returns>
 		private TreeViewItem getTreeViewItem (dynamic source, Tab target)
 		{
 			for (int i = 0; i < source.Items.Count; ++i)
@@ -371,23 +467,8 @@ namespace ShareTabWin
 			return null;
 		}
 
-
-		public event DisconnectedEventHandler Disconnected;
-		protected void OnDisconnected (EventArgs e) { Disconnected (this, e); }
-
 		private void SketchToggle_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
-/*			if (sketchWindow.IsVisible)
-				sketchWindow.IsOpen = false;
-			else
-			{
-				sketchWindow.Left = 100;
-				sketchWindow.Top = 100;
-				sketchWindow.Owner = this;
-				sketchWindow.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
-				sketchWindow.IsOpen = true;
-				.Activate ();*/
-
 			var tab = dockingManager.ActiveDocument as Tab;
 			if (tab != null)
 			{

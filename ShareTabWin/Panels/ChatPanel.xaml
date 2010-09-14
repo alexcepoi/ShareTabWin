@@ -4,10 +4,9 @@
         xmlns:dock="clr-namespace:AvalonDock;assembly=AvalonDock"
         xmlns:helpers="clr-namespace:ShareTabWin.Helpers"
         Title="Chat"
-        FocusManager.FocusedElement="{Binding ElementName=chatInput}"
-        Loaded="ChatPanel_Loaded">
+        FocusManager.FocusedElement="{Binding ElementName=chatInput}">
+    
     <DockPanel>
-
         <TextBox DockPanel.Dock="Bottom" Name="chatInput" KeyDown="TextBox_KeyDown" />
         <helpers:ChatTextBox x:Name="chatTextBox" MinWidth="200">
             <FlowDocument>
