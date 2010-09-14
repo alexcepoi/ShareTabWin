@@ -161,7 +161,9 @@ namespace ShareTabWin
 		/// </summary>
 		private void About_Click(object sender, RoutedEventArgs e)
 		{
-			Trace.TraceInformation("About clicked!");
+			var about = new AboutDialog ();
+			about.Owner = this;
+			about.ShowDialog ();
 		}
 
 		/// <summary>
