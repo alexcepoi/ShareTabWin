@@ -5,9 +5,10 @@ using System;
 namespace ShareTabWin
 {
 	/// <summary>
-	/// Interaction logic for ChatPanel.xaml
+	/// Managed window that displays the current chat history and allows
+	/// the user to send chat messages. Raises a ChatSendEvent when the
+	/// client submits a message.
 	/// </summary>
-	
 	public partial class ChatPanel : AvalonDock.DockableContent
 	{
 		public event ChatSendEventHandler ChatSendEvent;
@@ -16,6 +17,10 @@ namespace ShareTabWin
 			ChatSendEvent (this, e);
 		}
 
+		/// <summary>
+		/// If enter is pressed in the chat message submit textbox, then the
+		/// ChatSendEvent is raised.
+		/// </summary>
 		private void TextBox_KeyDown (object sender, System.Windows.Input.KeyEventArgs e)
 		{
 			// Handle Return key by sending and clearing
@@ -26,6 +31,10 @@ namespace ShareTabWin
 			}
 		}
 
+		/// <summary>
+		/// Handles the ChatReceiveEvent from the callback. Adds the received
+		/// message to the ChatTextBox display.
+		/// </summary>
 		public void ChatReceive (object sender, ChatReceiveEventArgs e)
 		{
 			App.Current.Dispatcher.Invoke(new Action<Infrastructure.ChatMessage>(m => chatTextBox.AddMessage(m)), e.Message);
@@ -43,7 +52,6 @@ namespace ShareTabWin
 		public string Content { get; set; }
 		public ChatSendEventArgs (string c) { Content = c; }
 	}
-
 	public delegate void ChatSendEventHandler (object sender, ChatSendEventArgs e);
 
 }

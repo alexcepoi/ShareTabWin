@@ -4,6 +4,10 @@ using System.Diagnostics;
 
 namespace ShareTabWin
 {
+	/// <summary>
+	/// Implementation of the ShareTab callback contract. Runs as a singleton and
+	/// raises events whenever the server sends a message.
+	/// </summary>
 	[CallbackBehavior (ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
 	class ConnectionCallback : Communication.IShareTabCallback
 	{
@@ -11,6 +15,11 @@ namespace ShareTabWin
 		private static ConnectionCallback singleton = null;
 		private static object singleton_lock = new object ();
 		private ConnectionCallback () { }
+
+		/// <summary>
+		/// Gets the callback singleton instance.
+		/// </summary>
+		/// <value>The callback singleton instance.</value>
 		public static ConnectionCallback Instance
 		{
 			get
