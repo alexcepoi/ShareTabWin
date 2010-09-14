@@ -6,6 +6,12 @@ namespace ShareTabWin.Helpers
 {
 	public static class ValidationHelpers
 	{
+		/// <summary>
+		/// Inspects the DependencyObject and all its children's validation status. 
+		/// If it's invalid, makes it receive the focus.
+		/// </summary>
+		/// <param name="node">The DependencyObject to be inspected</param>
+		/// <returns>True if the element and all its children are valid, false otherwise.</returns>
 		public static bool IsValid (this DependencyObject node)
 		{
 			// Check if dependency object was passed

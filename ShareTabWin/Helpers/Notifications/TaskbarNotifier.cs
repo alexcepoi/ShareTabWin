@@ -10,6 +10,7 @@ namespace ShareTabWin.Helpers.Notifications
 	/// A window that slides up from the bottom right corner of the desktop to
 	/// notify the user of some event.
 	/// </summary>
+	/// Thanks to Buzz Weetman http://www.codeproject.com/KB/WPF/WPF_TaskbarNotifier.aspx
 	public class TaskbarNotifier : System.Windows.Window, INotifyPropertyChanged
 	{
 		/// <summary>

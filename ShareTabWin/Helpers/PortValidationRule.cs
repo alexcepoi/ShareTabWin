@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 
 namespace ShareTabWin.Helpers
 {
+	/// <summary>
+	/// Validation Rule for a Tcp port. Valid ports are between 1024 and 65536 exclusively.
+	/// </summary>
 	class PortValidationRule : ValidationRule
 	{
 		public int MinPort { get; set; }

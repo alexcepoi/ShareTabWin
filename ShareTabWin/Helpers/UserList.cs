@@ -7,9 +7,16 @@ using System.ComponentModel;
 
 namespace ShareTabWin.Helpers
 {
+	/// <summary>
+	/// Client-side representation of a user.
+	/// </summary>
 	public class User : Infrastructure.User, INotifyPropertyChanged
 	{
 		private string _name;
+		/// <summary>
+		/// Gets or sets the user's nickname.
+		/// </summary>
+		/// <value>The user's nickname</value>
 		public string Name
 		{
 			get { return _name; }
@@ -21,6 +28,10 @@ namespace ShareTabWin.Helpers
 		}
 
 		#region object overrides
+		/// <summary>
+		/// Compares two users based on their nickname, returns false if
+		/// comparing different types.
+		/// </summary>
 		public override bool Equals (object obj)
 		{
 			User other = obj as User;
@@ -29,6 +40,11 @@ namespace ShareTabWin.Helpers
 			return Name == other.Name;
 		}
 
+		/// <summary>
+		/// Compares two users based on their nickname.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
 		public bool Equals (User other)
 		{
 			if (((object) other) == null)
@@ -36,6 +52,10 @@ namespace ShareTabWin.Helpers
 			return Name == other.Name;
 		}
 
+		/// <summary>
+		/// Hashes a user based on his nickname's hash
+		/// </summary>
+		/// <returns></returns>
 		public override int GetHashCode ()
 		{
 			return Name.GetHashCode ();
@@ -53,6 +73,10 @@ namespace ShareTabWin.Helpers
 		}
 		#endregion
 	}
+
+	/// <summary>
+	/// A list of users.
+	/// </summary>
 	public class UserList : ObservableCollection<Infrastructure.User>
 	{
 

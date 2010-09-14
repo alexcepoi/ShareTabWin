@@ -2,8 +2,14 @@
 
 namespace ShareTabWin.Helpers
 {
+	/// <summary>
+	/// Hepler class with DependencyProperties needed for styling
+	/// </summary>
 	public static class CustomProps
 	{
+		/// <summary>
+		/// Custom CornerRadius property.
+		/// </summary>
 		public static readonly DependencyProperty MyCornerRadiusProperty = DependencyProperty.RegisterAttached (
 			"MyCornerRadius", typeof (CornerRadius), typeof (CustomProps), new UIPropertyMetadata (new CornerRadius (2)));
 

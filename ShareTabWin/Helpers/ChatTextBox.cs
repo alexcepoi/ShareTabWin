@@ -9,7 +9,8 @@ using System.Collections.Generic;
 namespace ShareTabWin.Helpers
 {
 	/// <summary>
-	/// Interaction logic for ChatTextBox.xaml
+	/// Custom RichTextBox for displaying chat messages in a nice colourful format.
+	/// The font size can be set through the app.config key fontSize.
 	/// </summary>
 	public partial class ChatTextBox : RichTextBox
 	{
@@ -23,6 +24,10 @@ namespace ShareTabWin.Helpers
 				_fontsize = 12;
 		}
 
+		/// <summary>
+		/// Formats the ChatMessage and adds it as a new paragraph to the ChatTextBox.
+		/// </summary>
+		/// <param name="message"></param>
 		public void AddMessage (ChatMessage message)
 		{
 			Paragraph p = new Paragraph();
