@@ -36,6 +36,11 @@ namespace ShareTabWin
 		public TabsPanel()
 		{
 			InitializeComponent();
+			ConnectionCallback.Instance.TabAdded += OnTabAdded;
+			ConnectionCallback.Instance.TabClosed += OnTabClosed;
+			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
+			ConnectionCallback.Instance.TabActivated += OnTabActivated;
+			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
 		}
 
 		private void TabsTreeView_Selected(object sender, System.Windows.RoutedEventArgs e)
@@ -57,15 +62,6 @@ namespace ShareTabWin
 					if (!main.ClientStatus.IsWatching && item.DataContext is PrivateTab)
 						main.dockingManager.ActiveDocument = item.DataContext as Tab;
 				}
-		}
-
-		private void TabsPanel_Loaded (object sender, System.Windows.RoutedEventArgs e)
-		{
-			ConnectionCallback.Instance.TabAdded += OnTabAdded;
-			ConnectionCallback.Instance.TabClosed += OnTabClosed;
-			ConnectionCallback.Instance.TabUpdated += OnTabUpdated;
-			ConnectionCallback.Instance.TabActivated += OnTabActivated;
-			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
 		}
 
 		void OnTabAdded (object sender, TabArgs e)

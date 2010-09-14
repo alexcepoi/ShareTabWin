@@ -8,10 +8,10 @@
 		public MyTraceListener myTraceListener { get; set; }
 		public LogPanel()
 		{
+			InitializeComponent ();
 			myTraceListener = new MyTraceListener();
-			System.Diagnostics.Trace.Listeners.Add(myTraceListener);
+			System.Diagnostics.Trace.Listeners.Add (myTraceListener);
 			DataContext = myTraceListener;
-			InitializeComponent();
 		}
 	}
 }
