@@ -140,14 +140,12 @@ namespace ShareTabWin
 
 	public class ScrapbookTab : PublicTab
 	{
-		public ScrapbookTab (Infrastructure.Tab tab) : base (tab) { }
+		public ScrapbookTab (Infrastructure.Tab tab) : base (tab) {}
 
 		protected override void OnIsActiveDocumentChanged (DependencyPropertyChangedEventArgs e)
 		{
 			if ((bool) e.NewValue == true && renderer.IsHandleCreated)
-			{
-				renderer.Document.DocumentElement.InnerHtml = TabData.Content;
-			}
+				renderer.Document.Body.InnerHtml = TabData.Content;
 		}
 		protected override void renderer_DocumentTitleChanged(object sender, EventArgs e) {}
 		protected override void renderer_HandleCreated(object sender, EventArgs e)
@@ -156,12 +154,25 @@ namespace ShareTabWin
 		}
 		protected override void browser_Navigated(object sender, GeckoNavigatedEventArgs e)
 		{
-			renderer.Document.DocumentElement.InnerHtml = TabData.Content;
+			//create style tag
+			var css = renderer.Document.CreateElement("style");
+			css.SetAttribute("type", "text/css");
+			css.InnerHtml = "div { background-color: #cccccc; margin: 5px; padding: 3px; }";
+
+			renderer.Document.DocumentElement.FirstChild.AppendChild(css);
+			
+			// update scrapbook body
+			if (renderer.Document.Body == null)
+			{
+				var body = renderer.Document.CreateElement("body");
+				renderer.Document.DocumentElement.AppendChild(body);
+			}
+			renderer.Document.Body.InnerHtml = TabData.Content;
 		}
+
 		public void SetScrapbook (string html)
 		{
 			TabData.Content = html;
 		}
-
 	}
 }

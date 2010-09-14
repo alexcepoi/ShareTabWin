@@ -332,25 +332,22 @@ namespace ShareTabWin
 				var wfhost = new System.Windows.Forms.Integration.WindowsFormsHost ();
 				wfhost.Child = engine;
 				wfhost.Width = 0; wfhost.Height = 0;
+				
 				root.Children.Add (wfhost);
-
 				engine.Navigate ("about:blank");
+				
 				ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
-
 				if (scrap != null)
-					engine.Document.DocumentElement.InnerHtml = scrap.TabData.Content;
-				if (engine.Document.Body == null)
-					engine.Document.DocumentElement.AppendChild(engine.Document.CreateElement("body"));	//SERVER SHOULD ALWAYS INITIALIZE SCRAP TABDATA
-																								// THIS SHOULD NEVER BE NEEDED LATER
-
+					engine.Document.Body.InnerHtml = scrap.TabData.Content;
+				
 				var div = engine.Document.CreateElement ("div");
-				div.SetAttribute ("style", "background-color: gray; margin: 10px;"); //move to CSS
-				div.AppendChild (e.Selection.GetRangeAt (0).CloneContents ());
+				div.AppendChild(e.Selection.GetRangeAt(0).CloneContents());
 				engine.Document.Body.AppendChild (div);
-				string x = engine.Document.DocumentElement.InnerHtml;
+				
+				string x = engine.Document.Body.InnerHtml;
 				Connection.ScrapbookUpdate (x);
+				
 				root.Children.Remove (wfhost);
-				// on the other side just set Scrapbook.TabData = x; LIKE A CHARM
 			}
 		}
 
