@@ -17,6 +17,9 @@ namespace ShareTabWin
 	/// </summary>
 	public partial class BrowserWindow : AvalonDock.DocumentContent
 	{
+		/// <summary>
+		/// Gets the navigation bar DockPanel.
+		/// </summary>
 		protected DockPanel NavBar { get { return navBar; } }
 
 		public BrowserWindow()
@@ -134,8 +137,6 @@ namespace ShareTabWin
 		/// <item><term>Escape</term><description>Resets the changes to the address bar and focuses the renderer.</description></item>
 		/// </list>
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		private void addressBar_KeyDown(object sender, KeyEventArgs e)
 		{
 			switch (e.Key)
@@ -225,20 +226,33 @@ namespace ShareTabWin
 		/// </summary>
 		protected virtual void renderer_DocumentTitleChanged (object sender, EventArgs e) { }
 
+		/// <summary>
+		/// Method that executes whenever the strokes collection in the ink canvas resets.
+		/// This resets the event handlers.
+		/// </summary>
 		protected virtual void sketch_StrokesReplaced (object sender, InkCanvasStrokesReplacedEventArgs e)
 		{
 			e.PreviousStrokes.StrokesChanged -= sketch_StrokesChanged;
 			e.NewStrokes.StrokesChanged += sketch_StrokesChanged;
 		}
 
+		/// <summary>
+		/// Method that executes whenever the drawing inside the canvas changes.
+		/// </summary>
 		protected virtual void sketch_StrokesChanged (object sender, System.Windows.Ink.StrokeCollectionChangedEventArgs e)
 		{
 		}
 
+		/// <summary>
+		/// Clears the ink canvas.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected virtual void ClearSketch (object sender, ExecutedRoutedEventArgs e)
 		{
 			doodleCanvas.Strokes.Clear ();
 		}
+
 		protected virtual void renderer_DomMouseUp (object sender, GeckoDomMouseEventArgs e) { }
 
 		protected virtual void renderer_DomKeyUp (object sender, GeckoDomKeyEventArgs e) { }

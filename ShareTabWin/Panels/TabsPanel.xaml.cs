@@ -214,12 +214,18 @@ namespace ShareTabWin
 				}), e.Tab);
 		}
 
+		/// <summary>
+		/// Handles the callback ScrapbookUpdate event, sets the scrapbook's content
+		/// to the new version.
+		/// </summary>
 		void OnScrapbookUpdate(object sender, ScrapbookUpdateArgs e)
 		{
 			(PublicSession.FindByGuid (null) as ScrapbookTab).SetScrapbook (e.Html);
 		}
 
-
+		/// <summary>
+		/// Handles the callback SelectionSet event, highlights the selection
+		/// </summary>
 		void OnTabSelectionSet (object sender, TabSelectionSetEventArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab, Infrastructure.Selection> (
@@ -231,6 +237,11 @@ namespace ShareTabWin
 				}), e.Tab, e.Selection);
 		}
 
+		/// <summary>
+		/// Handles the callback SketchUpdated event, updates the sketch strokes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		void OnSketchUpdated (object sender, SketchArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab, System.Windows.Ink.StrokeCollection> (
@@ -263,6 +274,9 @@ namespace ShareTabWin
 					}), TabsTreeView.SelectedItem);
 		}
 
+		/// <summary>
+		/// Makes the TreeView items select on right click also.
+		/// </summary>
 		private void TreeViewItem_MouseRightButtonDown(object sender, MouseEventArgs e)
 		{
 			TreeViewItem item = sender as TreeViewItem;

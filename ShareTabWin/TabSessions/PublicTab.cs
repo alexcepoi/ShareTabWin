@@ -105,7 +105,7 @@ namespace ShareTabWin
 					}
 					else
 					{
-						args = new CurrentNodeChangedEventArgs (TabData, tagId); 
+						args = new CurrentNodeChangedEventArgs (TabData, tagId);
 					}
 
 					if (args != null)
@@ -130,8 +130,8 @@ namespace ShareTabWin
 			{
 				//if (!lastSelectionCollapsed)
 				//{
-					//raise event with null selection;
-					args = new SelectionChangedEventArgs (TabData);
+				//raise event with null selection;
+				args = new SelectionChangedEventArgs (TabData);
 				//}
 				//lastSelectionCollapsed = true;
 			}
@@ -153,15 +153,15 @@ namespace ShareTabWin
 		/// Scrolls the renderer's content to a DOM element represented by a DomId.
 		/// </summary>
 		/// <param name="domId">The DomId of the element.</param>
-		public override void ScrollTo(int domId)
+		public override void ScrollTo (int domId)
 		{
-			base.ScrollTo(domId);
+			base.ScrollTo (domId);
 
 			if (renderer.Document != null)
 			{
-				GeckoElement element = renderer.Document.DocumentElement.GetByDomId(domId) as GeckoElement;
-				if (element == null) System.Diagnostics.Trace.TraceInformation("GetByDomId failed =>");
-				ScrollTo(element);
+				GeckoElement element = renderer.Document.DocumentElement.GetByDomId (domId) as GeckoElement;
+				if (element == null) System.Diagnostics.Trace.TraceInformation ("GetByDomId failed =>");
+				ScrollTo (element);
 			}
 		}
 
@@ -175,9 +175,9 @@ namespace ShareTabWin
 
 			if (renderer.Document != null)
 			{
-				GeckoElement element = renderer.Document.GetElementById(tagId);
-				if (element == null) System.Diagnostics.Trace.TraceInformation("GetByTagId failed =>");
-				ScrollTo(element);
+				GeckoElement element = renderer.Document.GetElementById (tagId);
+				if (element == null) System.Diagnostics.Trace.TraceInformation ("GetByTagId failed =>");
+				ScrollTo (element);
 			}
 		}
 
@@ -190,7 +190,7 @@ namespace ShareTabWin
 			if (element == null) return;
 
 			GeckoElement document = renderer.Document.DocumentElement;
-			int x = document.ScrollLeft + (int)(element.BoundingClientRect.Left) + (element.ClientWidth / 2);
+			int x = document.ScrollLeft + (int) (element.BoundingClientRect.Left) + (element.ClientWidth / 2);
 			int y = document.ScrollTop + (int) (element.BoundingClientRect.Top) + (element.ClientHeight / 2);
 
 			// x, y should end up being as close to the middle of the viewport as possible
@@ -204,7 +204,10 @@ namespace ShareTabWin
 
 		}
 
-
+		/// <summary>
+		/// Updates the ink canvas's stroke collection
+		/// </summary>
+		/// <param name="strokes">The new strokes</param>
 		public override void UpdateSketch (StrokeCollection strokes)
 		{
 			base.UpdateSketch (strokes);
@@ -214,7 +217,11 @@ namespace ShareTabWin
 				Commands.SketchToggle.Execute (null, this);
 		}
 
-		public override void  SetSelection(Infrastructure.Selection selection)
+		/// <summary>
+		/// Highlights the given selection range object
+		/// </summary>
+		/// <param name="selection">The range to be highlighted</param>
+		public override void SetSelection (Infrastructure.Selection selection)
 		{
 			base.SetSelection (selection);
 			if (this.IsVisible == false) return; // fixes potential crashes?
@@ -239,10 +246,10 @@ namespace ShareTabWin
 						windowsel.Collapse (anchor, selection.Anchor.Offset);
 						windowsel.Extend (focus, selection.Focus.Offset);
 					}
-					catch 
+					catch
 					{
 						windowsel.SelectAllChildren (anchor);
-					} 
+					}
 				}
 			}
 		}
@@ -276,11 +283,11 @@ namespace ShareTabWin
 		public static readonly RoutedEvent SelectionChangedEvent =
 			EventManager.RegisterRoutedEvent ("SelectionChanged", RoutingStrategy.Bubble,
 			typeof (SelectionChangedEventHandler), typeof (PublicTab));
-#endregion
+		#endregion
 
 	}
 
-#region event types
+	#region event types
 	public delegate void CurrentNodeChangedEventHandler (object sender, CurrentNodeChangedEventArgs e);
 	public delegate void SketchChangedEventHandler (object sender, SketchChangedEventArgs e);
 	public delegate void SelectionChangedEventHandler (object sender, SelectionChangedEventArgs e);
@@ -289,17 +296,19 @@ namespace ShareTabWin
 		public Infrastructure.Tab Tab { get; private set; }
 		public string TagId { get; private set; }
 		public int DomId { get; private set; }
-		private CurrentNodeChangedEventArgs (Infrastructure.Tab tab) 
+		private CurrentNodeChangedEventArgs (Infrastructure.Tab tab)
 			: base (PublicTab.CurrentNodeChangedEvent)
 		{
 			Tab = tab;
 		}
-		public CurrentNodeChangedEventArgs (Infrastructure.Tab tab, string tagId) : this (tab)
+		public CurrentNodeChangedEventArgs (Infrastructure.Tab tab, string tagId)
+			: this (tab)
 		{
 			TagId = tagId;
 		}
 
-		public CurrentNodeChangedEventArgs (Infrastructure.Tab tab, int domId) : this (tab)
+		public CurrentNodeChangedEventArgs (Infrastructure.Tab tab, int domId)
+			: this (tab)
 		{
 			DomId = domId;
 		}
@@ -320,17 +329,18 @@ namespace ShareTabWin
 	{
 		public Infrastructure.Tab Tab { get; private set; }
 		public Infrastructure.Selection Selection { get; private set; }
-		public SelectionChangedEventArgs (Infrastructure.Tab tab) : base (PublicTab.SelectionChangedEvent)
+		public SelectionChangedEventArgs (Infrastructure.Tab tab)
+			: base (PublicTab.SelectionChangedEvent)
 		{
 			Tab = tab;
 		}
 		public SelectionChangedEventArgs (Infrastructure.Tab tab,
 			Infrastructure.SelectionPoint anchor,
-			Infrastructure.SelectionPoint focus) 
-			: this(tab)
+			Infrastructure.SelectionPoint focus)
+			: this (tab)
 		{
 			Selection = new Infrastructure.Selection (anchor, focus);
 		}
 	}
-#endregion
+	#endregion
 }

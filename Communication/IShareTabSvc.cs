@@ -67,6 +67,11 @@ namespace Communication
 		[OperationContract (IsOneWay = true)]
 		void ScrollTabToTagId (Tab tab, string tagId);
 
+		/// <summary>
+		/// Sets the selected range of the given tab.
+		/// </summary>
+		/// <param name="tab">The tab to set.</param>
+		/// <param name="selection">The selection range.</param>
 		[OperationContract (IsOneWay = true)]
 		void SetTabSelection (Tab tab, Selection selection);
 
@@ -101,6 +106,10 @@ namespace Communication
 		[OperationContract (IsOneWay = true)]
 		void UpdateSketch (Infrastructure.Tab tab, byte[] strokes);
 
+		/// <summary>
+		/// Updates the scrapbook of the current session
+		/// </summary>
+		/// <param name="html">The HTML content of the scrapbook tab.</param>
 		[OperationContract(IsOneWay = true)]
 		void ScrapbookUpdate(string html);
 	}

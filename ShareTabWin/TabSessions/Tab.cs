@@ -33,20 +33,26 @@ namespace ShareTabWin
 			this.TabData = new Infrastructure.Tab ();
 			MinWidth = MaxWidth = 150;
 
-			renderer.ShowContextMenu += new Skybound.Gecko.GeckoContextMenuEventHandler(renderer_ShowContextMenu);
+			renderer.ShowContextMenu += renderer_ShowContextMenu;
 		}
 
-		public void renderer_ShowContextMenu(object sender, Skybound.Gecko.GeckoContextMenuEventArgs e)
+		/// <summary>
+		/// Shows the renderer's context menu.
+		/// </summary>
+		public void renderer_ShowContextMenu (object sender, Skybound.Gecko.GeckoContextMenuEventArgs e)
 		{
-			System.Windows.Forms.MenuItem item = new System.Windows.Forms.MenuItem("Send to Scrapbook");
-			item.Click += new EventHandler(item_Click);
-			e.ContextMenu.MenuItems.Add(item);
+			System.Windows.Forms.MenuItem item = new System.Windows.Forms.MenuItem ("Send to Scrapbook");
+			item.Click += new EventHandler (item_Click);
+			e.ContextMenu.MenuItems.Add (item);
 		}
 
-		public void item_Click(object sender, EventArgs e)
+		/// <summary>
+		/// Send to scrapbook menu action
+		/// </summary>
+		public void item_Click (object sender, EventArgs e)
 		{
-			ScrapbookSendEventArgs args = new ScrapbookSendEventArgs(TabData, renderer.Window.Selection);
-			RaiseEvent(args);
+			ScrapbookSendEventArgs args = new ScrapbookSendEventArgs (TabData, renderer.Window.Selection);
+			RaiseEvent (args);
 		}
 
 		/// <summary>
@@ -83,7 +89,7 @@ namespace ShareTabWin
 			// Do not update the TabData if it contains a navigation request which will be 
 			// executed on load. (not elegant?)
 			if (NavigateFirst) return;
-			
+
 			this.TabData.Url = e.Uri.AbsoluteUri;
 		}
 
@@ -107,25 +113,41 @@ namespace ShareTabWin
 		protected override void renderer_HandleCreated (object sender, EventArgs e)
 		{
 			NavigateFirst = false;
-			renderer.Navigate(TabData.Url);
+			renderer.Navigate (TabData.Url);
 		}
 
+		/// <summary>
+		/// Scrolls the tab to the element with the passed tag id
+		/// </summary>
+		/// <param name="TagId"></param>
 		public virtual void ScrollTo (string TagId) { }
 
+		/// <summary>
+		/// Scrolls the tab to the element with the passed DOM id
+		/// </summary>
+		/// <param name="DomId"></param>
 		public virtual void ScrollTo (int DomId) { }
 
+		/// <summary>
+		/// Toggles the visibility of the sketch popup
+		/// </summary>
 		public virtual void TogglePopup ()
 		{
 			doodle.IsOpen = !doodle.IsOpen;
 		}
 		public virtual void UpdateSketch (System.Windows.Ink.StrokeCollection strokes) { }
 
-
+		/// <summary>
+		/// Fires whenever the user sends a selection to the scrapbook.
+		/// </summary>
 		public event ScrapbookSendEventHandler ScrapbookSend
 		{
 			add { AddHandler (ScrapbookSendEvent, value); }
 			remove { RemoveHandler (ScrapbookSendEvent, value); }
 		}
+		/// <summary>
+		/// Fires whenever the user sends a selection to the scrapbook.
+		/// </summary>
 		public static readonly RoutedEvent ScrapbookSendEvent =
 			EventManager.RegisterRoutedEvent ("ScrapbookSend", RoutingStrategy.Bubble,
 			typeof (ScrapbookSendEventHandler), typeof (Tab));
@@ -140,8 +162,8 @@ namespace ShareTabWin
 		public Infrastructure.Tab Tab { get; private set; }
 		public Skybound.Gecko.GeckoSelection Selection { get; private set; }
 
-		public ScrapbookSendEventArgs(Infrastructure.Tab tab, Skybound.Gecko.GeckoSelection selection)
-			:base (ShareTabWin.Tab.ScrapbookSendEvent)
+		public ScrapbookSendEventArgs (Infrastructure.Tab tab, Skybound.Gecko.GeckoSelection selection)
+			: base (ShareTabWin.Tab.ScrapbookSendEvent)
 		{
 			Tab = tab;
 			Selection = selection;

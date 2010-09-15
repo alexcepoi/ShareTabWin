@@ -35,7 +35,7 @@ namespace ShareTabWin
 					return singleton;
 				}
 			}
-		} 
+		}
 		#endregion
 		#region events
 		public event ChatReceiveEventHandler ChatReceiveEvent;
@@ -71,32 +71,32 @@ namespace ShareTabWin
 		protected virtual void OnTabAdded (TabArgs e)
 		{
 			var handler = TabAdded;
- 			if (handler != null)
-				handler(this, e); 
+			if (handler != null)
+				handler (this, e);
 		}
 		protected virtual void OnTabClosed (TabArgs e)
 		{
 			var handler = TabClosed;
 			if (handler != null)
-				handler (this, e); 
+				handler (this, e);
 		}
-		protected virtual void OnTabUpdated(TabArgs e)
+		protected virtual void OnTabUpdated (TabArgs e)
 		{
 			var handler = TabUpdated;
 			if (handler != null)
-				handler(this, e); 
+				handler (this, e);
 		}
 		protected virtual void OnTabActivated (TabArgs e)
-		{ 
+		{
 			var handler = TabActivated;
 			if (handler != null)
-				handler(this, e); 
+				handler (this, e);
 		}
 		protected virtual void OnTabScrolled (TabScrolledArgs e)
 		{
 			var handler = TabScrolled;
 			if (handler != null)
-				handler (this, e); 
+				handler (this, e);
 		}
 		protected virtual void OnSketchUpdated (SketchArgs e)
 		{
@@ -112,32 +112,32 @@ namespace ShareTabWin
 				handler (this, e);
 		}
 
-		protected virtual void OnScrapbookUpdate(ScrapbookUpdateArgs e)
+		protected virtual void OnScrapbookUpdate (ScrapbookUpdateArgs e)
 		{
 			var handler = ScrapbookUpdate;
 			if (handler != null)
-				handler(this, e);
+				handler (this, e);
 		}
 
 		#endregion
 		#region Callback implementation
-		
-		public void UserHasSignedIn(string username)
+
+		public void UserHasSignedIn (string username)
 		{
 			OnUserSignIn (new UserEventArgs { User = new Helpers.User { Name = username } });
 			Trace.TraceInformation ("{0} just signed in", username);
 		}
 
-		public void UserHasSignedOut(string username)
+		public void UserHasSignedOut (string username)
 		{
 			OnUserSignOut (new UserEventArgs { User = new Helpers.User { Name = username } });
 			Trace.TraceInformation ("{0} just signed out", username);
 		}
 
-		public static void DisplayMessage(string message)
+		public static void DisplayMessage (string message)
 		{
-			App.Current.Dispatcher.Invoke(
-				new Action<string>(s => System.Windows.MessageBox.Show(s)),
+			App.Current.Dispatcher.Invoke (
+				new Action<string> (s => System.Windows.MessageBox.Show (s)),
 				message);
 		}
 
@@ -155,15 +155,15 @@ namespace ShareTabWin
 			OnTabAdded (new TabArgs (tab));
 		}
 
-		public void ReceiveTabClosed(Infrastructure.Tab tab)
+		public void ReceiveTabClosed (Infrastructure.Tab tab)
 		{
-			Trace.TraceInformation("Tab Closed");
-			OnTabClosed(new TabArgs(tab));
+			Trace.TraceInformation ("Tab Closed");
+			OnTabClosed (new TabArgs (tab));
 		}
 
-		public void ReceiveTabUpdated(Infrastructure.Tab tab)
+		public void ReceiveTabUpdated (Infrastructure.Tab tab)
 		{
-			OnTabUpdated(new TabArgs(tab));
+			OnTabUpdated (new TabArgs (tab));
 		}
 
 		public void ReceiveTabActivated (Infrastructure.Tab tab)
@@ -181,10 +181,10 @@ namespace ShareTabWin
 			OnTabScrolled (new TabScrolledArgs (tab, tagId));
 		}
 
-		public void ReceiveScrapbookUpdate(string html)
+		public void ReceiveScrapbookUpdate (string html)
 		{
-			OnScrapbookUpdate(new ScrapbookUpdateArgs(html));
-		} 
+			OnScrapbookUpdate (new ScrapbookUpdateArgs (html));
+		}
 
 		public void ReceiveSketchUpdate (Infrastructure.Tab tab, byte[] strokes)
 		{

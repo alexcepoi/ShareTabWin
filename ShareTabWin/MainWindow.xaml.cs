@@ -48,9 +48,9 @@ namespace ShareTabWin
 		#endregion
 
 		private Helpers.Notifications.NotificationWindow notificationWindow;
-		
+
 		public event DisconnectedEventHandler Disconnected;
-		protected void OnDisconnected(EventArgs e) { Disconnected(this, e); }
+		protected void OnDisconnected (EventArgs e) { Disconnected (this, e); }
 
 		public MainWindow ()
 		{
@@ -65,24 +65,24 @@ namespace ShareTabWin
 		/// <summary>
 		/// Command executed when clicking on "Connect" MenuItem
 		/// </summary>
-		private void ConnectCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		private void ConnectCommand_Executed (object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			ConnectDlg connectDlg = new ConnectDlg();
+			ConnectDlg connectDlg = new ConnectDlg ();
 			connectDlg.Owner = this;
 
-			var response = connectDlg.ShowDialog();
+			var response = connectDlg.ShowDialog ();
 			if (response == true)
 			{
 				Connection = connectDlg.Connection;
 				((System.ServiceModel.ICommunicationObject) Connection).Faulted += con_Faulted;
 			}
-			
+
 		}
 
 		/// <summary>
 		/// Determines if the "Connect" MenuItem command can be executed
 		/// </summary>
-		private void ConnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void ConnectCommand_CanExecute (object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = !IsConnected;
 		}
@@ -90,20 +90,20 @@ namespace ShareTabWin
 		/// <summary>
 		/// Command executed when clicking on "Disconnect" MenuItem
 		/// </summary>
-		private void DisconnectCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		private void DisconnectCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			if (ClientStatus.IsWatching)
 				Commands.WatchingToggle.Execute (null, this);
-			Connection.SignOut();
+			Connection.SignOut ();
 			((System.ServiceModel.ICommunicationObject) Connection).Faulted -= con_Faulted;
-			tabsPanel.PublicSession.Clear();
+			tabsPanel.PublicSession.Clear ();
 			OnDisconnected (new EventArgs ());
 		}
 
 		/// <summary>
 		/// Determines if the "Disconnect" MenuItem command can be executed
 		/// </summary>
-		private void DisconnectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void DisconnectCommand_CanExecute (object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsConnected;
 		}
@@ -111,7 +111,7 @@ namespace ShareTabWin
 		/// <summary>
 		/// Command executed when clicking on "Start Hosting" MenuItem
 		/// </summary>
-		private void StartHostingCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		private void StartHostingCommand_Executed (object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			StartHostingDlg startHostingDlg = new StartHostingDlg ();
 			startHostingDlg.Owner = this;
@@ -126,7 +126,7 @@ namespace ShareTabWin
 		/// <summary>
 		/// Determines if the "Start Hosting" MenuItem command can be executed
 		/// </summary>
-		private void StartHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void StartHostingCommand_CanExecute (object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = !IsHosting;
 
@@ -135,17 +135,18 @@ namespace ShareTabWin
 		/// <summary>
 		/// Command executed when clicking on the "Stop Hosting" MenuItem
 		/// </summary>
-		private void StopHostingCommand_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		private void StopHostingCommand_Executed (object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			Host.Close();
+			Commands.DisconnectCommand.Execute (null, this);
+			Host.Close ();
 
-			Trace.TraceInformation("Stopped listening: host is now {0}", Host.State);
+			Trace.TraceInformation ("Stopped listening: host is now {0}", Host.State);
 		}
 
 		/// <summary>
 		/// Determines if the "Stop Hosting" MenuItem Command can be executed
 		/// </summary>
-		private void StopHostingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void StopHostingCommand_CanExecute (object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = IsHosting;
 		}
@@ -153,7 +154,7 @@ namespace ShareTabWin
 		/// <summary>
 		/// Command executed when clicking on the "About" MenuItem
 		/// </summary>
-		private void About_Click(object sender, RoutedEventArgs e)
+		private void About_Click (object sender, RoutedEventArgs e)
 		{
 			var about = new AboutDialog ();
 			about.Owner = this;
@@ -253,13 +254,13 @@ namespace ShareTabWin
 			BrowserWindow browserWindow = dockingManager.ActiveDocument as BrowserWindow;
 			if (browserWindow != null)
 				if (browserWindow.addressBar != null)
-					browserWindow.addressBar.Focus();
+					browserWindow.addressBar.Focus ();
 		}
 
 		/// <summary>
 		/// Create a new tab
 		/// </summary>
-		private void NewTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		private void NewTabCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			// TODO: When watching this shouldn't work
 			if (ClientStatus.IsBroadcasting)
@@ -274,24 +275,24 @@ namespace ShareTabWin
 					new Action<Tab> (tab => tabsPanel.PrivateSession.Add (tab)), TabNext
 					);
 
-				op.Completed +=new EventHandler(op_Completed);
+				op.Completed += new EventHandler (op_Completed);
 			}
 		}
 
 		/// <summary>
 		/// Close current tab
 		/// </summary>
-		private void CloseTabCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		private void CloseTabCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			if (ClientStatus.IsBroadcasting)
 			{
 				Tab target = tabsPanel.TabsTreeView.SelectedItem as Tab;
 				if (target != null)
-					Connection.CloseTab(target.TabData);
+					Connection.CloseTab (target.TabData);
 			}
 			else if (dockingManager.ActiveDocument != null)
 			{
-				int index = dockingManager.Documents.IndexOf(dockingManager.ActiveDocument as Tab);
+				int index = dockingManager.Documents.IndexOf (dockingManager.ActiveDocument as Tab);
 				if (index == 0)
 					if (dockingManager.Documents.Count > 1)
 						TabNext = dockingManager.Documents[1] as Tab;
@@ -302,10 +303,10 @@ namespace ShareTabWin
 
 				System.Windows.Threading.DispatcherOperation op = App.Current.Dispatcher.BeginInvoke
 				(
-					new Action(() => dockingManager.ActiveDocument.Close())
+					new Action (() => dockingManager.ActiveDocument.Close ())
 				);
 
-				op.Completed += new EventHandler(op_Completed);
+				op.Completed += new EventHandler (op_Completed);
 			}
 		}
 
@@ -317,7 +318,7 @@ namespace ShareTabWin
 		/// <summary>
 		/// After creating/closing a tab, this activates the new/another tab
 		/// </summary>
-		private void op_Completed(object sender, EventArgs e)
+		private void op_Completed (object sender, EventArgs e)
 		{
 			dockingManager.ActiveDocument = TabNext;
 		}
@@ -339,7 +340,7 @@ namespace ShareTabWin
 		private void Window_Closed (object sender, System.EventArgs e)
 		{
 			notificationWindow.Close ();
-			Commands.DisconnectCommand.Execute(null, this);
+			Commands.DisconnectCommand.Execute (null, this);
 		}
 
 		/// <summary>
@@ -394,7 +395,7 @@ namespace ShareTabWin
 		}
 
 
-		private void documentPane_ScrapbookSend(object sender, ScrapbookSendEventArgs e)
+		private void documentPane_ScrapbookSend (object sender, ScrapbookSendEventArgs e)
 		{
 			if (IsConnected)
 			{
@@ -405,22 +406,22 @@ namespace ShareTabWin
 				var wfhost = new System.Windows.Forms.Integration.WindowsFormsHost ();
 				wfhost.Child = engine;
 				wfhost.Width = 0; wfhost.Height = 0;
-				
+
 				root.Children.Add (wfhost);
 				engine.Navigate ("about:blank");
-				
-				ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
+
+				ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid (null) as ScrapbookTab;
 				if (scrap != null)
 					engine.Document.DocumentElement.InnerHtml = scrap.TabData.Content;
-				
+
 				var div = engine.Document.CreateElement ("div");
 				div.SetAttribute ("class", "entry");
-				div.AppendChild(e.Selection.GetRangeAt(0).CloneContents());
+				div.AppendChild (e.Selection.GetRangeAt (0).CloneContents ());
 				engine.Document.DocumentElement.AppendChild (div);
-				
+
 				string x = engine.Document.DocumentElement.InnerHtml;
 				Connection.ScrapbookUpdate (x);
-				
+
 				root.Children.Remove (wfhost);
 			}
 		}
@@ -495,7 +496,7 @@ namespace ShareTabWin
 				windowMenu.Items.Add (item);
 			}
 		}
-		
+
 		/// <summary>
 		/// Enables/Disables Window Panes
 		/// </summary>
@@ -524,10 +525,10 @@ namespace ShareTabWin
 		{
 			for (int i = 0; i < source.Items.Count; ++i)
 			{
-				TreeViewItem child = source.ItemContainerGenerator.ContainerFromIndex(i) as TreeViewItem;
+				TreeViewItem child = source.ItemContainerGenerator.ContainerFromIndex (i) as TreeViewItem;
 				if (child.HasItems)
 				{
-					TreeViewItem result = getTreeViewItem(child, target);
+					TreeViewItem result = getTreeViewItem (child, target);
 					if (result != null) return result;
 				}
 				else
