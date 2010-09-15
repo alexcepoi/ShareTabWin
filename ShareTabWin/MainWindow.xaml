@@ -35,6 +35,7 @@
         <CommandBinding Command="local:Commands.WatchingToggle"
                         Executed="WatchingToggle_Executed" 
                         CanExecute="DisconnectCommand_CanExecute" />
+        
         <CommandBinding Command="local:Commands.BroadcastToggle"
                         Executed="BroadcastToggle_Executed"
                         CanExecute="DisconnectCommand_CanExecute" />
@@ -99,14 +100,16 @@
                 <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
                     <local:TabsPanel x:Name="tabsPanel" Selector.IsSelected="True" />
                     <local:UsersPanel x:Name="usersPanel" />
-                    <local:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />
+                    <local:ChatPanel x:Name="chatPanel" ChatSendEvent = "chatPanel_ChatSendEvent" />
                     <local:LogPanel x:Name="logPanel" />
                 </dock:DockablePane>
 
                 <!-- Documents -->
-                <dock:DocumentPane x:Name="documentPane" local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged"
+                <dock:DocumentPane x:Name="documentPane"
+                                   local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged"
                                    local:Tab.ScrapbookSend="documentPane_ScrapbookSend" 
-                                   local:ScrapbookTab.ScrapbookChanged="documentPane_ScrapbookChanged"/>
+                                   local:ScrapbookTab.ScrapbookChanged="documentPane_ScrapbookChanged"
+                                   local:PublicTab.SelectionChanged="documentPane_SelectionChanged" />
             </dock:ResizingPanel>
         </dock:DockingManager>
     </DockPanel>

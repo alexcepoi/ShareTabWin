@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using Infrastructure;
 namespace Communication
 {
 	/// <summary>
@@ -14,25 +15,28 @@ namespace Communication
 		void UserHasSignedOut(string username);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveChatMessage(Infrastructure.ChatMessage message);
+		void ReceiveChatMessage (ChatMessage message);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveTabAdded (Infrastructure.Tab tab);
+		void ReceiveTabAdded (Tab tab);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveTabClosed (Infrastructure.Tab tab);
+		void ReceiveTabClosed (Tab tab);
 
 		[OperationContract(IsOneWay = true)]
-		void ReceiveTabUpdated(Infrastructure.Tab tab);
+		void ReceiveTabUpdated(Tab tab);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveTabActivated (Infrastructure.Tab tab);
+		void ReceiveTabActivated (Tab tab);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveTabScrolledToDomId (Infrastructure.Tab tab, int domId);
+		void ReceiveTabScrolledToDomId (Tab tab, int domId);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveTabScrolledToTagId (Infrastructure.Tab tab, string tagId);
+		void ReceiveTabScrolledToTagId (Tab tab, string tagId);
+
+		[OperationContract (IsOneWay = true)]
+		void ReceiveSetTabSelection (Tab tab, Selection selection);
 		//[OperationContract (IsOneWay = true)]
 		//void HasBegunBroadcasting ();
 

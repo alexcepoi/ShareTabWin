@@ -67,6 +67,7 @@ namespace ShareTabWin
 			ConnectionCallback.Instance.TabActivated += OnTabActivated;
 			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
 			ConnectionCallback.Instance.ScrapbookUpdate += OnScrapbookUpdate;
+			ConnectionCallback.Instance.TabSelectionSet += OnTabSelectionSet;
 		}
 
 		void OnTabAdded (object sender, TabArgs e)
@@ -145,6 +146,18 @@ namespace ShareTabWin
 		void OnScrapbookUpdate(object sender, ScrapbookUpdateArgs e)
 		{
 			(PublicSession.FindByGuid (null) as ScrapbookTab).SetScrapbook (e.Html);
+		}
+
+
+		void OnTabSelectionSet (object sender, TabSelectionSetEventArgs e)
+		{
+			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab, Infrastructure.Selection> (
+				(tab, selection) =>
+				{
+					var t = PublicSession.FindByGuid (tab.Id);
+					if (t != null)
+						t.SetSelection (selection);
+				}), e.Tab, e.Selection);
 		}
 
 		private void IsSelectedPublicTab (object sender, CanExecuteRoutedEventArgs e)

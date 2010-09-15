@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ServiceModel;
+﻿using System.ServiceModel;
+using Infrastructure;
 
 namespace Communication
 {
@@ -24,19 +21,22 @@ namespace Communication
 		void SendChatMessage (string content);
 
 		[OperationContract (IsOneWay = true)]
-		void AddTab (Infrastructure.Tab tab);
+		void AddTab (Tab tab);
 
 		[OperationContract(IsOneWay = true)]
-		void CloseTab(Infrastructure.Tab tab);
+		void CloseTab (Tab tab);
 
 		[OperationContract(IsOneWay = true)]
-		void UpdateTab(Infrastructure.Tab tab);
+		void UpdateTab (Tab tab);
 
 		[OperationContract (IsOneWay = true)]
-		void ScrollTabToDomId (Infrastructure.Tab tab, int domId);
+		void ScrollTabToDomId (Tab tab, int domId);
 
 		[OperationContract (IsOneWay = true)]
-		void ScrollTabToTagId (Infrastructure.Tab tab, string tagId);
+		void ScrollTabToTagId (Tab tab, string tagId);
+
+		[OperationContract (IsOneWay = true)]
+		void SetTabSelection (Tab tab, Selection selection);
 
 		[OperationContract]
 		bool Broadcast ();
@@ -45,7 +45,7 @@ namespace Communication
 		void StopBroadcast ();
 
 		[OperationContract (IsOneWay = true)]
-		void ActivateTab (Infrastructure.Tab tab);
+		void ActivateTab (Tab tab);
 
 		[OperationContract(IsOneWay = true)]
 		void ScrapbookUpdate(string html);

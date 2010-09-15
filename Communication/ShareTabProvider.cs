@@ -128,6 +128,10 @@ namespace Communication
 			Status.Users.ForEach(user => user.Callback.ReceiveScrapbookUpdate(html));
 		}
 
+		public void SetTabSelection (Tab tab, Selection selection)
+		{
+			Status.Users.ForOthers (user => user.Callback.ReceiveSetTabSelection (tab, selection));
+		}
 		#endregion
 	}
 }

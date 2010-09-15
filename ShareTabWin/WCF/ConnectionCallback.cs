@@ -38,6 +38,7 @@ namespace ShareTabWin
 		public event TabActivatedEventHandler TabActivated;
 		public event TabScrolledEventHandler TabScrolled;
 		public event ScrapbookUpdateEventHandler ScrapbookUpdate;
+		public event TabSelectionSetEventHandler TabSelectionSet;
 
 		protected virtual void OnChatReceive (ChatReceiveEventArgs e)
 		{
@@ -85,14 +86,20 @@ namespace ShareTabWin
 		{
 			var handler = TabScrolled;
 			if (handler != null)
-				TabScrolled (this, e); 
+				handler (this, e); 
+		}
+		protected virtual void OnTabSelectionSet (TabSelectionSetEventArgs e)
+		{
+			var handler = TabSelectionSet;
+			if (handler != null)
+				handler (this, e);
 		}
 
 		protected virtual void OnScrapbookUpdate(ScrapbookUpdateArgs e)
 		{
 			var handler = ScrapbookUpdate;
 			if (handler != null)
-				ScrapbookUpdate(this, e);
+				handler(this, e);
 		}
 
 		#endregion
@@ -160,7 +167,13 @@ namespace ShareTabWin
 		public void ReceiveScrapbookUpdate(string html)
 		{
 			OnScrapbookUpdate(new ScrapbookUpdateArgs(html));
+		} 
+
+		public void ReceiveSetTabSelection (Infrastructure.Tab tab, Infrastructure.Selection selection)
+		{
+			OnTabSelectionSet (new TabSelectionSetEventArgs (tab, selection));
 		}
-	#endregion
+
+		#endregion
 	}
 }

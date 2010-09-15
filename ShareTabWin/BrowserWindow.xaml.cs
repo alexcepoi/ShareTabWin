@@ -112,7 +112,6 @@ namespace ShareTabWin
 		protected virtual void browser_Navigating(object sender, GeckoNavigatingEventArgs e)
 		{
 			CommandManager.InvalidateRequerySuggested();
-
 			progress.Visibility = Visibility.Visible;
 			progress.Value = 0;
 		}
@@ -168,13 +167,11 @@ namespace ShareTabWin
 
 		}
 
-		protected virtual void renderer_DocumentTitleChanged (object sender, EventArgs e)
-		{}
+		protected virtual void renderer_DomMouseUp (object sender, GeckoDomMouseEventArgs e) { }
 
-		protected virtual void renderer_DomKeyUp (object sender, GeckoDomKeyEventArgs e)
-		{
+		protected virtual void renderer_DocumentTitleChanged (object sender, EventArgs e) { }
 
-		}
+		protected virtual void renderer_DomKeyUp (object sender, GeckoDomKeyEventArgs e) { }
 
 
 	}

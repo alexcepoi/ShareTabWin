@@ -68,6 +68,7 @@
                               HandleCreated="renderer_HandleCreated"
                               DomMouseMove="renderer_DomMouseMove"
                               DomKeyUp="renderer_DomKeyUp"
+                              DomMouseUp="renderer_DomMouseUp"
                               />
         </WindowsFormsHost>
 

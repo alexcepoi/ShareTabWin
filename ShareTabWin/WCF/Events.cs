@@ -16,6 +16,7 @@ namespace ShareTabWin
 	public delegate void TabActivatedEventHandler (object sender, TabArgs e);
 	public delegate void TabScrolledEventHandler (object sender, TabScrolledArgs e);
 	public delegate void ScrapbookUpdateEventHandler (object sender, ScrapbookUpdateArgs e);
+	public delegate void TabSelectionSetEventHandler (object sender, TabSelectionSetEventArgs e);
 
 	public class ChatReceiveEventArgs : EventArgs
 	{
@@ -42,6 +43,15 @@ namespace ShareTabWin
 	public class ScrapbookUpdateArgs : EventArgs
 	{
 		public string Html { get; private set; }
-		public ScrapbookUpdateArgs(string html) { Html = html; }
+		public ScrapbookUpdateArgs (string html) { Html = html; }
+	}
+	public class TabSelectionSetEventArgs : TabArgs
+	{
+		public Infrastructure.Selection Selection { get; private set; }
+		public TabSelectionSetEventArgs (Infrastructure.Tab tab, Infrastructure.Selection selection)
+			: base (tab)
+		{
+			Selection = selection;
+		}
 	}
 }

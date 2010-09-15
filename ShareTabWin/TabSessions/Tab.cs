@@ -86,6 +86,8 @@ namespace ShareTabWin
 		public static readonly RoutedEvent ScrapbookSendEvent =
 			EventManager.RegisterRoutedEvent("ScrapbookSend", RoutingStrategy.Bubble,
 			typeof(ScrapbookSendEventHandler), typeof(Tab));
+
+		public virtual void SetSelection (Infrastructure.Selection selection) { }
 	}
 
 	public delegate void ScrapbookSendEventHandler (object sender, ScrapbookSendEventArgs e);

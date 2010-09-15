@@ -86,7 +86,7 @@ namespace ShareTabWin
 		private void DisconnectCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			if (ClientStatus.IsWatching)
-				WatchingToggle_Executed (null, null);
+				Commands.WatchingToggle.Execute (null, this);
 			Connection.SignOut();
 			((System.ServiceModel.ICommunicationObject) Connection).Faulted -= con_Faulted;
 			tabsPanel.PublicSession.Clear();
@@ -355,6 +355,11 @@ namespace ShareTabWin
 				Connection.ScrapbookUpdate (e.Content);
 			}
 		}
+		private void documentPane_SelectionChanged (object sender, SelectionChangedEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+				Connection.SetTabSelection (e.Tab, e.Selection);
+		}
 
 
 		void MainWindow_Disconnected (object sender, EventArgs e)
@@ -364,8 +369,8 @@ namespace ShareTabWin
 
 		void con_Faulted (object sender, EventArgs e)
 		{
-			MessageBox.Show ("You have been disconnected.");
 			OnDisconnected (e);
+			MessageBox.Show ("You have been disconnected.");
 		}
 		#endregion
 
