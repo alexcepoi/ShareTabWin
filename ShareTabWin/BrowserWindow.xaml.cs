@@ -15,6 +15,8 @@ namespace ShareTabWin
 	/// </summary>
 	public partial class BrowserWindow : AvalonDock.DocumentContent
 	{
+		protected DockPanel NavBar { get { return navBar; } }
+
 		public BrowserWindow()
 		{
 			InitializeComponent();
@@ -107,7 +109,7 @@ namespace ShareTabWin
 			}
 		}
 
-		private void browser_Navigating(object sender, GeckoNavigatingEventArgs e)
+		protected virtual void browser_Navigating(object sender, GeckoNavigatingEventArgs e)
 		{
 			CommandManager.InvalidateRequerySuggested();
 
@@ -168,6 +170,12 @@ namespace ShareTabWin
 
 		protected virtual void renderer_DocumentTitleChanged (object sender, EventArgs e)
 		{}
+
+		protected virtual void renderer_DomKeyUp (object sender, GeckoDomKeyEventArgs e)
+		{
+
+		}
+
 
 	}
 }

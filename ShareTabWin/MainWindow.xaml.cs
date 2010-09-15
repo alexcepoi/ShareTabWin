@@ -2,10 +2,7 @@
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Controls;
-
-
 using System;
-
 
 namespace ShareTabWin
 {
@@ -338,16 +335,24 @@ namespace ShareTabWin
 				
 				ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
 				if (scrap != null)
-					engine.Document.Body.InnerHtml = scrap.TabData.Content;
+					engine.Document.DocumentElement.InnerHtml = scrap.TabData.Content;
 				
 				var div = engine.Document.CreateElement ("div");
+				div.SetAttribute ("class", "entry");
 				div.AppendChild(e.Selection.GetRangeAt(0).CloneContents());
-				engine.Document.Body.AppendChild (div);
+				engine.Document.DocumentElement.AppendChild (div);
 				
-				string x = engine.Document.Body.InnerHtml;
+				string x = engine.Document.DocumentElement.InnerHtml;
 				Connection.ScrapbookUpdate (x);
 				
 				root.Children.Remove (wfhost);
+			}
+		}
+		private void documentPane_ScrapbookChanged (object sender, ScrapbookChangedEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+			{
+				Connection.ScrapbookUpdate (e.Content);
 			}
 		}
 

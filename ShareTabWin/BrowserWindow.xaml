@@ -67,6 +67,7 @@
                               CanGoForwardChanged="browser_RequeryCommands"
                               HandleCreated="renderer_HandleCreated"
                               DomMouseMove="renderer_DomMouseMove"
+                              DomKeyUp="renderer_DomKeyUp"
                               />
         </WindowsFormsHost>
 

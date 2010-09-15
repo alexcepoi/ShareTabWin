@@ -105,7 +105,8 @@
 
                 <!-- Documents -->
                 <dock:DocumentPane x:Name="documentPane" local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged"
-                                   local:Tab.ScrapbookSend="documentPane_ScrapbookSend" />
+                                   local:Tab.ScrapbookSend="documentPane_ScrapbookSend" 
+                                   local:ScrapbookTab.ScrapbookChanged="documentPane_ScrapbookChanged"/>
             </dock:ResizingPanel>
         </dock:DockingManager>
     </DockPanel>
