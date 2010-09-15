@@ -2,10 +2,7 @@
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Controls;
-
-
 using System;
-
 
 namespace ShareTabWin
 {
@@ -19,15 +16,9 @@ namespace ShareTabWin
 		//
 		// TODO: remove width and height from MainWindow.xaml
 
-		#region Properties
 		private Communication.ShareTabHost Host;
 		public Communication.IShareTabSvc Connection;
-
-		private Helpers.Notifications.NotificationWindow notificationWindow;
-		
-		public event DisconnectedEventHandler Disconnected;
-		protected void OnDisconnected(EventArgs e) { Disconnected(this, e); }
-
+		#region Properties
 		public bool IsHosting
 		{
 			get
@@ -37,7 +28,7 @@ namespace ShareTabWin
 					if (Host.State == System.ServiceModel.CommunicationState.Opened)
 						return true;
 				}
-				catch (System.NullReferenceException) {}
+				catch (System.NullReferenceException) { }
 
 				return false;
 			}
@@ -56,14 +47,17 @@ namespace ShareTabWin
 		}
 		#endregion
 
+		private Helpers.Notifications.NotificationWindow notificationWindow;
+		
+		public event DisconnectedEventHandler Disconnected;
+		protected void OnDisconnected(EventArgs e) { Disconnected(this, e); }
+
 		public MainWindow ()
 		{
 			InitializeComponent ();
-			
 			dockingManager.DataContext = tabsPanel.PrivateSession;
 			notificationWindow = new Helpers.Notifications.NotificationWindow ();
 			notificationWindow.Show ();
-			
 			Disconnected += MainWindow_Disconnected;
 		}
 
@@ -99,7 +93,7 @@ namespace ShareTabWin
 		private void DisconnectCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			if (ClientStatus.IsWatching)
-				WatchingToggle_Executed (null, null);
+				Commands.WatchingToggle.Execute (null, this);
 			Connection.SignOut();
 			((System.ServiceModel.ICommunicationObject) Connection).Faulted -= con_Faulted;
 			tabsPanel.PublicSession.Clear();
@@ -249,6 +243,12 @@ namespace ShareTabWin
 		/// </summary>
 		private void FocusAddressbarCommand_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
+			// --- TESTING GROUND
+			//ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
+			//tabsPanel.PublicSession.FindByGuid(null).renderer.Document.Body.InnerHtml =
+			//	tabsPanel.PublicSession.FindByGuid(null).TabData.Content;
+			// ---
+
 			//documentPane.ItemsSource = tabsPanel.PrivateSession;
 			BrowserWindow browserWindow = dockingManager.ActiveDocument as BrowserWindow;
 			if (browserWindow != null)
@@ -393,6 +393,74 @@ namespace ShareTabWin
 			}
 		}
 
+
+		private void documentPane_ScrapbookSend(object sender, ScrapbookSendEventArgs e)
+		{
+			if (IsConnected)
+			{
+				// partea asta nu ar trebui făcută așa. Fă in scrapbook tab o proprietate Body de tipul GeckoElement
+				// care sa se initializeze cu renderer.Document.Body astfel incat sa existe chiar si cand rendereru nu e format.
+				// te descurci tu
+				var engine = new Skybound.Gecko.GeckoWebBrowser ();
+				var wfhost = new System.Windows.Forms.Integration.WindowsFormsHost ();
+				wfhost.Child = engine;
+				wfhost.Width = 0; wfhost.Height = 0;
+				
+				root.Children.Add (wfhost);
+				engine.Navigate ("about:blank");
+				
+				ScrapbookTab scrap = tabsPanel.PublicSession.FindByGuid(null) as ScrapbookTab;
+				if (scrap != null)
+					engine.Document.DocumentElement.InnerHtml = scrap.TabData.Content;
+				
+				var div = engine.Document.CreateElement ("div");
+				div.SetAttribute ("class", "entry");
+				div.AppendChild(e.Selection.GetRangeAt(0).CloneContents());
+				engine.Document.DocumentElement.AppendChild (div);
+				
+				string x = engine.Document.DocumentElement.InnerHtml;
+				Connection.ScrapbookUpdate (x);
+				
+				root.Children.Remove (wfhost);
+			}
+		}
+		private void documentPane_ScrapbookChanged (object sender, ScrapbookChangedEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+			{
+				Connection.ScrapbookUpdate (e.Content);
+			}
+		}
+		private void documentPane_SelectionChanged (object sender, SelectionChangedEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+				Connection.SetTabSelection (e.Tab, e.Selection);
+		}
+		private void SketchToggle_Executed (object sender, ExecutedRoutedEventArgs e)
+		{
+			var tab = dockingManager.ActiveDocument as Tab;
+			if (tab != null)
+			{
+				tab.TogglePopup ();
+				sketchToggle.IsChecked = !sketchToggle.IsChecked;
+			}
+		}
+		private void documentPane_SketchChanged (object sender, SketchChangedEventArgs e)
+		{
+			if (ClientStatus.IsBroadcasting)
+				Connection.UpdateSketch (e.Tab, e.Strokes);
+		}
+		private void Window_LocationChanged (object sender, EventArgs e)
+		{
+			Commands.SketchToggle.Execute (null, this);
+			Commands.SketchToggle.Execute (null, this);
+		}
+		private void Window_Deactivated (object sender, EventArgs e)
+		{
+			if (sketchToggle.IsChecked)
+				Commands.SketchToggle.Execute (null, this);
+		}
+
 		/// <summary>
 		/// Handler invoked when disconnected from server
 		/// </summary>
@@ -406,8 +474,8 @@ namespace ShareTabWin
 		/// </summary>
 		void con_Faulted (object sender, EventArgs e)
 		{
-			MessageBox.Show ("You have been disconnected.");
 			OnDisconnected (e);
+			MessageBox.Show ("You have been disconnected.");
 		}
 
 		/// <summary>
@@ -467,34 +535,6 @@ namespace ShareTabWin
 						return child;
 			}
 			return null;
-		}
-
-		private void SketchToggle_Executed (object sender, ExecutedRoutedEventArgs e)
-		{
-			var tab = dockingManager.ActiveDocument as Tab;
-			if (tab != null)
-			{
-				tab.TogglePopup ();
-				sketchToggle.IsChecked = !sketchToggle.IsChecked;
-			}
-		}
-
-		private void documentPane_SketchChanged (object sender, SketchChangedEventArgs e)
-		{
-			if (ClientStatus.IsBroadcasting)
-				Connection.UpdateSketch (e.Tab, e.Strokes);
-		}
-
-		private void Window_LocationChanged (object sender, EventArgs e)
-		{
-			Commands.SketchToggle.Execute (null, this);
-			Commands.SketchToggle.Execute (null, this);
-		}
-
-		private void Window_Deactivated (object sender, EventArgs e)
-		{
-			if (sketchToggle.IsChecked)
-				Commands.SketchToggle.Execute (null, this);
 		}
 	}
 }

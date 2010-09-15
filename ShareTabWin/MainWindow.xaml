@@ -37,6 +37,7 @@
         <CommandBinding Command="local:Commands.WatchingToggle"
                         Executed="WatchingToggle_Executed" 
                         CanExecute="DisconnectCommand_CanExecute" />
+        
         <CommandBinding Command="local:Commands.BroadcastToggle"
                         Executed="BroadcastToggle_Executed"
                         CanExecute="DisconnectCommand_CanExecute" />
@@ -53,7 +54,7 @@
                         Executed="CloseTabCommand_Executed" />
     </Window.CommandBindings>
 
-    <DockPanel>
+    <DockPanel x:Name="root">
         <Menu Height="23" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="C_onnect..." Command="local:Commands.ConnectCommand" />
@@ -106,14 +107,17 @@
                 <dock:DockablePane dock:ResizingPanel.ResizeWidth="350">
                     <local:TabsPanel x:Name="tabsPanel" Selector.IsSelected="True" />
                     <local:UsersPanel x:Name="usersPanel" />
-                    <local:ChatPanel x:Name="chatPanel" ChatSendEvent="chatPanel_ChatSendEvent" />
+                    <local:ChatPanel x:Name="chatPanel" ChatSendEvent = "chatPanel_ChatSendEvent" />
                     <local:LogPanel x:Name="logPanel" />
                 </dock:DockablePane>
 
                 <!-- Documents -->
-                <dock:DocumentPane x:Name="documentPane" 
-                                   local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged" 
-                                   local:PublicTab.SketchChanged="documentPane_SketchChanged"/>
+                <dock:DocumentPane x:Name="documentPane"
+                                   local:PublicTab.CurrentNodeChanged="documentPane_CurrentNodeChanged"
+                                   local:Tab.ScrapbookSend="documentPane_ScrapbookSend" 
+                                   local:ScrapbookTab.ScrapbookChanged="documentPane_ScrapbookChanged"
+                                   local:PublicTab.SelectionChanged="documentPane_SelectionChanged"
+                                   local:PublicTab.SketchChanged="documentPane_SketchChanged" />
             </dock:ResizingPanel>
         </dock:DockingManager>
     </DockPanel>

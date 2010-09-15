@@ -89,7 +89,10 @@ namespace Communication
 
 		public void CloseTab(Tab tab)
 		{
-			Status.Tabs.Remove (Status.Tabs.Find (x => x.TabData.Id == tab.Id));
+			// Scrapbook cannot be closed
+			if (tab.Id == null) return;
+
+			Status.Tabs.Remove(Status.Tabs.Find (x => x.TabData.Id == tab.Id)); //
 			Status.Users.ForEach(user => user.Callback.ReceiveTabClosed(tab));
 		}
 
@@ -137,6 +140,18 @@ namespace Communication
 			sTab.Strokes = strokes;
 			Status.Users.ForOthers (user => user.Callback.ReceiveSketchUpdate (tab, strokes));
 		}
+
+		public void ScrapbookUpdate (string html)
+		{
+			Status.Tabs.Scrapbook.TabData.Content = html;
+			Status.Users.ForEach(user => user.Callback.ReceiveScrapbookUpdate(html));
+		}
+
+		public void SetTabSelection (Tab tab, Selection selection)
+		{
+			Status.Users.ForOthers (user => user.Callback.ReceiveSetTabSelection (tab, selection));
+		}
+
 		#endregion
 	}
 }

@@ -50,6 +50,8 @@ namespace ShareTabWin
 			ConnectionCallback.Instance.TabActivated += OnTabActivated;
 			ConnectionCallback.Instance.TabScrolled += OnTabScrolled;
 			ConnectionCallback.Instance.SketchUpdated += OnSketchUpdated;
+			ConnectionCallback.Instance.ScrapbookUpdate += OnScrapbookUpdate;
+			ConnectionCallback.Instance.TabSelectionSet += OnTabSelectionSet;
 		}
 
 		/// <summary>
@@ -86,8 +88,11 @@ namespace ShareTabWin
 				(
 				new Action(() =>
 					{
-						TabNext = new PublicTab(e.Tab);
-						PublicSession.Add(TabNext);
+						if (e.Tab.Id == null)
+							TabNext = new ScrapbookTab (e.Tab);
+						else
+							TabNext = new PublicTab (e.Tab);
+						PublicSession.Add (TabNext);
 					})
 				);
 
@@ -207,7 +212,23 @@ namespace ShareTabWin
 							t.ScrollTo (e.DomId);
 					}
 				}), e.Tab);
+		}
 
+		void OnScrapbookUpdate(object sender, ScrapbookUpdateArgs e)
+		{
+			(PublicSession.FindByGuid (null) as ScrapbookTab).SetScrapbook (e.Html);
+		}
+
+
+		void OnTabSelectionSet (object sender, TabSelectionSetEventArgs e)
+		{
+			App.Current.Dispatcher.BeginInvoke (new Action<Infrastructure.Tab, Infrastructure.Selection> (
+				(tab, selection) =>
+				{
+					var t = PublicSession.FindByGuid (tab.Id);
+					if (t != null)
+						t.SetSelection (selection);
+				}), e.Tab, e.Selection);
 		}
 
 		void OnSketchUpdated (object sender, SketchArgs e)
@@ -235,8 +256,11 @@ namespace ShareTabWin
 		private void ClonePublicTab_Executed (object sender, ExecutedRoutedEventArgs e)
 		{
 			App.Current.Dispatcher.BeginInvoke (new Action<Tab> (
-				tab => PrivateSession.Add (new PrivateTab (tab.TabData))),
-				TabsTreeView.SelectedItem);
+				(tab) =>
+					{
+						if (tab.TabData.Id != null)
+							PrivateSession.Add(new PrivateTab(tab.TabData));
+					}), TabsTreeView.SelectedItem);
 		}
 
 		private void TreeViewItem_MouseRightButtonDown(object sender, MouseEventArgs e)

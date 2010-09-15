@@ -13,6 +13,8 @@ namespace ShareTabWin
 	public class PublicTab : Tab
 	{
 		private GeckoNode currentNode;
+		//private bool lastSelectionCollapsed = true;
+
 		public PublicTab () : base () { }
 		public PublicTab (Infrastructure.Tab tab) : base (tab) { }
 		public PublicTab (string uri) : base (uri) { }
@@ -45,6 +47,37 @@ namespace ShareTabWin
 				main.Connection.UpdateTab (TabData);
 		}
 
+		private Infrastructure.DomNode GetDomNode (GeckoNode node)
+		{
+			string tagId = null;
+			if (node is GeckoElement)
+				tagId = (node as GeckoElement).Id;
+
+			if (string.IsNullOrEmpty (tagId))
+			{
+				int domId = renderer.Document.DocumentElement.GetDomId (node);
+				if (domId == 0)
+					return null;
+				else
+					return new Infrastructure.DomNode (domId);
+			}
+			else
+			{
+				return new Infrastructure.DomNode (tagId);
+			}
+		}
+		private GeckoNode GetNode (Infrastructure.DomNode domNode)
+		{
+			if (string.IsNullOrEmpty (domNode.TagId))
+			{
+				return renderer.Document.DocumentElement.GetByDomId (domNode.DomId);
+			}
+			else
+			{
+				return renderer.Document.GetElementById (domNode.TagId);
+			}
+		}
+		// TODO: refactor to use DomNode object
 		/// <summary>
 		/// When the user moves his mouse over the renderer, if the DOM element under the cursor
 		/// changes, notifies the server of the identity of the new element under the mouse
@@ -80,12 +113,40 @@ namespace ShareTabWin
 				}
 			}
 		}
+
 		protected override void sketch_StrokesChanged (object sender, System.Windows.Ink.StrokeCollectionChangedEventArgs e)
 		{
 			base.sketch_StrokesChanged (sender, e);
 			var ms = new System.IO.MemoryStream ();
 			doodleCanvas.Strokes.Save (ms);
 			RaiseEvent (new SketchChangedEventArgs (TabData, ms.GetBuffer ()));
+		}
+		protected override void renderer_DomMouseUp (object sender, GeckoDomMouseEventArgs e)
+		{
+			base.renderer_DomMouseUp (sender, e);
+			GeckoSelection sel = renderer.Window.Selection;
+			SelectionChangedEventArgs args = null;
+			if (sel.IsCollapsed)
+			{
+				//if (!lastSelectionCollapsed)
+				//{
+					//raise event with null selection;
+					args = new SelectionChangedEventArgs (TabData);
+				//}
+				//lastSelectionCollapsed = true;
+			}
+			else
+			{
+				//lastSelectionCollapsed = false;
+				var anchor = GetDomNode (sel.AnchorNode);
+				var focus = GetDomNode (sel.FocusNode);
+				if (anchor != null && focus != null)
+					args = new SelectionChangedEventArgs (TabData,
+						new Infrastructure.SelectionPoint (anchor, sel.AnchorOffset),
+						new Infrastructure.SelectionPoint (focus, sel.FocusOffset));
+			}
+			if (args != null)
+				RaiseEvent (args);
 		}
 
 		/// <summary>
@@ -143,6 +204,7 @@ namespace ShareTabWin
 
 		}
 
+
 		public override void UpdateSketch (StrokeCollection strokes)
 		{
 			base.UpdateSketch (strokes);
@@ -151,6 +213,42 @@ namespace ShareTabWin
 			if (!doodle.IsOpen && App.Current.MainWindow != null && App.Current.MainWindow.IsActive)
 				Commands.SketchToggle.Execute (null, this);
 		}
+
+		public override void  SetSelection(Infrastructure.Selection selection)
+		{
+			base.SetSelection (selection);
+			if (this.IsVisible == false) return; // fixes potential crashes?
+			var windowsel = renderer.Window.Selection;
+			if (selection == null)
+			{
+				try
+				{
+					windowsel.CollapseToStart (); // throws random errors
+				}
+				catch { }
+			}
+			else
+			{
+				GeckoNode anchor = GetNode (selection.Anchor.Node);
+				GeckoNode focus = GetNode (selection.Focus.Node);
+
+				if (anchor != null && focus != null)
+				{
+					try // throws random errors
+					{
+						windowsel.Collapse (anchor, selection.Anchor.Offset);
+						windowsel.Extend (focus, selection.Focus.Offset);
+					}
+					catch 
+					{
+						windowsel.SelectAllChildren (anchor);
+					} 
+				}
+			}
+		}
+
+		#region routed events
+
 		/// <summary>
 		/// Triggers when the DOM node under the mouse changes.
 		/// </summary>
@@ -164,17 +262,28 @@ namespace ShareTabWin
 			add { AddHandler (SketchChangedEvent, value); }
 			remove { RemoveHandler (SketchChangedEvent, value); }
 		}
+		public event SelectionChangedEventHandler SelectionChanged
+		{
+			add { AddHandler (SelectionChangedEvent, value); }
+			remove { RemoveHandler (SelectionChangedEvent, value); }
+		}
 		public static readonly RoutedEvent CurrentNodeChangedEvent =
 			EventManager.RegisterRoutedEvent ("CurrentNodeChanged", RoutingStrategy.Bubble,
 			typeof (CurrentNodeChangedEventHandler), typeof (PublicTab));
 		public static readonly RoutedEvent SketchChangedEvent =
 			EventManager.RegisterRoutedEvent ("SketchChanged", RoutingStrategy.Bubble,
 			typeof (SketchChangedEventHandler), typeof (PublicTab));
+		public static readonly RoutedEvent SelectionChangedEvent =
+			EventManager.RegisterRoutedEvent ("SelectionChanged", RoutingStrategy.Bubble,
+			typeof (SelectionChangedEventHandler), typeof (PublicTab));
+#endregion
 
 	}
 
+#region event types
 	public delegate void CurrentNodeChangedEventHandler (object sender, CurrentNodeChangedEventArgs e);
 	public delegate void SketchChangedEventHandler (object sender, SketchChangedEventArgs e);
+	public delegate void SelectionChangedEventHandler (object sender, SelectionChangedEventArgs e);
 	public class CurrentNodeChangedEventArgs : RoutedEventArgs
 	{
 		public Infrastructure.Tab Tab { get; private set; }
@@ -207,4 +316,21 @@ namespace ShareTabWin
 			Strokes = strokes;
 		}
 	}
+	public class SelectionChangedEventArgs : RoutedEventArgs
+	{
+		public Infrastructure.Tab Tab { get; private set; }
+		public Infrastructure.Selection Selection { get; private set; }
+		public SelectionChangedEventArgs (Infrastructure.Tab tab) : base (PublicTab.SelectionChangedEvent)
+		{
+			Tab = tab;
+		}
+		public SelectionChangedEventArgs (Infrastructure.Tab tab,
+			Infrastructure.SelectionPoint anchor,
+			Infrastructure.SelectionPoint focus) 
+			: this(tab)
+		{
+			Selection = new Infrastructure.Selection (anchor, focus);
+		}
+	}
+#endregion
 }

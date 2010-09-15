@@ -17,6 +17,8 @@ namespace ShareTabWin
 	/// </summary>
 	public partial class BrowserWindow : AvalonDock.DocumentContent
 	{
+		protected DockPanel NavBar { get { return navBar; } }
+
 		public BrowserWindow()
 		{
 			InitializeComponent();
@@ -151,10 +153,9 @@ namespace ShareTabWin
 		/// <summary>
 		/// Displays the status progress bar when the renderer is navigating.
 		/// </summary>
-		private void browser_Navigating(object sender, GeckoNavigatingEventArgs e)
+		protected virtual void browser_Navigating(object sender, GeckoNavigatingEventArgs e)
 		{
 			CommandManager.InvalidateRequerySuggested();
-
 			progress.Visibility = Visibility.Visible;
 			progress.Value = 0;
 		}
@@ -238,6 +239,8 @@ namespace ShareTabWin
 		{
 			doodleCanvas.Strokes.Clear ();
 		}
+		protected virtual void renderer_DomMouseUp (object sender, GeckoDomMouseEventArgs e) { }
 
+		protected virtual void renderer_DomKeyUp (object sender, GeckoDomKeyEventArgs e) { }
 	}
 }

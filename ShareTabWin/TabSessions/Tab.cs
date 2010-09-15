@@ -31,8 +31,22 @@ namespace ShareTabWin
 		public Tab ()
 		{
 			this.TabData = new Infrastructure.Tab ();
-			MinWidth = 150;
-			MaxWidth = 150;
+			MinWidth = MaxWidth = 150;
+
+			renderer.ShowContextMenu += new Skybound.Gecko.GeckoContextMenuEventHandler(renderer_ShowContextMenu);
+		}
+
+		public void renderer_ShowContextMenu(object sender, Skybound.Gecko.GeckoContextMenuEventArgs e)
+		{
+			System.Windows.Forms.MenuItem item = new System.Windows.Forms.MenuItem("Send to Scrapbook");
+			item.Click += new EventHandler(item_Click);
+			e.ContextMenu.MenuItems.Add(item);
+		}
+
+		public void item_Click(object sender, EventArgs e)
+		{
+			ScrapbookSendEventArgs args = new ScrapbookSendEventArgs(TabData, renderer.Window.Selection);
+			RaiseEvent(args);
 		}
 
 		/// <summary>
@@ -69,7 +83,7 @@ namespace ShareTabWin
 			// Do not update the TabData if it contains a navigation request which will be 
 			// executed on load. (not elegant?)
 			if (NavigateFirst) return;
-
+			
 			this.TabData.Url = e.Uri.AbsoluteUri;
 		}
 
@@ -93,7 +107,7 @@ namespace ShareTabWin
 		protected override void renderer_HandleCreated (object sender, EventArgs e)
 		{
 			NavigateFirst = false;
-			renderer.Navigate (TabData.Url);
+			renderer.Navigate(TabData.Url);
 		}
 
 		public virtual void ScrollTo (string TagId) { }
@@ -105,16 +119,32 @@ namespace ShareTabWin
 			doodle.IsOpen = !doodle.IsOpen;
 		}
 		public virtual void UpdateSketch (System.Windows.Ink.StrokeCollection strokes) { }
+
+
+		public event ScrapbookSendEventHandler ScrapbookSend
+		{
+			add { AddHandler (ScrapbookSendEvent, value); }
+			remove { RemoveHandler (ScrapbookSendEvent, value); }
+		}
+		public static readonly RoutedEvent ScrapbookSendEvent =
+			EventManager.RegisterRoutedEvent ("ScrapbookSend", RoutingStrategy.Bubble,
+			typeof (ScrapbookSendEventHandler), typeof (Tab));
+
+		public virtual void SetSelection (Infrastructure.Selection selection) { }
 	}
 
-	/// <summary>
-	/// Describes a private tab. Currently no specific difference from a base tab
-	/// but this may change in the future.
-	/// </summary>
-	public class PrivateTab : Tab
+
+	public delegate void ScrapbookSendEventHandler (object sender, ScrapbookSendEventArgs e);
+	public class ScrapbookSendEventArgs : RoutedEventArgs
 	{
-		public PrivateTab () : base () { }
-		public PrivateTab (Infrastructure.Tab tab) : base (tab) { }
-		public PrivateTab (string uri) : base (uri) { }
+		public Infrastructure.Tab Tab { get; private set; }
+		public Skybound.Gecko.GeckoSelection Selection { get; private set; }
+
+		public ScrapbookSendEventArgs(Infrastructure.Tab tab, Skybound.Gecko.GeckoSelection selection)
+			:base (ShareTabWin.Tab.ScrapbookSendEvent)
+		{
+			Tab = tab;
+			Selection = selection;
+		}
 	}
 }

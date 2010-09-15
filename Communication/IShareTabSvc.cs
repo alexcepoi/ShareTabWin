@@ -18,10 +18,11 @@ namespace Communication
 		/// <param name="password">SHA-1 hash of the password provided by the user</param>
 		/// <returns></returns>
 		[OperationContract(IsOneWay = false, IsInitiating = true)]
-		SignInResponse SignIn(string username, string password);
+		SignInResponse SignIn (string username, string password);
 
 		[OperationContract(IsOneWay = false, IsTerminating = true)]
 		void SignOut();
+
 		/// <summary>
 		/// Sends a chat message to all users currently online.
 		/// </summary>
@@ -48,7 +49,7 @@ namespace Communication
 		/// </summary>
 		/// <param name="tab">Identification and content data for the tab to be updated.</param>
 		[OperationContract(IsOneWay = true)]
-		void UpdateTab(Tab tab);
+		void UpdateTab (Tab tab);
 
 		/// <summary>
 		/// Scrolls all watching clients to a given HTML element.
@@ -57,6 +58,7 @@ namespace Communication
 		/// <param name="domId">The number of the element in a BF search of the DOM tree</param>
 		[OperationContract (IsOneWay = true)]
 		void ScrollTabToDomId (Tab tab, int domId);
+
 		/// <summary>
 		/// Scrolls all watching clients to a given HTML element.
 		/// </summary>
@@ -64,6 +66,9 @@ namespace Communication
 		/// <param name="tagId">Value of the element's id attribute</param>
 		[OperationContract (IsOneWay = true)]
 		void ScrollTabToTagId (Tab tab, string tagId);
+
+		[OperationContract (IsOneWay = true)]
+		void SetTabSelection (Tab tab, Selection selection);
 
 		/// <summary>
 		/// Requests the control of the public session in order
@@ -95,5 +100,8 @@ namespace Communication
 		/// <param name="strokes">Serialization returned by the <code>Save</code> method of the <code>StrokeCollection</code> to be broadcasted</param>
 		[OperationContract (IsOneWay = true)]
 		void UpdateSketch (Infrastructure.Tab tab, byte[] strokes);
+
+		[OperationContract(IsOneWay = true)]
+		void ScrapbookUpdate(string html);
 	}
 }
