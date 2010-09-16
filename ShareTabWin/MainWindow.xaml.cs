@@ -412,6 +412,10 @@ namespace ShareTabWin
 		{
 			MessageBox.Show ("You have been disconnected.");
 			OnDisconnected (e);
+			tabsPanel.Dispatcher.BeginInvoke
+				(
+					new Action (() => tabsPanel.PublicSession.Clear())
+				);
 		}
 
 		/// <summary>
