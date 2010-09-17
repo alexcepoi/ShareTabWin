@@ -2,7 +2,6 @@
 
 using System.Reflection;
 using System.IO;
-using Ionic.Zip;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -34,6 +33,8 @@ namespace ShareTabWin
 		private void Application_Startup (object sender, StartupEventArgs e)
 		{
 			// Extract XULrunner to output folder
+			//no-op for release
+			/*
 			string appPath = Path.GetDirectoryName (Assembly.GetExecutingAssembly ().Location);
 			Stream xulzip = Assembly.GetExecutingAssembly ().GetManifestResourceStream ("ShareTabWin.Dependencies.XULrunner.xulrunner-1.9.1.12.en-US.win32.zip");
 			using (ZipFile zip = ZipFile.Read (xulzip))
@@ -41,7 +42,7 @@ namespace ShareTabWin
 				foreach (ZipEntry entry in zip)
 					entry.Extract (appPath, ExtractExistingFileAction.DoNotOverwrite);
 			}
-
+			*/
 			// Initialize Gecko/XULrunner
 			Skybound.Gecko.Xpcom.Initialize ("xulrunner");
 

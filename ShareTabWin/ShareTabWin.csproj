@@ -61,10 +61,6 @@
     <ApplicationIcon>ShareTab.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Dependencies\Ionic.Zip.Reduced.dll</HintPath>
-    </Reference>
     <Reference Include="Skybound.Gecko, Version=1.9.1.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dependencies\GeckoFX\bin\Skybound.Gecko.dll</HintPath>
@@ -223,7 +219,6 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Dependencies\GeckoFX\chrome\geckofx.manifest" />
-    <EmbeddedResource Include="Dependencies\XULrunner\xulrunner-1.9.1.12.en-US.win32.zip" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -246,7 +241,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dependencies\GeckoFX\bin\Skybound.Gecko.dll" />
-    <Content Include="Dependencies\XULrunner\Ionic.Zip.Reduced.dll" />
     <SplashScreen Include="Icons\splash.png" />
     <Resource Include="Dialogs\about.png" />
     <Resource Include="Icons\arrow_left_16x16.png" />

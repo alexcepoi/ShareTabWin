@@ -34,7 +34,6 @@ namespace Communication
 			Status.Users.Remove (current);
 			Status.Users.ForEach (user => user.Callback.UserHasSignedOut (current.Name));
 		}
-		//TODO: make it return a Fault instead of bool..
 		public SignInResponse SignIn(string username, string password)
 		{
 			if (password != Status.Password)
