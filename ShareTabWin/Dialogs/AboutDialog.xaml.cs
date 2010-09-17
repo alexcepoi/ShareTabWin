@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Diagnostics;
 
 namespace ShareTabWin
 {
@@ -20,6 +21,12 @@ namespace ShareTabWin
 		private void Window_MouseLeftButtonDown (object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			DragMove ();
+		}
+
+		private void Hyperlink_RequestNavigate (object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+		{
+			Process.Start (new ProcessStartInfo (e.Uri.AbsoluteUri));
+			e.Handled = true;
 		}
 	}
 }
