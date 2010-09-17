@@ -11,7 +11,13 @@ namespace ShareTabWin
 		/// <summary>
 		/// The current homepage
 		/// </summary>
-		public static string HomePage = "http://google.ro/";
+		public static string HomePage;
+		static Tab ()
+		{
+			//initialize the home page from app.config
+			HomePage = System.Configuration.ConfigurationManager.AppSettings["homePage"]
+				?? "http://www.google.com";
+		}
 
 		/// <summary>
 		/// Gets the Tab data describing the page loaded in the tab.
@@ -112,8 +118,12 @@ namespace ShareTabWin
 		/// </summary>
 		protected override void renderer_HandleCreated (object sender, EventArgs e)
 		{
-			NavigateFirst = false;
-			renderer.Navigate (TabData.Url);
+			renderer.Navigate ("about:blank");
+			if (NavigateFirst)
+			{
+				NavigateFirst = false;
+				renderer.Navigate (TabData.Url);
+			}
 		}
 
 		/// <summary>
