@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>ShareTab user&#39;s guide</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div id="logo"><h1>Share<span class="red">Tab</span>&mdash;technological summary</h1></div>
+<div id="content">
+<ol>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#devenv">Development environment</a></li>
+<li><a href="#structure">Structure</a></li>
+<li><a href="#components">Components</a></li>
+</ol>
+<h2 id="overview">Overview</h2>
+<p>
+ShareTab is a collaborative browser client-server application. It was originally developed for linux, so ShareTabWin is 
+the name of the Windows version of ShareTab.
+</p>
+	<p>
+	ShareTab allows mutiple users to get together over a network and work 
+	together in order to research information on the internet. They can surf 
+	individually (in private) or in a common session led by one of them.</p>
+	<p>
+	ShareTabWin targets the .NET 4.0 platform from Microsoft, on systems where 
+	this is not available it must be installed before running ShareTabWin.</p>
+<h2 id="devenv">Development environment</h2>
+<p>
+ShareTab was written using Microsoft Visual Studio 2010 Professional. Parts of 
+it were visually designed using Microsoft Expression Blend and Microsoft 
+Expression Design.</p>
+	<p>
+	The language used everywhere in the project is C#. The client part targets 
+	the <acronym>WPF</acronym>, while the client&ndash;server communication part targets
+	the <acronym>WCF</acronym>.
+</p>
+	<p>
+	The UI programming is event driven to ensure extensibility, and binding 
+	driven for clean code. For example, everytime the client receives an update 
+	from the server, a particular event is raised. The controller for the 
+	particular client-side model handles the event by updating the collection 
+	(adding the newly connected user, for example). The user interface is bound 
+	to the collection and automatically updates when it changes.</p>
+<h2 id="structure">Structure</h2>
+<p>
+ShareTabWin is structured in 3 projects: </p>
+<dl id="structurelist">
+<dt>Infrastructure</dt>
+<dd>The common datatypes used for communicating between the client and the server. This
+is implementation agnostic, but all data needs to be marked as serializable. </dd>
+<dt>Communication</dt>
+<dd>Contains the WCF architecture of the ShareTab server and the ShareTab client components.
+By extending the base WCF service classes this offers a robust communication protocol.</dd>
+<dt>ShareTabWin</dt>
+<dd>The ShareTab graphical user interface and interaction code. Apart from the other projects
+mentioned above, this depends on outside libraries such as AvalonDock, GeckoFX, xulrunner
+(more in the next section)</dd>
+
+</dl>
+<h2 id="components">Components</h2>
+<p>ShareTab depends on the following components:</p>
+<dl id="componentlist"><dt>AvalonDock</dt><dd>Docking manager
+for WPF with autohide and floating capabilities. Hosted at
+<a href="http://avalondock.codeplex.com/">http://avalondock.codeplex.com/</a>.</dd>
+<dt>GeckoFX</dt><dd>WinForms browser control based on Gecko 
+and xulrunner. A very unstable project, causes most
+of our bugs. Available at <a href="http://geckofx.org/">http://geckofx.org/</a></dd></dl>
+</div>
+</body>
+
+</html>

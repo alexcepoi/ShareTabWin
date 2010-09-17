@@ -1,0 +1,47 @@
+﻿body {
+	background-color: #FFFFBF;
+	padding: 0px;
+	margin: 0px;
+	font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+
+}
+#logo {
+	background-image: url('sharetabicon_256.png');
+	background-repeat: no-repeat;
+	background-position: top left;
+	padding-left: 150px;
+	padding-top: 180px;
+
+}
+h1 {
+	margin: 0; padding: 0;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+	font-size: 64px;
+	font-weight: normal;
+}
+.red {
+	color: red;
+}
+#content {
+	margin: 50px;
+	width: 500px;
+}
+#structurelist,
+#componentlist {
+	margin-left: 10px;
+}
+#structurelist dt,
+#componentlist dt {
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+a:link,
+a:visited {
+	text-decoration: none;
+	color: red;
+}
+
+a:hover {
+	text-decoration: underline;
+}
