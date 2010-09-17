@@ -429,8 +429,7 @@ namespace ShareTabWin
 				var item = new MenuItem ();
 				item.Header = pane.Title;
 				item.Tag = pane;
-				item.IsChecked = pane.IsVisible;
-				//item.IsChecked = pane.IsEnabled; useless, only good to grey tabs out when not connected
+				item.IsChecked = pane.IsLoaded;
 				item.Click += WindowMenuItemClick;
 				windowMenu.Items.Add (item);
 			}
@@ -443,10 +442,7 @@ namespace ShareTabWin
 		{
 			AvalonDock.DockableContent pane;
 			pane = (AvalonDock.DockableContent) ((MenuItem) sender).Tag;
-			// pane.Activate (); // if all we want is windowswitching
-			//pane.IsEnabled = !pane.IsEnabled;
-			//TODO: this is buggy and i don't know why! isvisible behaves strangely?
-			if (pane.IsVisible == true)
+			if (pane.IsLoaded)
 				pane.Hide ();
 			else
 				pane.Show ();
