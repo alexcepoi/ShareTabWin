@@ -23,8 +23,8 @@ namespace Communication
 		[OperationContract (IsOneWay = true)]
 		void ReceiveTabClosed (Tab tab);
 
-		[OperationContract(IsOneWay = true)]
-		void ReceiveTabUpdated(Tab tab);
+		[OperationContract (IsOneWay = true)]
+		void ReceiveTabUpdated (Tab tab);
 
 		[OperationContract (IsOneWay = true)]
 		void ReceiveTabActivated (Tab tab);
@@ -36,12 +36,12 @@ namespace Communication
 		void ReceiveTabScrolledToTagId (Tab tab, string tagId);
 
 		[OperationContract (IsOneWay = true)]
-		void ReceiveSketchUpdate (Infrastructure.Tab tab, byte [] strokes);
+		void ReceiveSketchUpdate (Infrastructure.Tab tab, byte[] strokes);
 
 		[OperationContract (IsOneWay = true)]
 		void ReceiveSetTabSelection (Tab tab, Selection selection);
 
-		[OperationContract(IsOneWay = true)]
-		void ReceiveScrapbookUpdate(string html);
+		[OperationContract (IsOneWay = true)]
+		void ReceiveScrapbookUpdate (string html);
 	}
 }

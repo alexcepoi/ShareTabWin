@@ -31,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Communication.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IConnectParams.cs" />
+    <Compile Include="IShareTabCallback.cs" />
     <Compile Include="ServiceStatus.cs" />
     <Compile Include="TabList.cs" />
     <Compile Include="UserMgmt\ServerSideUser.cs" />
@@ -51,7 +53,6 @@
     <Compile Include="ShareTabChannelFactory.cs" />
     <Compile Include="ShareTabHost.cs" />
     <Compile Include="ShareTabProvider.cs" />
-    <Compile Include="IShareTabCallback.cs" />
     <Compile Include="IShareTabSvc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -59,11 +59,12 @@ namespace ShareTabWin.Helpers.Notifications
 			App.Current.Dispatcher.BeginInvoke (
 			new Action<string> ((msg) =>
 			{
-				if (App.Current.MainWindow != null && !App.Current.MainWindow.IsActive)
-				{
-					NotifyContent.Add (new Notification (message));
-					Notify ();
-				}
+				// for release, we display the notifications always.
+				//if (App.Current.MainWindow != null && !App.Current.MainWindow.IsActive)
+				//{
+				NotifyContent.Add (new Notification (message));
+				Notify ();
+				//}
 			}),
 			message);
 		}
